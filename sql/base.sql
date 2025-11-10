@@ -58,7 +58,6 @@ CREATE TABLE documents (
 CREATE TABLE type_conge (
     id_type_conge INT PRIMARY KEY AUTO_INCREMENT,
     type VARCHAR(255),
-    duree INT,
     pourcentage_salaire INT
 );
 
