@@ -95,13 +95,15 @@ class DashboardModel
         return $result['nb'] ?? 0;
     }
 
-    /**
-     * Calcule le solde de congés (simplifié)
-     */
-    public function getSoldeConges($id_employe)
+    public function getNombreJourCongeRestantAnnee($id_employe)
     {
-        // À implémenter selon les règles métier
-        return 25;
+        $sql = "SELECT duree_totale_conges_jours FROM vue_nombre_conge WHERE id_employe = :id_employe";
+        $stmt = Flight::db()->prepare($sql);
+        $stmt->execute(['id_employe' => $id_employe]);
+        $result = $stmt->fetch();
+        $nombre_vue_conge = $result['duree_totale_conges_jours'] ?? 0;
+        $reste = 30 - $nombre_vue_conge;
+        return $reste >= 0 ? $reste : 0;
     }
 
     /**
@@ -112,7 +114,7 @@ class DashboardModel
         return [
             'dernieres_demandes' => $this->getDernieresDemandesConge($id_employe),
             'derniers_pointages' => $this->getDerniersPointages($id_employe),
-            'solde_conges' => $this->getSoldeConges($id_employe),
+            'solde_conges' => $this->getNombreJourCongeRestantAnnee($id_employe),
             'heures_travaillees' => $this->getHeuresTravailleesMois($id_employe),
             'demandes_attente' => $this->getDemandesEnAttente($id_employe),
             'nb_documents' => $this->getNombreDocuments($id_employe)
