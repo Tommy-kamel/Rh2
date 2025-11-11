@@ -23,7 +23,8 @@ class DashboardController
             return;
         }
 
-        $statistiques = $this->model->getStatistiques();
+        $id_departement = $_SESSION['id_departement'] ?? null;
+        $statistiques = $this->model->getStatistiques($id_departement);
         
         $this->rendreDashboard($statistiques);
     }

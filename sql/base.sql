@@ -70,7 +70,7 @@ CREATE TABLE conge (
     date_fin DATE,
     raison VARCHAR(255),
     date_validation DATE,
-    status INT, /* 1: en attente, 11: valider par le chef de departement, 21: valider par le rh */
+    status INT, /* 1: en attente, 11: valider par le chef de departement, 21: valider par le rh, 0:refuse */
     FOREIGN KEY(id_employe) REFERENCES employe(id_employe),
     FOREIGN KEY(id_type_conge) REFERENCES type_conge(id_type_conge)
 );
@@ -142,62 +142,3 @@ CREATE TABLE taux_irsa (
     salaire_maximal DOUBLE,
     taux INT
 );
-
-INSERT INTO departement (nom_departement) VALUES
-('Ressources Humaines'),
-('Production'),
-('Achat et vente'),
-('Gestion de stock'),
-('Gestion d''immobilisation');
-
-INSERT INTO user (id_departement,nom_utilisateur, mot_de_passe) VALUES 
-(1,'rh_user', 'RH'),
-(2,'production_user', 'PROD'),
-(3,'achat_vente_user', 'ACHAT'),
-(4,'stock_user', 'STOCK'),
-(5,'immobilisation_user', 'IMMO');
-
-INSERT INTO poste (nom) VALUES
-('Directeur Général'),
-('Chef de Département RH'),
-('Développeur'),
-('Comptable'),
-('Commercial'),
-('Technicien'),
-('Secrétaire'),
-('Manager Production');
-
-INSERT INTO employe (nom, prenom, date_naissance, email,mot_de_passe, sexe, telephone, adresse, numero_cnaps) VALUES
-('Rakoto', 'Jean', '1990-01-15', 'jean.rakoto@email.com', '123', 'Homme', '0341234567', 'Antananarivo', 123456789),
-('Rabe', 'Marie', '1985-05-20', 'marie.rabe@email.com', '123', 'Femme', '0339876543', 'Toamasina', 987654321),
-('Andrianaivo', 'Paul', '1992-03-10', 'paul.andrianaivo@email.com', '123', 'Homme', '0324567890', 'Fianarantsoa', 456789123),
-('Rasoa', 'Sophie', '1988-11-25', 'sophie.rasoa@email.com', '123', 'Femme', '0345678901', 'Mahajanga', 789123456),
-('Randria', 'Marc', '1995-07-08', 'marc.randria@email.com', '123', 'Homme', '0330123456', 'Toliara', 321654987),
-('Ravelojaona', 'Alice', '1987-12-03', 'alice.ravelojaona@email.com', '123', 'Femme', '0342345678', 'Antsirabe', 654321987),
-('Razafindrakoto', 'Pierre', '1993-08-22', 'pierre.razafindrakoto@email.com', '123', 'Homme', '0333456789', 'Antsiranana', 789456123),
-('Ramanantsoa', 'Lucie', '1991-04-17', 'lucie.ramanantsoa@email.com', '123', 'Femme', '0324567891', 'Morondava', 147258369),
-('Andrianarivo', 'Thomas', '1989-09-30', 'thomas.andrianarivo@email.com', '123', 'Homme', '0345678902', 'Nosy Be', 963852741),
-('Ratsimbazafy', 'Sarah', '1994-02-14', 'sarah.ratsimbazafy@email.com', '123', 'Femme', '0336789012', 'Ambatolampy', 852741963),
-('Rakotomalala', 'Michel', '1986-11-11', 'michel.rakotomalala@email.com', '123', 'Homme', '0327890123', 'Manakara', 741852963),
-('Razafindrazaka', 'Julie', '1996-06-28', 'julie.razafindrazaka@email.com', '123', 'Femme', '0348901234', 'Sambava', 369258147),
-('Andriantsiferana', 'David', '1984-07-05', 'david.andriantsiferana@email.com', '123', 'Homme', '0339012345', 'Moramanga', 258369147),
-('Rabenandrasana', 'Emma', '1997-01-19', 'emma.rabenandrasana@email.com', '123', 'Femme', '0320123456', 'Ihosy', 147369258),
-('Rakotoarisoa', 'Antoine', '1983-10-08', 'antoine.rakotoarisoa@email.com', '123', 'Homme', '0341234568', 'Betafo', 963147852);
-
--- Exemples de contrats
-INSERT INTO contrat (id_employe, salaire, date_debut, date_fin, type, id_poste, id_departement) VALUES
-(1, 3500.00, '2022-01-01', NULL, 'CDI', 2, 1),
-(2, 2800.00, '2023-03-15', '2024-03-14', 'CDD', 8, 2),
-(3, 2200.00, '2024-06-01', NULL, 'CDI', 3, 3),
-(4, 1800.00, '2023-11-01', '2024-05-01', 'Essai', 6, 4),
-(5, 2400.00, '2021-09-01', NULL, 'CDI', 4, 5),
-(6, 3200.00, '2023-01-15', NULL, 'CDI', 1, 1),
-(7, 2600.00, '2023-08-01', '2024-07-31', 'CDD', 3, 2),
-(8, 1900.00, '2024-02-01', NULL, 'CDI', 7, 3),
-(9, 3000.00, '2022-10-01', NULL, 'CDI', 5, 3),
-(10, 2100.00, '2024-01-01', '2024-06-30', 'Essai', 6, 4),
-(11, 2700.00, '2023-05-01', NULL, 'CDI', 4, 5),
-(12, 1700.00, '2024-03-01', '2024-08-31', 'CDD', 6, 2),
-(13, 3800.00, '2021-12-01', NULL, 'CDI', 1, 1),
-(14, 2000.00, '2024-04-01', NULL, 'CDI', 7, 4),
-(15, 2500.00, '2023-09-01', '2024-08-31', 'CDD', 5, 3);
