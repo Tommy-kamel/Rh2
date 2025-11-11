@@ -60,7 +60,8 @@ class DashboardController
             'solde_conges' => $donnees['solde_conges'],
             'heures_travaillees' => $donnees['heures_travaillees'],
             'demandes_attente' => $donnees['demandes_attente'],
-            'nb_documents' => $donnees['nb_documents']
+            'nb_documents' => $donnees['nb_documents'],
+            'type_conges' => $donnees['type_conges']
         ]);
     }
 }

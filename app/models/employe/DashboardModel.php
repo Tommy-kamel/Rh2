@@ -106,6 +106,12 @@ class DashboardModel
         return $reste >= 0 ? $reste : 0;
     }
 
+    public function getTypeConge() {
+        $sql = "SELECT * FROM type_conge";
+        $stmt = Flight::db()->query($sql);
+        return $stmt->fetchAll();
+    }
+
     /**
      * Récupère toutes les données du dashboard employé
      */
@@ -117,7 +123,8 @@ class DashboardModel
             'solde_conges' => $this->getNombreJourCongeRestantAnnee($id_employe),
             'heures_travaillees' => $this->getHeuresTravailleesMois($id_employe),
             'demandes_attente' => $this->getDemandesEnAttente($id_employe),
-            'nb_documents' => $this->getNombreDocuments($id_employe)
+            'nb_documents' => $this->getNombreDocuments($id_employe),
+            'type_conges' => $this->getTypeConge()
         ];
     }
 }

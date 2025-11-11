@@ -4,6 +4,7 @@ use app\controllers\admin\AuthController as AdminAuthController;
 use app\controllers\admin\DashboardController as AdminDashboardController;
 use app\controllers\employe\AuthController as EmployeAuthController;
 use app\controllers\employe\DashboardController as EmployeDashboardController;
+use app\controllers\employe\CongeController as EmployeCongeController;
 use flight\Engine;
 use flight\net\Router;
 
@@ -38,6 +39,9 @@ $router->get('/dashboard', [$Admin_Dashboard_Controller, 'afficher']);
 // Routes Employé
 $Employe_Dashboard_Controller = new EmployeDashboardController();
 $router->get('/employe/dashboard', [$Employe_Dashboard_Controller, 'afficher']);
+
+$EmployeCongeController = new EmployeCongeController();
+$router->post('/employe/conges/demander', [$EmployeCongeController, 'addConge']);
 
 // Redirection page d'accueil
 $router->get('/', function() {
