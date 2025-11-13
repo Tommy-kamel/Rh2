@@ -2,6 +2,7 @@
 
 use app\controllers\admin\AuthController as AdminAuthController;
 use app\controllers\admin\DashboardController as AdminDashboardController;
+use app\controllers\admin\RhDashboardController;
 use app\controllers\employe\AuthController as EmployeAuthController;
 use app\controllers\employe\DashboardController as EmployeDashboardController;
 use app\controllers\employe\CongeController as EmployeCongeController;
@@ -35,6 +36,10 @@ $router->get('/logout', function() use ($Admin_Auth_Controller) {
 // Routes Admin
 $Admin_Dashboard_Controller = new AdminDashboardController();
 $router->get('/dashboard', [$Admin_Dashboard_Controller, 'afficher']);
+
+// Routes RH (Ressources Humaines)
+$Rh_Dashboard_Controller = new RhDashboardController();
+$router->get('/rh/dashboard', [$Rh_Dashboard_Controller, 'afficher']);
 
 // Routes Employé
 $Employe_Dashboard_Controller = new EmployeDashboardController();
