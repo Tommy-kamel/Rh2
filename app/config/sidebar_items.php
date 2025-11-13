@@ -186,6 +186,12 @@ return [
                 ['label' => 'Jours fériés', 'link' => '/parametres/jours-feries'],
                 ['label' => 'Horaires de travail', 'link' => '/parametres/horaires']
             ]
+        ],
+        [
+            'icon' => 'calendar',
+            'label' => 'Calendrier',
+            'link' => '/calendrier',
+            'active' => false,
         ]
     ],
 

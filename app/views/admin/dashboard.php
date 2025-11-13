@@ -25,6 +25,23 @@
             </header>
             
             <div class="content-wrapper">
+                <!-- Messages de succès/erreur -->
+                <?php if (isset($success_message)): ?>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i data-feather="check-circle"></i>
+                        <?= htmlspecialchars($success_message) ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                <?php endif; ?>
+                
+                <?php if (isset($error_message)): ?>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i data-feather="alert-circle"></i>
+                        <?= htmlspecialchars($error_message) ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                <?php endif; ?>
+
                 <!-- Statistiques principales -->
                 <div class="stats-grid">
                     <div class="stat-card">
@@ -81,11 +98,13 @@
                         <table class="table">
                             <thead>
                                 <tr>
+                                    <th>Département</th>
                                     <th>Employé</th>
                                     <th>Type</th>
                                     <th>Date début</th>
                                     <th>Date fin</th>
                                     <th>Durée</th>
+                                    <th>Date demande</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -93,9 +112,12 @@
                                 <?php if (!empty($conges_en_attente)): ?>
                                     <?php foreach ($conges_en_attente as $conge): ?>
                                         <tr>
+                                            <td>
+                                                <span class="badge bg-info text-dark"><?= htmlspecialchars($conge['nom_departement']) ?></span>
+                                            </td>
                                             <td><?= htmlspecialchars($conge['nom'] . ' ' . $conge['prenom']) ?></td>
                                             <td>
-                                                <span class="badge badge-primary"><?= htmlspecialchars($conge['type']) ?></span>
+                                                <span class="badge bg-primary text-white"><?= htmlspecialchars($conge['type'] ?? 'N/A') ?></span>
                                             </td>
                                             <td><?= date('d/m/Y', strtotime($conge['date_debut'])) ?></td>
                                             <td><?= date('d/m/Y', strtotime($conge['date_fin'])) ?></td>
@@ -107,21 +129,34 @@
                                                 echo $duree . ' jour' . ($duree > 1 ? 's' : '');
                                                 ?>
                                             </td>
+                                            <td><?= date('d/m/Y', strtotime($conge['date_demande'])) ?></td>
                                             <td>
-                                                <div class="btn-group">
-                                                    <button class="btn btn-sm btn-success" title="Valider">
-                                                        <i data-feather="check"></i>
-                                                    </button>
-                                                    <button class="btn btn-sm btn-danger" title="Refuser">
-                                                        <i data-feather="x"></i>
-                                                    </button>
+                                                <div style="display: flex; gap: 8px; align-items: center;">
+                                                    <form method="POST" action="/admin/conges/valider" style="display: inline;">
+                                                        <input type="hidden" name="id_conge" value="<?= $conge['id_conge'] ?>">
+                                                        <button type="submit" title="Valider" style="color: #28a745; text-decoration: none; background: none; border: none; cursor: pointer; padding: 0;">
+                                                            <i data-feather="check-circle" style="width: 20px; height: 20px;"></i>
+                                                        </button>
+                                                    </form>
+                                                    <a href="/admin/conges/refuser/<?= $conge['id_conge'] ?>" 
+                                                       title="Refuser" style="color: #dc3545; text-decoration: none;">
+                                                        <i data-feather="x-circle" style="width: 20px; height: 20px;"></i>
+                                                    </a>
+                                                    <a href="/admin/conges/details/<?= $conge['id_conge'] ?>" 
+                                                       title="Voir détails" style="color: #17a2b8; text-decoration: none;">
+                                                        <i data-feather="eye" style="width: 20px; height: 20px;"></i>
+                                                    </a>
+                                                    <a href="/admin/conges/modifier/<?= $conge['id_conge'] ?>" 
+                                                       title="Modifier" style="color: #ffc107; text-decoration: none;">
+                                                        <i data-feather="edit" style="width: 20px; height: 20px;"></i>
+                                                    </a>
                                                 </div>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php else: ?>
                                     <tr>
-                                        <td colspan="6" class="text-center text-muted">
+                                        <td colspan="8" class="text-center text-muted">
                                             Aucune demande en attente
                                         </td>
                                     </tr>

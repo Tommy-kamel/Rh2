@@ -168,33 +168,33 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Fonctions de gestion des congés
-function validerConge(idConge) {
-    if (confirm('Voulez-vous vraiment valider cette demande de congé ?')) {
-        // TODO: Implémenter l'appel AJAX pour valider
-        console.log('Valider congé:', idConge);
-        // Exemple d'appel AJAX :
-        // fetch('/rh/conges/valider', {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify({ id_conge: idConge })
-        // })
-        // .then(response => response.json())
-        // .then(data => {
-        //     if (data.success) {
-        //         location.reload();
-        //     }
-        // });
-    }
-}
+// function validerConge(idConge) {
+//     if (confirm('Voulez-vous vraiment valider cette demande de congé ?')) {
+//         // TODO: Implémenter l'appel AJAX pour valider
+//         console.log('Valider congé:', idConge);
+//         // Exemple d'appel AJAX :
+//         // fetch('/rh/conges/valider', {
+//         //     method: 'POST',
+//         //     headers: { 'Content-Type': 'application/json' },
+//         //     body: JSON.stringify({ id_conge: idConge })
+//         // })
+//         // .then(response => response.json())
+//         // .then(data => {
+//         //     if (data.success) {
+//         //         location.reload();
+//         //     }
+//         // });
+//     }
+// }
 
-function refuserConge(idConge) {
-    if (confirm('Voulez-vous vraiment refuser cette demande de congé ?')) {
-        // TODO: Implémenter l'appel AJAX pour refuser
-        console.log('Refuser congé:', idConge);
-    }
-}
+// function refuserConge(idConge) {
+//     if (confirm('Voulez-vous vraiment refuser cette demande de congé ?')) {
+//         // TODO: Implémenter l'appel AJAX pour refuser
+//         console.log('Refuser congé:', idConge);
+//     }
+// }
 
-function voirDetailsConge(idConge) {
-    // TODO: Implémenter l'affichage des détails dans une modale
-    console.log('Voir détails congé:', idConge);
-}
+// function voirDetailsConge(idConge) {
+//     // TODO: Implémenter l'affichage des détails dans une modale
+//     console.log('Voir détails congé:', idConge);
+// }

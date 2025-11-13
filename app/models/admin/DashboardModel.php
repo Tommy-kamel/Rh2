@@ -103,7 +103,6 @@ class DashboardModel
         return $result['total'] ?? 0;
     }
 
-
     public function listeCongeEnAttente($id_departement = null){
         $sql = "SELECT * FROM vue_conge_en_attente";
         $params = [];
@@ -118,6 +117,43 @@ class DashboardModel
         $stmt = Flight::db()->prepare($sql);
         $stmt->execute($params);
         return $stmt->fetchAll();
+    }
+
+    public function validerConge($id_conge, $id_departement) {
+        if ($id_departement == 1) {
+            $sql = "UPDATE conge SET status = 21 WHERE id_conge = :id_conge";
+        }else{
+            $sql = "UPDATE conge SET status = 11 WHERE id_conge = :id_conge";
+        }
+        $stmt = Flight::db()->prepare($sql);
+        return $stmt->execute(['id_conge' => $id_conge]);
+    }
+
+    public function refuserConge($id_conge) {
+        $sql = "UPDATE conge SET status = 0 WHERE id_conge = :id_conge";
+        $stmt = Flight::db()->prepare($sql);
+        return $stmt->execute(['id_conge' => $id_conge]);
+    }
+
+    public function getDetailsConge($id_conge) {
+        $sql = "SELECT * FROM vue_conge_en_attente WHERE id_conge = :id_conge";
+        $stmt = Flight::db()->prepare($sql);
+        $stmt->execute(['id_conge' => $id_conge]);
+        return $stmt->fetch();
+    }
+
+    public function modifierConge($id_conge, $date_debut, $date_fin, $type_conge, $motif, $nb_jours = null) {
+        // Note: nb_jours n'est pas stocké dans la base, on le calcule à la volée
+        $sql = "UPDATE conge
+                SET date_debut = :date_debut, date_fin = :date_fin, raison = :motif, status = 1
+                WHERE id_conge = :id_conge";
+        $stmt = Flight::db()->prepare($sql);
+        return $stmt->execute([
+            'date_debut' => $date_debut,
+            'date_fin' => $date_fin,
+            'motif' => $motif,
+            'id_conge' => $id_conge
+        ]);
     }
 
     /**

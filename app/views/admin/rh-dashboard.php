@@ -26,6 +26,23 @@
             </header>
             
             <div class="content-wrapper">
+                <!-- Messages de succès/erreur -->
+                <?php if (isset($success_message)): ?>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i data-feather="check-circle"></i>
+                        <?= htmlspecialchars($success_message) ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                <?php endif; ?>
+                
+                <?php if (isset($error_message)): ?>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i data-feather="alert-circle"></i>
+                        <?= htmlspecialchars($error_message) ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                <?php endif; ?>
+
                 <!-- Statistiques globales de tous les départements -->
                 <div class="stats-grid">
                     <div class="stat-card">
@@ -122,19 +139,25 @@
                                             </td>
                                             <td><?= date('d/m/Y', strtotime($conge['date_demande'])) ?></td>
                                             <td>
-                                                <div class="btn-group">
-                                                    <button class="btn btn-sm btn-success" title="Valider" 
-                                                            onclick="validerConge(<?= $conge['id_conge'] ?>)">
-                                                        <i data-feather="check"></i>
-                                                    </button>
-                                                    <button class="btn btn-sm btn-danger" title="Refuser"
-                                                            onclick="refuserConge(<?= $conge['id_conge'] ?>)">
-                                                        <i data-feather="x"></i>
-                                                    </button>
-                                                    <button class="btn btn-sm btn-info" title="Voir détails"
-                                                            onclick="voirDetailsConge(<?= $conge['id_conge'] ?>)">
-                                                        <i data-feather="eye"></i>
-                                                    </button>
+                                                <div style="display: flex; gap: 8px; align-items: center;">
+                                                    <form method="POST" action="/admin/conges/valider" style="display: inline;">
+                                                        <input type="hidden" name="id_conge" value="<?= $conge['id_conge'] ?>">
+                                                        <button type="submit" title="Valider" style="color: #28a745; text-decoration: none; background: none; border: none; cursor: pointer; padding: 0;">
+                                                            <i data-feather="check-circle" style="width: 20px; height: 20px;"></i>
+                                                        </button>
+                                                    </form>
+                                                    <a href="/rh/conges/refuser/<?= $conge['id_conge'] ?>" 
+                                                       title="Refuser" style="color: #dc3545; text-decoration: none;">
+                                                        <i data-feather="x-circle" style="width: 20px; height: 20px;"></i>
+                                                    </a>
+                                                    <a href="/rh/conges/details/<?= $conge['id_conge'] ?>" 
+                                                       title="Voir détails" style="color: #17a2b8; text-decoration: none;">
+                                                        <i data-feather="eye" style="width: 20px; height: 20px;"></i>
+                                                    </a>
+                                                    <a href="/rh/conges/modifier/<?= $conge['id_conge'] ?>" 
+                                                       title="Modifier" style="color: #ffc107; text-decoration: none;">
+                                                        <i data-feather="edit" style="width: 20px; height: 20px;"></i>
+                                                    </a>
                                                 </div>
                                             </td>
                                         </tr>
