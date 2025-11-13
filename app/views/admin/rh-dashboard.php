@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tableau de bord - Admin</title>
+    <title>Tableau de bord RH - Ressources Humaines</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/rh-dashboard.css">
     <script src="https://unpkg.com/feather-icons"></script>
 </head>
 <body>
@@ -16,16 +17,16 @@
             <header class="main-header">
                 <h1 class="page-title">
                     <i data-feather="home"></i>
-                    Tableau de bord
+                    Tableau de bord RH - Vue Globale
                 </h1>
                 <div class="user-info">
                     <span class="user-name"><?= $_SESSION['nom_utilisateur'] ?? '' ?></span>
-                    <span class="user-role"><?= $_SESSION['nom_departement'] ?? 'Administrateur' ?></span>
+                    <span class="user-role badge badge-primary">Ressources Humaines</span>
                 </div>
             </header>
             
             <div class="content-wrapper">
-                <!-- Statistiques principales -->
+                <!-- Statistiques globales de tous les départements -->
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-icon blue">
@@ -33,7 +34,8 @@
                         </div>
                         <div class="stat-content">
                             <h3><?= $total_employes ?? 0 ?></h3>
-                            <p>Employés actifs</p>
+                            <p>Total Employés actifs</p>
+                            <small class="text-muted">Tous départements confondus</small>
                         </div>
                     </div>
                     
@@ -44,6 +46,7 @@
                         <div class="stat-content">
                             <h3><?= $conges_attente ?? 0 ?></h3>
                             <p>Congés en attente</p>
+                            <small class="text-muted">Validation globale</small>
                         </div>
                     </div>
                     
@@ -54,6 +57,7 @@
                         <div class="stat-content">
                             <h3><?= $absences_aujourd_hui ?? 0 ?></h3>
                             <p>Absences aujourd'hui</p>
+                            <small class="text-muted">Tous départements</small>
                         </div>
                     </div>
                     
@@ -64,28 +68,34 @@
                         <div class="stat-content">
                             <h3><?= $presents_aujourd_hui ?? 0 ?></h3>
                             <p>Présents aujourd'hui</p>
+                            <small class="text-muted">Pointage effectué</small>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Demandes de congés en attente -->
+                <!-- Demandes de congés en attente - Tous départements -->
                 <section class="section">
                     <div class="section-header">
                         <h2 class="section-title">
                             <i data-feather="calendar"></i>
-                            Demandes de congés en attente
+                            Demandes de congés en attente - Tous départements
                         </h2>
-                        <a href="/conges/attente" class="btn btn-link">Voir tout</a>
+                        <div class="section-actions">
+                            <input type="text" id="searchTable" class="form-control" placeholder="Rechercher..." style="width: 250px; display: inline-block; margin-right: 10px;">
+                            <a href="/rh/conges/attente" class="btn btn-link">Voir tout</a>
+                        </div>
                     </div>
                     <div class="table-responsive">
-                        <table class="table">
+                        <table class="table" id="congesTable">
                             <thead>
                                 <tr>
+                                    <th>Département</th>
                                     <th>Employé</th>
                                     <th>Type</th>
                                     <th>Date début</th>
                                     <th>Date fin</th>
                                     <th>Durée</th>
+                                    <th>Date demande</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -93,6 +103,9 @@
                                 <?php if (!empty($conges_en_attente)): ?>
                                     <?php foreach ($conges_en_attente as $conge): ?>
                                         <tr>
+                                            <td>
+                                                <span class="badge badge-info"><?= htmlspecialchars($conge['nom_departement']) ?></span>
+                                            </td>
                                             <td><?= htmlspecialchars($conge['nom'] . ' ' . $conge['prenom']) ?></td>
                                             <td>
                                                 <span class="badge badge-primary"><?= htmlspecialchars($conge['type']) ?></span>
@@ -107,13 +120,20 @@
                                                 echo $duree . ' jour' . ($duree > 1 ? 's' : '');
                                                 ?>
                                             </td>
+                                            <td><?= date('d/m/Y', strtotime($conge['date_demande'])) ?></td>
                                             <td>
                                                 <div class="btn-group">
-                                                    <button class="btn btn-sm btn-success" title="Valider">
+                                                    <button class="btn btn-sm btn-success" title="Valider" 
+                                                            onclick="validerConge(<?= $conge['id_conge'] ?>)">
                                                         <i data-feather="check"></i>
                                                     </button>
-                                                    <button class="btn btn-sm btn-danger" title="Refuser">
+                                                    <button class="btn btn-sm btn-danger" title="Refuser"
+                                                            onclick="refuserConge(<?= $conge['id_conge'] ?>)">
                                                         <i data-feather="x"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-info" title="Voir détails"
+                                                            onclick="voirDetailsConge(<?= $conge['id_conge'] ?>)">
+                                                        <i data-feather="eye"></i>
                                                     </button>
                                                 </div>
                                             </td>
@@ -121,7 +141,7 @@
                                     <?php endforeach; ?>
                                 <?php else: ?>
                                     <tr>
-                                        <td colspan="6" class="text-center text-muted">
+                                        <td colspan="8" class="text-center text-muted">
                                             Aucune demande en attente
                                         </td>
                                     </tr>
@@ -129,35 +149,15 @@
                             </tbody>
                         </table>
                     </div>
-                </section>
-                
-                <!-- Répartition par département -->
-                <section class="section">
-                    <h2 class="section-title">
-                        <i data-feather="pie-chart"></i>
-                        Répartition par département
-                    </h2>
-                    <div class="departments-grid">
-                        <?php 
-                        $departments = [
-                            ['name' => 'Ressources Humaines', 'count' => 12, 'color' => 'blue'],
-                            ['name' => 'Production', 'count' => 45, 'color' => 'green'],
-                            ['name' => 'Achat et vente', 'count' => 18, 'color' => 'orange'],
-                            ['name' => 'Gestion de stock', 'count' => 8, 'color' => 'purple'],
-                            ['name' => 'Gestion d\'immobilisation', 'count' => 6, 'color' => 'red']
-                        ];
-                        foreach ($departments as $dept): 
-                        ?>
-                            <div class="department-card">
-                                <div class="department-header">
-                                    <h3><?= $dept['name'] ?></h3>
-                                    <span class="department-count <?= $dept['color'] ?>"><?= $dept['count'] ?></span>
-                                </div>
-                                <div class="department-progress">
-                                    <div class="progress-bar <?= $dept['color'] ?>" style="width: <?= ($dept['count']/50)*100 ?>%"></div>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
+                    
+                    <!-- Pagination -->
+                    <div class="pagination-wrapper">
+                        <div class="pagination-info">
+                            <span>Affichage <span id="currentStart">1</span> à <span id="currentEnd">10</span> sur <span id="totalRows">0</span> entrées</span>
+                        </div>
+                        <div class="pagination" id="pagination">
+                            <!-- Pagination buttons will be generated by JavaScript -->
+                        </div>
                     </div>
                 </section>
             </div>
@@ -178,5 +178,6 @@
             });
         });
     </script>
+    <script src="/assets/js/rh-dashboard.js"></script>
 </body>
 </html>

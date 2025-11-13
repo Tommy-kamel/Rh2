@@ -103,6 +103,23 @@ class DashboardModel
         return $result['total'] ?? 0;
     }
 
+
+    public function listeCongeEnAttente($id_departement = null){
+        $sql = "SELECT * FROM vue_conge_en_attente";
+        $params = [];
+        
+        if ($id_departement !== null) {
+            $sql .= " WHERE id_departement = ?";
+            $params[] = $id_departement;
+        }
+        
+        $sql .= " ORDER BY date_demande DESC";
+        
+        $stmt = Flight::db()->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll();
+    }
+
     /**
      * Récupère toutes les statistiques du dashboard
      */
@@ -112,7 +129,8 @@ class DashboardModel
             'total_employes' => $this->getTotalEmployesActifs($id_departement),
             'conges_attente' => $this->getCongesEnAttente($id_departement),
             'absences_aujourd_hui' => $this->getAbsencesAujourdhui($id_departement),
-            'presents_aujourd_hui' => $this->getPresentsAujourdhui($id_departement)
+            'presents_aujourd_hui' => $this->getPresentsAujourdhui($id_departement),
+            'liste_conge' => $this->listeCongeEnAttente($id_departement),
         ];
     }
 }
