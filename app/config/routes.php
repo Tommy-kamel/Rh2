@@ -4,6 +4,7 @@ use app\controllers\admin\AuthController as AdminAuthController;
 use app\controllers\admin\DashboardController as AdminDashboardController;
 use app\controllers\admin\RhDashboardController;
 use app\controllers\admin\CalendrierController;
+use app\controllers\admin\StatistiquesController;
 use app\controllers\employe\AuthController as EmployeAuthController;
 use app\controllers\employe\DashboardController as EmployeDashboardController;
 use app\controllers\employe\CongeController as EmployeCongeController;
@@ -54,6 +55,17 @@ $router->post('/rh/conges/modifier/@id_conge', [$Rh_Dashboard_Controller, 'trait
 // Routes Calendrier
 $Calendrier_Controller = new CalendrierController();
 $router->get('/calendrier', [$Calendrier_Controller, 'afficher']);
+
+// Routes Statistiques
+$Statistiques_Controller = new StatistiquesController();
+$router->get('/statistiques', [$Statistiques_Controller, 'afficherStatistiques']);
+
+// API Statistiques (optionnel pour utilisation AJAX)
+$router->get('/api/statistiques/genre', [$Statistiques_Controller, 'getStatistiquesGenre']);
+$router->get('/api/statistiques/age', [$Statistiques_Controller, 'getStatistiquesAge']);
+$router->get('/api/statistiques/departement', [$Statistiques_Controller, 'getStatistiquesDepartement']);
+$router->get('/api/statistiques/contrat', [$Statistiques_Controller, 'getStatistiquesContrat']);
+$router->get('/api/statistiques/resume', [$Statistiques_Controller, 'getResumeEffectifs']);
 
 // Routes Employé
 $Employe_Dashboard_Controller = new EmployeDashboardController();

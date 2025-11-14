@@ -102,7 +102,7 @@ class DashboardModel
         $stmt->execute(['id_employe' => $id_employe]);
         $result = $stmt->fetch();
         $nombre_vue_conge = $result['duree_totale_conges_jours'] ?? 0;
-        $reste = 30 - $nombre_vue_conge;
+        $reste = 30 - $nombre_vue_conge; 
         return $reste >= 0 ? $reste : 0;
     }
 

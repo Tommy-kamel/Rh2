@@ -15,7 +15,7 @@ SELECT
 FROM conge c
 JOIN employe e ON c.id_employe = e.id_employe
 JOIN type_conge tc ON c.id_type_conge = tc.id_type_conge
-WHERE c.status = 21
+WHERE c.status = 21 AND tc.type = 'annuel'
 AND YEAR(c.date_debut) = YEAR(CURDATE())
 AND YEAR(c.date_fin) = YEAR(CURDATE())
 GROUP BY e.id_employe, e.nom, e.prenom;

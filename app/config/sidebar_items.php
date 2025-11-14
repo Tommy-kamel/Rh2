@@ -99,6 +99,13 @@ return [
             'sub_items' => []
         ],
         [
+            'icon' => 'bar-chart-2',
+            'label' => 'Statistiques',
+            'link' => '/statistiques',
+            'active' => false,
+            'sub_items' => []
+        ],
+        [
             'icon' => 'users',
             'label' => 'Gestion des employés',
             'link' => '/employes',
@@ -110,16 +117,16 @@ return [
                 ['label' => 'Historique', 'link' => '/employes/historique']
             ]
         ],
-        [
-            'icon' => 'briefcase',
-            'label' => 'Postes',
-            'link' => '/postes',
-            'active' => false,
-            'sub_items' => [
-                ['label' => 'Liste des postes', 'link' => '/postes/liste'],
-                ['label' => 'Ajouter un poste', 'link' => '/postes/ajouter']
-            ]
-        ],
+        // [
+        //     'icon' => 'briefcase',
+        //     'label' => 'Postes',
+        //     'link' => '/postes',
+        //     'active' => false,
+        //     'sub_items' => [
+        //         ['label' => 'Liste des postes', 'link' => '/postes/liste'],
+        //         ['label' => 'Ajouter un poste', 'link' => '/postes/ajouter']
+        //     ]
+        // ],
         [
             'icon' => 'calendar',
             'label' => 'Gestion des congés',
@@ -132,28 +139,28 @@ return [
                 ['label' => 'Planification', 'link' => '/conges/planification']
             ]
         ],
-        [
-            'icon' => 'clock',
-            'label' => 'Pointage',
-            'link' => '/pointage',
-            'active' => false,
-            'sub_items' => [
-                ['label' => 'Pointages du jour', 'link' => '/pointage/aujourd-hui'],
-                ['label' => 'Historique', 'link' => '/pointage/historique'],
-                ['label' => 'Heures supplémentaires', 'link' => '/pointage/heures-sup']
-            ]
-        ],
-        [
-            'icon' => 'alert-circle',
-            'label' => 'Absences & Retards',
-            'link' => '/absences',
-            'active' => false,
-            'sub_items' => [
-                ['label' => 'Absences', 'link' => '/absences/liste'],
-                ['label' => 'Retards', 'link' => '/retards/liste'],
-                ['label' => 'Justificatifs', 'link' => '/absences/justificatifs']
-            ]
-        ],
+        // [
+        //     'icon' => 'clock',
+        //     'label' => 'Pointage',
+        //     'link' => '/pointage',
+        //     'active' => false,
+        //     'sub_items' => [
+        //         ['label' => 'Pointages du jour', 'link' => '/pointage/aujourd-hui'],
+        //         ['label' => 'Historique', 'link' => '/pointage/historique'],
+        //         ['label' => 'Heures supplémentaires', 'link' => '/pointage/heures-sup']
+        //     ]
+        // ],
+        // [
+        //     'icon' => 'alert-circle',
+        //     'label' => 'Absences & Retards',
+        //     'link' => '/absences',
+        //     'active' => false,
+        //     'sub_items' => [
+        //         ['label' => 'Absences', 'link' => '/absences/liste'],
+        //         ['label' => 'Retards', 'link' => '/retards/liste'],
+        //         ['label' => 'Justificatifs', 'link' => '/absences/justificatifs']
+        //     ]
+        // ],
         [
             'icon' => 'dollar-sign',
             'label' => 'Paie & Primes',
@@ -166,27 +173,27 @@ return [
                 ['label' => 'Historique', 'link' => '/paie/historique']
             ]
         ],
-        [
-            'icon' => 'file-text',
-            'label' => 'Documents',
-            'link' => '/documents',
-            'active' => false,
-            'sub_items' => [
-                ['label' => 'Tous les documents', 'link' => '/documents/liste'],
-                ['label' => 'Ajouter document', 'link' => '/documents/ajouter']
-            ]
-        ],
-        [
-            'icon' => 'settings',
-            'label' => 'Paramètres RH',
-            'link' => '/parametres',
-            'active' => false,
-            'sub_items' => [
-                ['label' => 'Départements', 'link' => '/parametres/departements'],
-                ['label' => 'Jours fériés', 'link' => '/parametres/jours-feries'],
-                ['label' => 'Horaires de travail', 'link' => '/parametres/horaires']
-            ]
-        ],
+        // [
+        //     'icon' => 'file-text',
+        //     'label' => 'Documents',
+        //     'link' => '/documents',
+        //     'active' => false,
+        //     'sub_items' => [
+        //         ['label' => 'Tous les documents', 'link' => '/documents/liste'],
+        //         ['label' => 'Ajouter document', 'link' => '/documents/ajouter']
+        //     ]
+        // ],
+        // [
+        //     'icon' => 'settings',
+        //     'label' => 'Paramètres RH',
+        //     'link' => '/parametres',
+        //     'active' => false,
+        //     'sub_items' => [
+        //         ['label' => 'Départements', 'link' => '/parametres/departements'],
+        //         ['label' => 'Jours fériés', 'link' => '/parametres/jours-feries'],
+        //         ['label' => 'Horaires de travail', 'link' => '/parametres/horaires']
+        //     ]
+        // ],
         [
             'icon' => 'calendar',
             'label' => 'Calendrier',
@@ -200,6 +207,13 @@ return [
             'icon' => 'home',
             'label' => 'Tableau de bord Production',
             'link' => '/dashboard',
+            'active' => false,
+            'sub_items' => []
+        ],
+        [
+            'icon' => 'bar-chart-2',
+            'label' => 'Statistiques',
+            'link' => '/statistiques',
             'active' => false,
             'sub_items' => []
         ],
@@ -276,6 +290,13 @@ return [
             'sub_items' => []
         ],
         [
+            'icon' => 'bar-chart-2',
+            'label' => 'Statistiques',
+            'link' => '/statistiques',
+            'active' => false,
+            'sub_items' => []
+        ],
+        [
             'icon' => 'shopping-cart',
             'label' => 'Achats',
             'link' => '/achats',
@@ -337,6 +358,13 @@ return [
             'icon' => 'home',
             'label' => 'Tableau de bord Stock',
             'link' => '/dashboard',
+            'active' => false,
+            'sub_items' => []
+        ],
+        [
+            'icon' => 'bar-chart-2',
+            'label' => 'Statistiques',
+            'link' => '/statistiques',
             'active' => false,
             'sub_items' => []
         ],
@@ -411,6 +439,13 @@ return [
             'icon' => 'home',
             'label' => 'Tableau de bord Immobilisation',
             'link' => '/dashboard',
+            'active' => false,
+            'sub_items' => []
+        ],
+        [
+            'icon' => 'bar-chart-2',
+            'label' => 'Statistiques',
+            'link' => '/statistiques',
             'active' => false,
             'sub_items' => []
         ],
