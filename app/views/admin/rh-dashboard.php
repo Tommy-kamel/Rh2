@@ -116,6 +116,7 @@
                                 <tr>
                                     <th>Département</th>
                                     <th>Employé</th>
+                                    <th>Poste</th>
                                     <th>Type</th>
                                     <th>Date début</th>
                                     <th>Date fin</th>
@@ -132,6 +133,7 @@
                                                 <span class="badge badge-info"><?= htmlspecialchars($conge['nom_departement']) ?></span>
                                             </td>
                                             <td><?= htmlspecialchars($conge['nom'] . ' ' . $conge['prenom']) ?></td>
+                                            <td><?= htmlspecialchars($conge['nom_poste'] ?? 'N/A') ?></td>
                                             <td>
                                                 <span class="badge badge-primary"><?= htmlspecialchars($conge['type']) ?></span>
                                             </td>
@@ -150,12 +152,12 @@
                                                 <div style="display: flex; gap: 8px; align-items: center;">
                                                     <form method="POST" action="/admin/conges/valider" style="display: inline;">
                                                         <input type="hidden" name="id_conge" value="<?= $conge['id_conge'] ?>">
-                                                        <button type="submit" title="Valider" style="color: #28a745; text-decoration: none; background: none; border: none; cursor: pointer; padding: 0;">
+                                                        <button type="submit" title="Valider" onclick="return confirm('Confirmer la validation de cette demande de congé ?')" style="color: #28a745; text-decoration: none; background: none; border: none; cursor: pointer; padding: 0;">
                                                             <i data-feather="check-circle" style="width: 20px; height: 20px;"></i>
                                                         </button>
                                                     </form>
                                                     <a href="/rh/conges/refuser/<?= $conge['id_conge'] ?>" 
-                                                       title="Refuser" style="color: #dc3545; text-decoration: none;">
+                                                       title="Refuser" onclick="return confirm('Confirmer le refus de cette demande de congé ?')" style="color: #dc3545; text-decoration: none;">
                                                         <i data-feather="x-circle" style="width: 20px; height: 20px;"></i>
                                                     </a>
                                                     <a href="/rh/conges/details/<?= $conge['id_conge'] ?>" 
