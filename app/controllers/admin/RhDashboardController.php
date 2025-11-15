@@ -63,7 +63,7 @@ class RhDashboardController
         
         try {
             // Pour RH, on passe null comme id_departement pour voir tous les congés
-            $details_conge = $this->model->voirDetailsConge($id_conge, null);
+            $details_conge = $this->model->getDetailsConge($id_conge);
             Flight::render('admin/conge_details', [
                 'details_conge' => $details_conge
             ]);
@@ -85,7 +85,7 @@ class RhDashboardController
         
         try {
             // Pour RH, on passe null comme id_departement pour voir tous les congés
-            $details_conge = $this->model->voirDetailsConge($id_conge, null);
+            $details_conge = $this->model->getDetailsConge($id_conge);
             Flight::render('admin/conge_modifier', [
                 'details_conge' => $details_conge
             ]);

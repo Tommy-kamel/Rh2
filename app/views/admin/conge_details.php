@@ -66,11 +66,11 @@
                                     <table class="table table-sm">
                                         <tr>
                                             <td><strong>Nom:</strong></td>
-                                            <td><?= htmlspecialchars($details_conge['nom_employe']) ?></td>
+                                            <td><?= htmlspecialchars($details_conge['nom']) ?></td>
                                         </tr>
                                         <tr>
                                             <td><strong>Prénom:</strong></td>
-                                            <td><?= htmlspecialchars($details_conge['prenom_employe']) ?></td>
+                                            <td><?= htmlspecialchars($details_conge['prenom']) ?></td>
                                         </tr>
                                         <tr>
                                             <td><strong>Département:</strong></td>
@@ -95,13 +95,13 @@
                                         </tr>
                                         <tr>
                                             <td><strong>Nombre de jours:</strong></td>
-                                            <td><?= htmlspecialchars($details_conge['nb_jours']) ?> jours</td>
+                                            <td><?= htmlspecialchars($details_conge['nb_jour']) ?> jours</td>
                                         </tr>
                                         <tr>
                                             <td><strong>Type:</strong></td>
                                             <td>
                                                 <?php
-                                                $type_conge = $details_conge['type_conge'];
+                                                $type_conge = $details_conge['type'];
                                                 $badge_class = 'secondary';
                                                 if ($type_conge == 'annuel') $badge_class = 'success';
                                                 elseif ($type_conge == 'maladie') $badge_class = 'warning';
@@ -112,39 +112,16 @@
                                                 </span>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td><strong>Statut:</strong></td>
-                                            <td>
-                                                <?php
-                                                $statut = $details_conge['statut'];
-                                                $badge_class = 'secondary';
-                                                $statut_text = 'En attente';
-                                                if ($statut == 0) {
-                                                    $badge_class = 'danger';
-                                                    $statut_text = 'Refusé';
-                                                } elseif ($statut == 11) {
-                                                    $badge_class = 'warning';
-                                                    $statut_text = 'Validé département';
-                                                } elseif ($statut == 21) {
-                                                    $badge_class = 'success';
-                                                    $statut_text = 'Validé RH';
-                                                }
-                                                ?>
-                                                <span class="badge bg-<?= $badge_class ?>">
-                                                    <?= $statut_text ?>
-                                                </span>
-                                            </td>
-                                        </tr>
                                     </table>
                                 </div>
                             </div>
 
-                            <?php if (!empty($details_conge['motif'])): ?>
+                            <?php if (!empty($details_conge['raison'])): ?>
                                 <div class="row mt-3">
                                     <div class="col-12">
-                                        <h6>Motif</h6>
+                                        <h6>Raison</h6>
                                         <div class="border p-3 bg-light">
-                                            <?= nl2br(htmlspecialchars($details_conge['motif'])) ?>
+                                            <?= nl2br(htmlspecialchars($details_conge['raison'])) ?>
                                         </div>
                                     </div>
                                 </div>
@@ -156,20 +133,25 @@
                                     <table class="table table-sm">
                                         <tr>
                                             <td><strong>Date de soumission:</strong></td>
-                                            <td><?= htmlspecialchars($details_conge['date_soumission']) ?></td>
+                                            <td><?= htmlspecialchars($details_conge['date_demande']) ?></td>
                                         </tr>
-                                        <?php if ($details_conge['date_validation_dept']): ?>
-                                            <tr>
-                                                <td><strong>Validé par département:</strong></td>
-                                                <td><?= htmlspecialchars($details_conge['date_validation_dept']) ?></td>
-                                            </tr>
-                                        <?php endif; ?>
-                                        <?php if ($details_conge['date_validation_rh']): ?>
-                                            <tr>
-                                                <td><strong>Validé par RH:</strong></td>
-                                                <td><?= htmlspecialchars($details_conge['date_validation_rh']) ?></td>
-                                            </tr>
-                                        <?php endif; ?>
+                                        <tr>
+                                            <td><strong>Statut actuel:</strong></td>
+                                            <td>
+                                                <?php
+                                                $statut = $details_conge['status'];
+                                                $statut_text = 'En attente';
+                                                if ($statut == 0) {
+                                                    $statut_text = 'Refusé';
+                                                } elseif ($statut == 11) {
+                                                    $statut_text = 'Validé département';
+                                                } elseif ($statut == 21) {
+                                                    $statut_text = 'Validé RH';
+                                                }
+                                                ?>
+                                                <?= $statut_text ?>
+                                            </td>
+                                        </tr>
                                     </table>
                                 </div>
                             </div>

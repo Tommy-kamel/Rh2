@@ -66,7 +66,7 @@
                                         <h6>Informations de l'employé</h6>
                                         <div class="mb-3">
                                             <label class="form-label">Employé</label>
-                                            <input type="text" class="form-control" value="<?= htmlspecialchars($details_conge['nom_employe'] . ' ' . $details_conge['prenom_employe']) ?>" readonly>
+                                            <input type="text" class="form-control" value="<?= htmlspecialchars($details_conge['nom'] . ' ' . $details_conge['prenom']) ?>" readonly>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Département</label>
@@ -88,10 +88,10 @@
                                         <div class="mb-3">
                                             <label for="type_conge" class="form-label">Type de congé *</label>
                                             <select class="form-select" id="type_conge" name="type_conge" required>
-                                                <option value="annuel" <?= $details_conge['type_conge'] == 'annuel' ? 'selected' : '' ?>>Congé annuel</option>
-                                                <option value="maladie" <?= $details_conge['type_conge'] == 'maladie' ? 'selected' : '' ?>>Congé maladie</option>
-                                                <option value="maternite" <?= $details_conge['type_conge'] == 'maternite' ? 'selected' : '' ?>>Congé maternité</option>
-                                                <option value="autre" <?= $details_conge['type_conge'] == 'autre' ? 'selected' : '' ?>>Autre</option>
+                                                <option value="annuel" <?= $details_conge['type'] == 'annuel' ? 'selected' : '' ?>>Congé annuel</option>
+                                                <option value="maladie" <?= $details_conge['type'] == 'maladie' ? 'selected' : '' ?>>Congé maladie</option>
+                                                <option value="maternite" <?= $details_conge['type'] == 'maternite' ? 'selected' : '' ?>>Congé maternité</option>
+                                                <option value="autre" <?= $details_conge['type'] == 'autre' ? 'selected' : '' ?>>Autre</option>
                                             </select>
                                         </div>
                                     </div>
@@ -100,7 +100,7 @@
                                 <div class="mb-3">
                                     <label for="motif" class="form-label">Motif</label>
                                     <textarea class="form-control" id="motif" name="motif" rows="3"
-                                              placeholder="Motif du congé (optionnel)"><?= htmlspecialchars($details_conge['motif'] ?? '') ?></textarea>
+                                              placeholder="Motif du congé (optionnel)"><?= htmlspecialchars($details_conge['raison'] ?? '') ?></textarea>
                                 </div>
 
                                 <div class="d-flex gap-2">

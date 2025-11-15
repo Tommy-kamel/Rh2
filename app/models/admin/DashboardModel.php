@@ -142,6 +142,21 @@ class DashboardModel
         return $stmt->fetch();
     }
 
+    public function voirDetailsConge($id_conge, $id_departement) {
+        $sql = "SELECT * FROM vue_conge_en_attente WHERE id_conge = :id_conge";
+        $params = ['id_conge' => $id_conge];
+        
+        // Si ce n'est pas RH (id_departement != 1), filtrer par département
+        if ($id_departement !== null && $id_departement !== 1) {
+            $sql .= " AND id_departement = :id_departement";
+            $params['id_departement'] = $id_departement;
+        }
+        
+        $stmt = Flight::db()->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetch();
+    }
+
     public function modifierConge($id_conge, $date_debut, $date_fin, $type_conge, $motif, $nb_jours = null) {
         // Note: nb_jours n'est pas stocké dans la base, on le calcule à la volée
         $sql = "UPDATE conge
