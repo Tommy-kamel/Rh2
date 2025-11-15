@@ -139,8 +139,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php if (!empty($liste_conge)): ?>
-                                    <?php foreach ($liste_conge as $demande): ?>
+                                <?php if (!empty($dernieres_demandes)): ?>
+                                    <?php foreach ($dernieres_demandes as $demande): ?>
                                         <tr>
                                             <td><?= htmlspecialchars($demande['type']) ?></td>
                                             <td><?= date('d/m/Y', strtotime($demande['date_debut'])) ?></td>
