@@ -138,9 +138,8 @@ return [
             'link' => '/pointage',
             'active' => false,
             'sub_items' => [
-                ['label' => 'Pointages du jour', 'link' => '/pointage/aujourd-hui'],
-                ['label' => 'Historique', 'link' => '/pointage/historique'],
-                ['label' => 'Heures supplémentaires', 'link' => '/pointage/heures-sup']
+                ['label' => 'Pointages Arrivee', 'link' => '/pointage/arrivee'],
+                ['label' => 'Pointage Depart', 'link' => '/pointage/depart']
             ]
         ],
         [
@@ -149,9 +148,9 @@ return [
             'link' => '/absences',
             'active' => false,
             'sub_items' => [
-                ['label' => 'Absences', 'link' => '/absences/liste'],
-                ['label' => 'Retards', 'link' => '/retards/liste'],
-                ['label' => 'Justificatifs', 'link' => '/absences/justificatifs']
+                ['label' => 'Releve de presence', 'link' => '/releve-presence'],
+                ['label' => 'Fiche', 'link' => '/paie/integration'],
+                ['label' => 'Fiche par Employe', 'link' => '/paie/fiche']
             ]
         ],
         [
