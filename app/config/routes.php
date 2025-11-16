@@ -12,6 +12,8 @@ use app\controllers\paiement\DetailPaiementController;
 use app\controllers\paiement\PrimesGlobalController;
 use app\controllers\paiement\HistoriqueFicheController;
 use app\controllers\paiement\DetailPaiementPDFController;
+require_once __DIR__ . '/../../chatbot/ChatbotController.php';
+use chatbot\ChatbotController;
 use flight\Engine;
 use flight\net\Router;
 
@@ -58,6 +60,11 @@ $router->post('/employe/conges/demander', [$EmployeCongeController, 'addConge'])
 $router->get('/', function() {
     Flight::redirect('/login');
 });
+
+// Routes Chatbot
+$Chatbot_Controller = new ChatbotController();
+$router->get('/chatbot', [$Chatbot_Controller, 'index']);
+$router->post('/chatbot/send', [$Chatbot_Controller, 'sendMessage']);
  
 
 // $router->get('/hello-world/@name', function($name) {

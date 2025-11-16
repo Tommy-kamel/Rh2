@@ -1,0 +1,10 @@
+Vos informations personnelles incluent :
+
+- Nom et prénom
+- Email et téléphone
+- Adresse
+- Poste et département
+- Salaire et date de contrat
+- Historique des congés
+
+Demandez "profil" ou "mes infos" pour les voir.
