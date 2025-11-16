@@ -131,12 +131,6 @@ INSERT INTO chatbot_responses (keyword, response, is_dynamic) VALUES
 ('salut', 'Hey ! Que puis-je faire pour vous ?', 0),
 ('aide', 'Je peux vous aider avec : congés, salaire, horaires, demandes, etc. Posez votre question !', 0);
 
-CREATE TABLE chatbot_synonyms (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    keyword_id INT,
-    synonym VARCHAR(255),
-    FOREIGN KEY (keyword_id) REFERENCES chatbot_responses(id)
-);
 
 INSERT INTO chatbot_synonyms (keyword_id, synonym) VALUES
 ((SELECT id FROM chatbot_responses WHERE keyword = 'congé'), 'vacances'),
