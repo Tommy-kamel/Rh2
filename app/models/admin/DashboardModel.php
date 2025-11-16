@@ -143,13 +143,14 @@ class DashboardModel
     }
 
     public function voirDetailsConge($id_conge, $id_departement) {
-        $sql = "SELECT * FROM vue_conge_en_attente WHERE id_conge = :id_conge";
-        $params = ['id_conge' => $id_conge];
-        
-        // Si ce n'est pas RH (id_departement != 1), filtrer par département
-        if ($id_departement !== null && $id_departement !== 1) {
-            $sql .= " AND id_departement = :id_departement";
-            $params['id_departement'] = $id_departement;
+        // Pour RH (id_departement = 1), utiliser la vue spécifique RH
+        if ($id_departement === 1 || $id_departement === null) {
+            $sql = "SELECT * FROM vue_conge_en_attente_rh WHERE id_conge = :id_conge";
+            $params = ['id_conge' => $id_conge];
+        } else {
+            // Pour les autres départements, filtrer par département
+            $sql = "SELECT * FROM vue_conge_en_attente WHERE id_conge = :id_conge AND id_departement = :id_departement";
+            $params = ['id_conge' => $id_conge, 'id_departement' => $id_departement];
         }
         
         $stmt = Flight::db()->prepare($sql);

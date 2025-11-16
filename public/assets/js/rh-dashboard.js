@@ -1,12 +1,25 @@
 // Pagination et recherche pour le tableau des congés
 document.addEventListener('DOMContentLoaded', function() {
     const table = document.getElementById('congesTable');
-    if (!table) return;
+    if (!table) {
+        console.error('Table congesTable non trouvée');
+        return;
+    }
 
     const tbody = table.querySelector('tbody');
     const searchInput = document.getElementById('searchTable');
     const paginationContainer = document.getElementById('pagination');
-    const rowsPerPage = 10;
+    
+    if (!tbody) {
+        console.error('tbody non trouvé');
+        return;
+    }
+    if (!paginationContainer) {
+        console.error('pagination container non trouvé');
+        return;
+    }
+    
+    const rowsPerPage = 5;
     let currentPage = 1;
     let allRows = [];
     let filteredRows = [];
@@ -16,6 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
         allRows = Array.from(tbody.querySelectorAll('tr')).filter(row => {
             return !row.querySelector('td[colspan]');
         });
+        console.log('Nombre de lignes trouvées:', allRows.length);
         filteredRows = [...allRows];
         updateTable();
     }
@@ -76,6 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
         paginationContainer.innerHTML = '';
 
+        // Ne pas afficher les boutons si une seule page ou aucune donnée
         if (totalPages <= 1) return;
 
         // Bouton Précédent
