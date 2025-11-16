@@ -1,7 +1,3 @@
--- Script pour corriger la gestion des documents dans le chatbot
--- Les mots-clés de documents ne doivent PAS être dans chatbot_responses
--- car ils sont gérés par la catégorie 'documents' dans chercherIndices()
-
 -- Supprimer les entrées en double pour les documents
 DELETE FROM chatbot_responses 
 WHERE keyword IN ('attestation', 'contrat', 'certificat', 'fiche de paie', 'bulletin', 'avenant', 'mes documents', 'document', 'generer document')
