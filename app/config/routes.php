@@ -5,6 +5,8 @@ use app\controllers\admin\DashboardController as AdminDashboardController;
 use app\controllers\employe\AuthController as EmployeAuthController;
 use app\controllers\employe\DashboardController as EmployeDashboardController;
 use app\controllers\employe\CongeController as EmployeCongeController;
+require_once __DIR__ . '/../../chatbot/ChatbotController.php';
+use chatbot\ChatbotController;
 use flight\Engine;
 use flight\net\Router;
 
@@ -47,6 +49,12 @@ $router->post('/employe/conges/demander', [$EmployeCongeController, 'addConge'])
 $router->get('/', function() {
     Flight::redirect('/login');
 });
+
+// Routes Chatbot
+
+$Chatbot_Controller = new ChatbotController();
+$router->get('/chatbot', [$Chatbot_Controller, 'index']);
+$router->post('/chatbot/send', [$Chatbot_Controller, 'sendMessage']);
  
 
 // $router->get('/hello-world/@name', function($name) {

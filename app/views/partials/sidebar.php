@@ -29,7 +29,7 @@ $items = $sidebar_items[$menu_key] ?? [];
                     $has_sub_items = !empty($item['sub_items']);
                 ?>
                 <li class="menu-item <?= $is_active ? 'active' : '' ?> <?= $has_sub_items ? 'has-submenu' : '' ?>">
-                    <a href="<?= $item['link'] ?>" class="menu-link">
+                    <a href="<?= $item['link'] ?>" class="menu-link" <?= $item['link'] === '#chatbotModal' ? 'data-bs-toggle="modal"' : '' ?>>
                         <i data-feather="<?= $item['icon'] ?>"></i>
                         <span><?= $item['label'] ?></span>
                         <?php if ($has_sub_items): ?>

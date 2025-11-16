@@ -533,6 +533,13 @@ return [
             'link' => '/employe/bulletins',
             'active' => false,
             'sub_items' => []
+        ],
+        [
+            'icon' => 'message-circle',
+            'label' => 'Chatbot RH',
+            'link' => '#chatbotModal',
+            'active' => false,
+            'sub_items' => []
         ]
     ]
 ];
