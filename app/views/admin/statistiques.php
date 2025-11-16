@@ -307,6 +307,22 @@
         // Initialiser Feather Icons
         feather.replace();
 
+        // Gestion du menu déroulant
+        document.querySelectorAll('.has-submenu > .menu-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const parent = link.parentElement;
+                // Fermer tous les autres sous-menus
+                document.querySelectorAll('.has-submenu').forEach(item => {
+                    if (item !== parent) {
+                        item.classList.remove('open');
+                    }
+                });
+                // Toggle le sous-menu actuel
+                parent.classList.toggle('open');
+            });
+        });
+
         // Configuration des couleurs
         const colors = {
             primary: '#007bff',

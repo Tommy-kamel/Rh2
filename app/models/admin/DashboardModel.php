@@ -41,11 +41,11 @@ class DashboardModel
         
         $params = [];
         if ($id_departement !== null) {
-            $sql .= " WHERE c.status = 1 AND ct.id_departement = ?";
+            $sql .= " WHERE c.status = 1 AND ct.id_departement = ? AND c.date_debut > CURDATE()";
             $params[] = $id_departement;
         } else {
             // Pour RH, compter les congés validés par département (status = 11)
-            $sql .= " WHERE c.status = 11";
+            $sql .= " WHERE (c.status = 11 or c.status = 1) AND c.date_debut > CURDATE()";
         }
         
         $stmt = Flight::db()->prepare($sql);
@@ -53,6 +53,21 @@ class DashboardModel
         $result = $stmt->fetch();
         
         return $result['total'] ?? 0;
+    }
+
+    public function historiqueConges($id_departement = null){
+        $sql = "SELECT * FROM vue_historique_conge";
+        $params = [];
+        if ($id_departement !== null) {
+            $sql .= " WHERE id_departement = ?";
+            $params[] = $id_departement;
+        }
+        
+        $sql .= " ORDER BY date_demande DESC";
+        
+        $stmt = Flight::db()->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll();
     }
 
     /**
@@ -110,6 +125,22 @@ class DashboardModel
             $params = [$id_departement];
         } else {
             $sql = "SELECT * FROM vue_conge_en_attente_rh";
+            $params = [];
+        }
+        
+        $sql .= " ORDER BY date_demande DESC";
+        
+        $stmt = Flight::db()->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll();
+    }
+
+    public function listeCongeValidesApresAujourdHui($id_departement = null){
+        if ($id_departement !== null) {
+            $sql = "SELECT * FROM vue_liste_conge_valide WHERE id_departement = ? AND c.status=11";
+            $params = [$id_departement];
+        } else {
+            $sql = "SELECT * FROM vue_liste_conge_valide WHERE c.status IN (21, 31)";
             $params = [];
         }
         

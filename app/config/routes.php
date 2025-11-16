@@ -39,6 +39,7 @@ $router->get('/logout', function() use ($Admin_Auth_Controller) {
 $Admin_Dashboard_Controller = new AdminDashboardController();
 $router->get('/dashboard', [$Admin_Dashboard_Controller, 'afficher']);
 $router->get('/conges/attente', [$Admin_Dashboard_Controller, 'listeCongesAttente']);
+$router->get('/conges/historique', [$Admin_Dashboard_Controller, 'listeCongesHistorique']);
 $router->post('/admin/conges/valider', [$Admin_Dashboard_Controller, 'validerConge']);
 $router->get('/admin/conges/refuser/@id_conge', [$Admin_Dashboard_Controller, 'refuserConge']);
 $router->get('/admin/conges/details/@id_conge', [$Admin_Dashboard_Controller, 'voirDetailsConge']);

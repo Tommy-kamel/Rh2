@@ -105,12 +105,12 @@ return [
             'active' => false,
             'sub_items' => []
         ],
-        [
-            'icon' => 'calendar',
-            'label' => 'Calendrier',
-            'link' => '/calendrier',
-            'active' => false,
-        ],
+        // [
+        //     'icon' => 'calendar',
+        //     'label' => 'Calendrier',
+        //     'link' => '/calendrier',
+        //     'active' => false,
+        // ],
         [
             'icon' => 'users',
             'label' => 'Gestion des employés',
@@ -139,8 +139,9 @@ return [
             'link' => '/conges',
             'active' => false,
             'sub_items' => [
-                ['label' => 'Demandes en attente', 'link' => '/rh/conges/attente'],
-                ['label' => 'Planification', 'link' => '/conges/planification']
+                ['label' => 'Demandes en attente', 'link' => '/conges/attente'],
+                ['label' => 'Historique', 'link' => '/conges/historique'],
+                ['label' => 'Calendrier des congés', 'link' => '/calendrier']
             ]
         ],
         // [
@@ -260,7 +261,9 @@ return [
             'active' => false,
             'sub_items' => [
                 ['label' => 'Demandes en attente', 'link' => '/conges/attente'],
-                ['label' => 'Calendrier équipe', 'link' => '/conges/calendrier']
+                ['label' => 'Calendrier équipe', 'link' => '/calendrier'],
+                ['label' => 'Historique', 'link' => '/conges/historique']
+
             ]
         ],
         [
@@ -357,7 +360,9 @@ return [
             'link' => '/commercial/conges',
             'active' => false,
             'sub_items' => [
-                ['label' => 'Demandes en attente', 'link' => '/conges/attente']
+                ['label' => 'Demandes en attente', 'link' => '/conges/attente'],
+                ['label' => 'Calendrier équipe', 'link' => '/calendrier'],
+                ['label' => 'Historique', 'link' => '/conges/historique']
             ]
         ]
     ],
@@ -383,70 +388,81 @@ return [
             'link' => '/calendrier',
             'active' => false,
         ],
+        // [
+        //     'icon' => 'package',
+        //     'label' => 'Stock',
+        //     'link' => '/stock',
+        //     'active' => false,
+        //     'sub_items' => [
+        //         ['label' => 'État du stock', 'link' => '/stock/etat'],
+        //         ['label' => 'Articles', 'link' => '/stock/articles'],
+        //         ['label' => 'Mouvements', 'link' => '/stock/mouvements'],
+        //         ['label' => 'Inventaire', 'link' => '/stock/inventaire']
+        //     ]
+        // ],
+        // [
+        //     'icon' => 'alert-triangle',
+        //     'label' => 'Alertes stock',
+        //     'link' => '/stock/alertes',
+        //     'active' => false,
+        //     'sub_items' => [
+        //         ['label' => 'Stock minimum', 'link' => '/stock/alertes/minimum'],
+        //         ['label' => 'Ruptures', 'link' => '/stock/alertes/ruptures'],
+        //         ['label' => 'Péremption', 'link' => '/stock/alertes/peremption']
+        //     ]
+        // ],
+        // [
+        //     'icon' => 'truck',
+        //     'label' => 'Entrées/Sorties',
+        //     'link' => '/stock/operations',
+        //     'active' => false,
+        //     'sub_items' => [
+        //         ['label' => 'Entrées stock', 'link' => '/stock/operations/entrees'],
+        //         ['label' => 'Sorties stock', 'link' => '/stock/operations/sorties'],
+        //         ['label' => 'Transferts', 'link' => '/stock/operations/transferts']
+        //     ]
+        // ],
+        // [
+        //     'icon' => 'map-pin',
+        //     'label' => 'Emplacements',
+        //     'link' => '/stock/emplacements',
+        //     'active' => false,
+        //     'sub_items' => [
+        //         ['label' => 'Zones de stockage', 'link' => '/stock/emplacements/zones'],
+        //         ['label' => 'Rayonnages', 'link' => '/stock/emplacements/rayonnages']
+        //     ]
+        // ],
         [
-            'icon' => 'package',
-            'label' => 'Stock',
-            'link' => '/stock',
+            'icon' => 'calendar',
+            'label' => 'Congés équipe',
+            'link' => '/commercial/conges',
             'active' => false,
             'sub_items' => [
-                ['label' => 'État du stock', 'link' => '/stock/etat'],
-                ['label' => 'Articles', 'link' => '/stock/articles'],
-                ['label' => 'Mouvements', 'link' => '/stock/mouvements'],
-                ['label' => 'Inventaire', 'link' => '/stock/inventaire']
+                ['label' => 'Demandes en attente', 'link' => '/conges/attente'],
+                ['label' => 'Calendrier équipe', 'link' => '/calendrier'],
+                ['label' => 'Historique', 'link' => '/conges/historique']
             ]
         ],
-        [
-            'icon' => 'alert-triangle',
-            'label' => 'Alertes stock',
-            'link' => '/stock/alertes',
-            'active' => false,
-            'sub_items' => [
-                ['label' => 'Stock minimum', 'link' => '/stock/alertes/minimum'],
-                ['label' => 'Ruptures', 'link' => '/stock/alertes/ruptures'],
-                ['label' => 'Péremption', 'link' => '/stock/alertes/peremption']
-            ]
-        ],
-        [
-            'icon' => 'truck',
-            'label' => 'Entrées/Sorties',
-            'link' => '/stock/operations',
-            'active' => false,
-            'sub_items' => [
-                ['label' => 'Entrées stock', 'link' => '/stock/operations/entrees'],
-                ['label' => 'Sorties stock', 'link' => '/stock/operations/sorties'],
-                ['label' => 'Transferts', 'link' => '/stock/operations/transferts']
-            ]
-        ],
-        [
-            'icon' => 'map-pin',
-            'label' => 'Emplacements',
-            'link' => '/stock/emplacements',
-            'active' => false,
-            'sub_items' => [
-                ['label' => 'Zones de stockage', 'link' => '/stock/emplacements/zones'],
-                ['label' => 'Rayonnages', 'link' => '/stock/emplacements/rayonnages']
-            ]
-        ],
-        [
-            'icon' => 'users',
-            'label' => 'Équipe magasin',
-            'link' => '/stock/equipe',
-            'active' => false,
-            'sub_items' => [
-                ['label' => 'Liste équipe', 'link' => '/stock/equipe/liste'],
-                ['label' => 'Planning', 'link' => '/stock/equipe/planning']
-            ]
-        ],
-        [
-            'icon' => 'file-text',
-            'label' => 'Rapports stock',
-            'link' => '/stock/rapports',
-            'active' => false,
-            'sub_items' => [
-                ['label' => 'Valorisation', 'link' => '/stock/rapports/valorisation'],
-                ['label' => 'Rotation', 'link' => '/stock/rapports/rotation']
-            ]
-        ]
+        // [
+        //     'icon' => 'users',
+        //     'label' => 'Équipe magasin',
+        //     'link' => '/stock/equipe',
+        //     'active' => false,
+        //     'sub_items' => [
+        //         ['label' => 'Liste équipe', 'link' => '/stock/equipe/liste'],
+        //         ['label' => 'Planning', 'link' => '/stock/equipe/planning']
+        //     ]
+        // ],
+        // [
+        //     'icon' => 'file-text',
+        //     'label' => 'Rapports stock',
+        //     'link' => '/stock/rapports',
+        //     'active' => false,
+        //     'sub_items' => [
+        //         ['label' => 'Valorisation', 'link' => '/stock/rapports/valorisation'],
+        //         ['label' => 'Rotation', 'link' => '/stock/rapports/rotation']
+        //     ]
+        // ]
     ],
 
     'Gestion d\'immobilisation' => [
@@ -471,80 +487,91 @@ return [
             'active' => false,
         ],
         [
-            'icon' => 'archive',
-            'label' => 'Immobilisations',
-            'link' => '/immobilisations',
+            'icon' => 'calendar',
+            'label' => 'Congés équipe',
+            'link' => '/commercial/conges',
             'active' => false,
             'sub_items' => [
-                ['label' => 'Liste des biens', 'link' => '/immobilisations/liste'],
-                ['label' => 'Ajouter un bien', 'link' => '/immobilisations/ajouter'],
-                ['label' => 'Catégories', 'link' => '/immobilisations/categories']
-            ]
-        ],
-        [
-            'icon' => 'trending-down',
-            'label' => 'Amortissements',
-            'link' => '/immobilisations/amortissements',
-            'active' => false,
-            'sub_items' => [
-                ['label' => 'Calcul amortissement', 'link' => '/immobilisations/amortissements/calcul'],
-                ['label' => 'Tableau amortissement', 'link' => '/immobilisations/amortissements/tableau'],
-                ['label' => 'Historique', 'link' => '/immobilisations/amortissements/historique']
-            ]
-        ],
-        [
-            'icon' => 'tool',
-            'label' => 'Maintenance',
-            'link' => '/immobilisations/maintenance',
-            'active' => false,
-            'sub_items' => [
-                ['label' => 'Planning maintenance', 'link' => '/immobilisations/maintenance/planning'],
-                ['label' => 'Interventions', 'link' => '/immobilisations/maintenance/interventions'],
-                ['label' => 'Coûts maintenance', 'link' => '/immobilisations/maintenance/couts']
-            ]
-        ],
-        [
-            'icon' => 'map-pin',
-            'label' => 'Localisation',
-            'link' => '/immobilisations/localisation',
-            'active' => false,
-            'sub_items' => [
-                ['label' => 'Sites', 'link' => '/immobilisations/localisation/sites'],
-                ['label' => 'Affectations', 'link' => '/immobilisations/localisation/affectations'],
-                ['label' => 'Transferts', 'link' => '/immobilisations/localisation/transferts']
-            ]
-        ],
-        [
-            'icon' => 'trash-2',
-            'label' => 'Cessions & Rebuts',
-            'link' => '/immobilisations/cessions',
-            'active' => false,
-            'sub_items' => [
-                ['label' => 'Cessions', 'link' => '/immobilisations/cessions/liste'],
-                ['label' => 'Mises au rebut', 'link' => '/immobilisations/cessions/rebuts']
-            ]
-        ],
-        [
-            'icon' => 'file-text',
-            'label' => 'Rapports',
-            'link' => '/immobilisations/rapports',
-            'active' => false,
-            'sub_items' => [
-                ['label' => 'État du patrimoine', 'link' => '/immobilisations/rapports/patrimoine'],
-                ['label' => 'Inventaire', 'link' => '/immobilisations/rapports/inventaire'],
-                ['label' => 'Valeur nette comptable', 'link' => '/immobilisations/rapports/vnc']
-            ]
-        ],
-        [
-            'icon' => 'users',
-            'label' => 'Équipe',
-            'link' => '/immobilisations/equipe',
-            'active' => false,
-            'sub_items' => [
-                ['label' => 'Liste équipe', 'link' => '/immobilisations/equipe/liste'],
-                ['label' => 'Tâches', 'link' => '/immobilisations/equipe/taches']
+                ['label' => 'Demandes en attente', 'link' => '/conges/attente'],
+                ['label' => 'Calendrier équipe', 'link' => '/calendrier'],
+                ['label' => 'Historique', 'link' => '/conges/historique']
             ]
         ]
+        // [
+        //     'icon' => 'archive',
+        //     'label' => 'Immobilisations',
+        //     'link' => '/immobilisations',
+        //     'active' => false,
+        //     'sub_items' => [
+        //         ['label' => 'Liste des biens', 'link' => '/immobilisations/liste'],
+        //         ['label' => 'Ajouter un bien', 'link' => '/immobilisations/ajouter'],
+        //         ['label' => 'Catégories', 'link' => '/immobilisations/categories']
+        //     ]
+        // ],
+        // [
+        //     'icon' => 'trending-down',
+        //     'label' => 'Amortissements',
+        //     'link' => '/immobilisations/amortissements',
+        //     'active' => false,
+        //     'sub_items' => [
+        //         ['label' => 'Calcul amortissement', 'link' => '/immobilisations/amortissements/calcul'],
+        //         ['label' => 'Tableau amortissement', 'link' => '/immobilisations/amortissements/tableau'],
+        //         ['label' => 'Historique', 'link' => '/immobilisations/amortissements/historique']
+        //     ]
+        // ],
+        // [
+        //     'icon' => 'tool',
+        //     'label' => 'Maintenance',
+        //     'link' => '/immobilisations/maintenance',
+        //     'active' => false,
+        //     'sub_items' => [
+        //         ['label' => 'Planning maintenance', 'link' => '/immobilisations/maintenance/planning'],
+        //         ['label' => 'Interventions', 'link' => '/immobilisations/maintenance/interventions'],
+        //         ['label' => 'Coûts maintenance', 'link' => '/immobilisations/maintenance/couts']
+        //     ]
+        // ],
+        // [
+        //     'icon' => 'map-pin',
+        //     'label' => 'Localisation',
+        //     'link' => '/immobilisations/localisation',
+        //     'active' => false,
+        //     'sub_items' => [
+        //         ['label' => 'Sites', 'link' => '/immobilisations/localisation/sites'],
+        //         ['label' => 'Affectations', 'link' => '/immobilisations/localisation/affectations'],
+        //         ['label' => 'Transferts', 'link' => '/immobilisations/localisation/transferts']
+        //     ]
+        // ],
+        // [
+        //     'icon' => 'trash-2',
+        //     'label' => 'Cessions & Rebuts',
+        //     'link' => '/immobilisations/cessions',
+        //     'active' => false,
+        //     'sub_items' => [
+        //         ['label' => 'Cessions', 'link' => '/immobilisations/cessions/liste'],
+        //         ['label' => 'Mises au rebut', 'link' => '/immobilisations/cessions/rebuts']
+        //     ]
+        // ],
+        // [
+        //     'icon' => 'file-text',
+        //     'label' => 'Rapports',
+        //     'link' => '/immobilisations/rapports',
+        //     'active' => false,
+        //     'sub_items' => [
+        //         ['label' => 'État du patrimoine', 'link' => '/immobilisations/rapports/patrimoine'],
+        //         ['label' => 'Inventaire', 'link' => '/immobilisations/rapports/inventaire'],
+        //         ['label' => 'Valeur nette comptable', 'link' => '/immobilisations/rapports/vnc']
+        //     ]
+        // ],
+        // [
+        //     'icon' => 'users',
+        //     'label' => 'Équipe',
+        //     'link' => '/immobilisations/equipe',
+        //     'active' => false,
+        //     'sub_items' => [
+        //         ['label' => 'Liste équipe', 'link' => '/immobilisations/equipe/liste'],
+        //         ['label' => 'Tâches', 'link' => '/immobilisations/equipe/taches']
+        //     ]
+        // ]
     ],
 
     'employe' => [

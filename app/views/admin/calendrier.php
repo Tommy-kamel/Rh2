@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/assets/css/styles.css">
     <link rel="stylesheet" href="/assets/css/calendrier.css">
     <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
     <div class="app-container">
@@ -73,9 +74,19 @@
                         Mois précédent
                     </a>
                     
-                    <h2 class="calendar-title">
-                        <?= $mois_noms[$mois] ?> <?= $annee ?>
-                    </h2>
+                    <div class="calendar-selectors">
+                        <select id="mois-select" class="form-select" onchange="navigateCalendar()">
+                            <?php foreach ($mois_noms as $num => $nom): ?>
+                                <option value="<?= $num ?>" <?= $num == $mois ? 'selected' : '' ?>><?= $nom ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        
+                        <select id="annee-select" class="form-select" onchange="navigateCalendar()">
+                            <?php for ($y = date('Y') - 2; $y <= date('Y') + 5; $y++): ?>
+                                <option value="<?= $y ?>" <?= $y == $annee ? 'selected' : '' ?>><?= $y ?></option>
+                            <?php endfor; ?>
+                        </select>
+                    </div>
                     
                     <a href="/calendrier?mois=<?= $mois_suivant ?>&annee=<?= $annee_suivante ?>" 
                        class="btn btn-secondary">
@@ -83,6 +94,14 @@
                         <i data-feather="chevron-right"></i>
                     </a>
                 </div>
+                
+                <script>
+                function navigateCalendar() {
+                    const mois = document.getElementById('mois-select').value;
+                    const annee = document.getElementById('annee-select').value;
+                    window.location.href = '/calendrier?mois=' + mois + '&annee=' + annee;
+                }
+                </script>
 
                 <!-- Légende -->
                 <div class="calendar-legend">
@@ -156,8 +175,20 @@
                             echo '<div class="day-number">' . $jour . '</div>';
                             
                             if (!empty($conges_du_jour)) {
+                                $total_conges = count($conges_du_jour);
+                                $max_display = 2; // Afficher maximum 2 congés
+                                
+                                // Badge de compteur en haut à droite si plus de 2 congés
+                                if ($total_conges > $max_display) {
+                                    echo '<span class="conge-badge">+' . ($total_conges - $max_display) . '</span>';
+                                }
+                                
                                 echo '<div class="day-events">';
-                                foreach ($conges_du_jour as $conge) {
+                                
+                                // Afficher les premiers congés
+                                for ($i = 0; $i < min($max_display, $total_conges); $i++) {
+                                    $conge = $conges_du_jour[$i];
+                                    
                                     // Déterminer la couleur selon le statut
                                     $couleur = '#6c757d'; // Par défaut gris
                                     if ($conge['status'] == 21) {
@@ -170,12 +201,77 @@
                                         $couleur = '#dc3545'; // Refusé - rouge
                                     }
                                     
-                                    echo '<div class="event" style="background-color: ' . $couleur . ';" 
-                                          title="' . htmlspecialchars($conge['nom'] . ' ' . $conge['prenom'] . ' - ' . $conge['type_conge']) . '">';
-                                    echo '<small>' . htmlspecialchars(substr($conge['nom'], 0, 1) . '. ' . $conge['prenom']) . '</small>';
+                                        // Préparer les données pour le modal
+                                        $date_debut_dt = new DateTime($conge['date_debut']);
+                                        $date_fin_dt = new DateTime($conge['date_fin']);
+                                        $duree = $date_debut_dt->diff($date_fin_dt)->days + 1;
+
+                                        $conge_data = json_encode([
+                                            'nom' => $conge['nom'] . ' ' . $conge['prenom'],
+                                            'departement' => $conge['nom_departement'],
+                                            'type' => $conge['type_conge'],
+                                            'date_debut' => date('d/m/Y', strtotime($conge['date_debut'])),
+                                            'date_fin' => date('d/m/Y', strtotime($conge['date_fin'])),
+                                            'duree' => $duree,
+                                            'motif' => $conge['motif'] ?? '',
+                                            'status' => $conge['status'],
+                                            'couleur' => $couleur
+                                        ]);
+                                    echo '<div class="event" onclick=\'showCongeModal(' . htmlspecialchars($conge_data, ENT_QUOTES) . ')\'>';
+                                    echo '<span class="status-dot" style="background-color: ' . $couleur . ';"></span>';
+                                    echo '<span class="event-name">' . htmlspecialchars(substr($conge['nom'], 0, 1) . '. ' . $conge['prenom']) . '</span>';
                                     echo '</div>';
                                 }
+                                
                                 echo '</div>';
+                                
+                                // Tooltip avec tous les congés
+                                if ($total_conges > $max_display) {
+                                    echo '<div class="tooltip-content">';
+                                    echo '<h6>' . date('d/m/Y', strtotime($date)) . ' - ' . $total_conges . ' congé' . ($total_conges > 1 ? 's' : '') . '</h6>';
+                                    
+                                    foreach ($conges_du_jour as $conge) {
+                                        // Déterminer la couleur selon le statut
+                                        $couleur = '#6c757d';
+                                        if ($conge['status'] == 21) {
+                                            $couleur = '#28a745';
+                                        } elseif ($conge['status'] == 11) {
+                                            $couleur = '#17a2b8';
+                                        } elseif ($conge['status'] == 1) {
+                                            $couleur = '#ffc107';
+                                        } elseif ($conge['status'] == 0) {
+                                            $couleur = '#dc3545';
+                                        }
+                                        
+                                        // Calculer la durée
+                                        $date_debut_dt = new DateTime($conge['date_debut']);
+                                        $date_fin_dt = new DateTime($conge['date_fin']);
+                                        $duree = $date_debut_dt->diff($date_fin_dt)->days + 1;
+                                        
+                                        // Préparer les données pour le modal
+                                        $conge_data_tooltip = json_encode([
+                                            'nom' => $conge['nom'] . ' ' . $conge['prenom'],
+                                            'departement' => $conge['nom_departement'],
+                                            'type' => $conge['type_conge'],
+                                            'date_debut' => date('d/m/Y', strtotime($conge['date_debut'])),
+                                            'date_fin' => date('d/m/Y', strtotime($conge['date_fin'])),
+                                            'duree' => $duree,
+                                            'motif' => $conge['motif'] ?? '',
+                                            'status' => $conge['status'],
+                                            'couleur' => $couleur
+                                        ]);
+                                        
+                                        echo '<div class="tooltip-event" onclick=\'showCongeModal(' . htmlspecialchars($conge_data_tooltip, ENT_QUOTES) . ')\'>';
+                                        echo '<span class="status-dot" style="background-color: ' . $couleur . ';"></span>';
+                                        echo '<div class="tooltip-event-content">';
+                                        echo '<strong>' . htmlspecialchars($conge['nom'] . ' ' . $conge['prenom']) . '</strong><br>';
+                                        echo '<small>' . htmlspecialchars($conge['type_conge']) . ' - ' . htmlspecialchars($conge['nom_departement']) . '</small>';
+                                        echo '</div>';
+                                        echo '</div>';
+                                    }
+                                    
+                                    echo '</div>';
+                                }
                             }
                             
                             echo '</div>';
@@ -265,9 +361,165 @@
         </main>
     </div>
     
-    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <!-- Modal pour les détails du congé -->
+    <div class="modal fade" id="congeModal" tabindex="-1" aria-labelledby="congeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="congeModalLabel">
+                        <i data-feather="info"></i>
+                        Détails du congé
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="conge-detail-item">
+                        <strong>Employé :</strong>
+                        <span id="modal-nom"></span>
+                    </div>
+                    <div class="conge-detail-item">
+                        <strong>Département :</strong>
+                        <span id="modal-departement"></span>
+                    </div>
+                    <div class="conge-detail-item">
+                        <strong>Type de congé :</strong>
+                        <span id="modal-type"></span>
+                    </div>
+                    <div class="conge-detail-item">
+                        <strong>Date de début :</strong>
+                        <span id="modal-debut"></span>
+                    </div>
+                    <div class="conge-detail-item">
+                        <strong>Date de fin :</strong>
+                        <span id="modal-fin"></span>
+                    </div>
+                    <div class="conge-detail-item">
+                        <strong>Durée :</strong>
+                        <span id="modal-duree"></span>
+                    </div>
+                    <div class="conge-detail-item" id="modal-motif-container" style="display: none;">
+                        <strong>Motif :</strong>
+                        <span id="modal-motif"></span>
+                    </div>
+                    <div class="conge-detail-item">
+                        <strong>Statut :</strong>
+                        <span id="modal-status" class="badge"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <script>
         feather.replace();
+        
+        // Gestion du menu déroulant
+        document.querySelectorAll('.has-submenu > .menu-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const parent = link.parentElement;
+                // Fermer tous les autres sous-menus
+                document.querySelectorAll('.has-submenu').forEach(item => {
+                    if (item !== parent) {
+                        item.classList.remove('open');
+                    }
+                });
+                // Toggle le sous-menu actuel
+                parent.classList.toggle('open');
+            });
+        });
+        
+        // Fonction pour afficher le modal avec les détails du congé
+        function showCongeModal(congeData) {
+            document.getElementById('modal-nom').textContent = congeData.nom;
+            document.getElementById('modal-departement').textContent = congeData.departement;
+            document.getElementById('modal-type').textContent = congeData.type;
+            document.getElementById('modal-debut').textContent = congeData.date_debut;
+            document.getElementById('modal-fin').textContent = congeData.date_fin;
+            document.getElementById('modal-duree').textContent = congeData.duree + ' jour(s)';
+            
+            // Afficher le motif si présent
+            if (congeData.motif && congeData.motif.trim() !== '') {
+                document.getElementById('modal-motif').textContent = congeData.motif;
+                document.getElementById('modal-motif-container').style.display = 'block';
+            } else {
+                document.getElementById('modal-motif-container').style.display = 'none';
+            }
+            
+            // Déterminer le badge de statut
+            const statusBadge = document.getElementById('modal-status');
+            let badgeClass = 'bg-secondary';
+            let statusText = 'Inconnu';
+            
+            if (congeData.status == 0) {
+                badgeClass = 'bg-danger';
+                statusText = 'Refusé';
+            } else if (congeData.status == 1) {
+                badgeClass = 'bg-warning text-dark';
+                statusText = 'En attente';
+            } else if (congeData.status == 11) {
+                badgeClass = 'bg-info';
+                statusText = 'Validé département';
+            } else if (congeData.status == 21) {
+                badgeClass = 'bg-success';
+                statusText = 'Validé RH';
+            }
+            
+            statusBadge.className = 'badge ' + badgeClass;
+            statusBadge.textContent = statusText;
+            
+            // Ouvrir le modal avec Bootstrap
+            const modalElement = document.getElementById('congeModal');
+            const modal = new bootstrap.Modal(modalElement);
+            modal.show();
+            
+            // Rafraîchir les icônes Feather
+            setTimeout(() => feather.replace(), 100);
+        }
+        
+        // Gestion du tooltip au survol des jours avec plusieurs congés
+        document.addEventListener('DOMContentLoaded', function() {
+            const calendarDays = document.querySelectorAll('.calendar-day');
+            
+            calendarDays.forEach(day => {
+                const tooltip = day.querySelector('.tooltip-content');
+                if (tooltip) {
+                    let hideTimeout;
+                    
+                    // Afficher au survol du jour
+                    day.addEventListener('mouseenter', function() {
+                        clearTimeout(hideTimeout);
+                        tooltip.classList.add('show');
+                    });
+                    
+                    // Masquer avec délai au survol du jour
+                    day.addEventListener('mouseleave', function(e) {
+                        // Vérifier si on survole le tooltip
+                        if (!tooltip.contains(e.relatedTarget)) {
+                            hideTimeout = setTimeout(() => {
+                                tooltip.classList.remove('show');
+                            }, 200);
+                        }
+                    });
+                    
+                    // Garder visible au survol du tooltip
+                    tooltip.addEventListener('mouseenter', function() {
+                        clearTimeout(hideTimeout);
+                        tooltip.classList.add('show');
+                    });
+                    
+                    // Masquer quand on quitte le tooltip
+                    tooltip.addEventListener('mouseleave', function() {
+                        hideTimeout = setTimeout(() => {
+                            tooltip.classList.remove('show');
+                        }, 200);
+                    });
+                }
+            });
+        });
     </script>
 </body>
 </html>

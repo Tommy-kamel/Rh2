@@ -48,6 +48,37 @@ class DashboardController
         ]);
     }
 
+    public function listeCongesHistorique()
+    {
+        if (!$this->verifierAcces()) {
+            return;
+        }
+
+        $id_departement = $_SESSION['id_departement'] ?? null;
+        
+        // Si c'est RH (id_departement = 1), passer null pour voir tous les départements
+        if ($id_departement == 1) {
+            $historique_conges = $this->model->historiqueConges(null);
+        } else {
+            $historique_conges = $this->model->historiqueConges($id_departement);
+        }
+        
+        // Récupérer les messages de la session
+        $success_message = $_SESSION['success_message'] ?? null;
+        $error_message = $_SESSION['error_message'] ?? null;
+        
+        // Effacer les messages après les avoir récupérés
+        unset($_SESSION['success_message']);
+        unset($_SESSION['error_message']);
+        
+        Flight::render('admin/conges_historique', [
+            'historique_conges' => $historique_conges,
+            'success_message' => $success_message,
+            'error_message' => $error_message
+        ]);
+    }
+
+
     /**
      * Affiche le dashboard admin
      */
