@@ -116,6 +116,7 @@ CREATE TABLE absence (
     id_absence INT PRIMARY KEY AUTO_INCREMENT,
     id_employe INT,
     date_absence DATE,
+    estdeductible BOOLEAN,
     FOREIGN KEY(id_employe) REFERENCES employe(id_employe)
 );
 
@@ -133,6 +134,7 @@ CREATE TABLE prime_divers (
     motif text,
     montant_prime DOUBLE,
     date_prime DATE,
+    type enum("rendement", "diver"),
     FOREIGN KEY (id_employe) REFERENCES employe(id_employe)
 );
 
@@ -141,4 +143,21 @@ CREATE TABLE taux_irsa (
     salaire_minimal DOUBLE,
     salaire_maximal DOUBLE,
     taux INT
+);
+
+CREATE TABLE fiche_paie (
+    id_fiche_paie INT AUTO_INCREMENT PRIMARY KEY,
+    date_fiche DATE,
+    id_employe INT,
+    absence_mois INT,
+    heure_sup DOUBLE,
+    salaire_brut DOUBLE,
+    cnaps DOUBLE,
+    retenue_sanitaire DOUBLE,
+    revenue_imposable DOUBLE,
+    total_irsa DOUBLE,
+    total_retenu DOUBLE,
+    net_a_payer DOUBLE,
+    net_du_mois DOUBLE,
+    FOREIGN KEY (id_employe) REFERENCES employe(id_employe)
 );

@@ -6,6 +6,12 @@ use app\controllers\admin\RhDashboardController;
 use app\controllers\employe\AuthController as EmployeAuthController;
 use app\controllers\employe\DashboardController as EmployeDashboardController;
 use app\controllers\employe\CongeController as EmployeCongeController;
+use app\controllers\paiement\PaiementEmployeController;
+use app\controllers\paiement\FichePaiementController;
+use app\controllers\paiement\DetailPaiementController;
+use app\controllers\paiement\PrimesGlobalController;
+use app\controllers\paiement\HistoriqueFicheController;
+use app\controllers\paiement\DetailPaiementPDFController;
 use flight\Engine;
 use flight\net\Router;
 
@@ -65,3 +71,28 @@ $router->get('/', function() {
 // 	$router->post('/users/@id:[0-9]', [ $Api_Example_Controller, 'updateUser' ]);
 	
 // });
+
+// liste des employee pour voir la fiche de paie
+$paiementemploye = new PaiementEmployeController();
+$ficheemploye = new FichePaiementController();
+$detailsfiche = new DetailPaiementController();
+$primeglobal = new PrimesGlobalController();
+$historique = new HistoriqueFicheController();
+$detailPDF = new DetailPaiementPDFController();
+
+Flight::route('GET /paiement/employes', [$paiementemploye, 'liste']);
+Flight::route('GET /paiement/irsa', [$paiementemploye, 'listeIrsa']);
+Flight::route('GET /paiement/fiche/', [$ficheemploye, 'fiche']);
+Flight::route('GET /paiement/enregistrer_fiche/', [$ficheemploye, 'enregistrerFiche']);
+Flight::route('GET /paiement/prime', [$primeglobal, 'index']);
+Flight::route('GET /paiement/historique', [$historique, 'index']);
+
+// Détails pour un employé et un mois
+Flight::route('GET /paiement/details/@id_employe/@type/@mois_annee', [$detailsfiche, 'show']);
+Flight::route('GET /paiement/fiche_irsa', [$detailsfiche, 'showIrsa']);
+
+// exportation
+Flight::route('/paiement/fichepdf', [$paiementemploye, 'fichePDF']);
+Flight::route('/paiement/fiche-excel', [$paiementemploye, 'ficheExcel']);
+Flight::route('/paiement/fiche-excel-xml', [$paiementemploye, 'ficheExcelXML']);
+Flight::route('/paiement/fichepdf/@id_employe/@type/@mois_annee', [$detailPDF, 'showPDF']);
