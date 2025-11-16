@@ -1,0 +1,73 @@
+getSalaireBase
+    dans le contrat
+
+getSalaireHeure
+    getSalaireBase / 173.33    
+
+getSalaireJour
+    getSalaireBase / 30
+
+getAbscenceDeductible
+    on prend le nombre d absence deductible dans la table absence en fonction du mois
+    on multiplie par getSalaireJour
+    on prend le nombre de duree de retard dans la table retard (en minute) en fonction du mois
+    on multiplie par getSalaireHeure
+
+getPrimeDiver
+    on prend simplement les primes du moi(diver) dans la tabel prime_divers si il y en a
+
+getPrimeRendement
+    on prend simplement les primes du moi(rendement) dans la tabel prime_divers si il y en a
+
+getPrimeAnciennete
+    on regarde depuis comnient d anne il a travaillee.
+    le pourcentage est dans un fichier.conf de format (nombre d annee, pourcentage) et aini de siote a la ligne
+
+getHeureSup(id_employe)
+    on prend les heures suplementaires de l employee join to heure_sup
+
+getHeureSup(getHeureSup,pourcentage)
+    on prend les durees (qui sont en minute) d heure supplementaire de lemployee pour le mois dans la table heure_sup_employe (join to heure_sup where pourcentage_majoration == pourcentage) et qui n ont pas depassee les heures de nuit, 
+    on converti en heure
+    on multiplie par getSalaireHeure * pourcentage / 100
+
+
+getHeureNuit(getHeureSup)
+    on prend les durees (qui sont en minute) d heure supplementaire de lemployee pour le mois dans la table heure_sup_employe (join to heure_sup) qui sont en heure de nuit
+    on converti en heure
+    on multiplie par getSalaireHeure * pourcentage / 100
+
+GetDroitConge
+    on prend les conge pris par l employee pour le mois
+
+
+
+
+creer une fonction:
+    getAbsence(mois, annee, id_employee),
+    getAbscenceDeductible(getAbsence),
+    getRetard(mois, annee, id_employe) nombre de retard de l employee,
+    getRetardDeductible(getRetard) retourne la somme de retard de l employee, converit en jour.
+    getConge(mois, annee, id_employe) : liste de conge pris par l employee pendant le mois avec les info du type conge,
+    getDroitConge(getConge): ca retourne (le nombre de jour de conge * pourcentage_salaire du type de conge pris),
+    
+    getHeureSup(mois, annee, id_employee): liste des heure sup de l employee avec le pourcentage de majoration.
+    getHeureSupMaj(getHeureSup, pourcentage) on prend le nombre d heure pour l heure sup avec la majoration specifier, si le type est nuit, on ignore.
+        30%: 8 premier heure d un heure supplementaire imprevu avant heure de nuit(22h),
+        50%: 12 heure restant d un heure supplementaire imprevu avant heure de nuit(22h),
+    getHeureNuit(getHeureSup): c est le nombre d heure de nuit qu il a fait, (type == nuit).
+    
+
+    getPrime(mois, annee, id_employe): liste des prime de l employee pour le mois si il y en a,
+    getPrimeDivers(getPrime) prend seulement le prime avec type = divers, on parle directement de montant
+    getPrimeRendement(getPrime) prend seulement le prime avec type = rendement, on parle directement de montant
+
+    pour la variable hs_30 dans le $data, c est le getHeureSupMaj(getHeureSup,30), et ainsi de suite.
+    pour la variable nuit dans le $data, c est le getHeureNuit.
+    pour la variable primes_diverses dans le $data, c est le getPrimeDivers.
+    pour la variable primes_rendement dans le $data, c est le getPrimeRendement.
+    pour la variable primes_anciennete dans le $data, c est le taux est fixé par les conventions collectives :
+        +2 % du salaire de base après 3 ans,
+        puis +1 % par année supplémentaire,
+        plafonnée à 25 % du salaire de base
+    pour l' absence primes_rendement dans le $data, c est la somme des getAbscenceDeductible + getRetardDeductible.

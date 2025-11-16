@@ -65,9 +65,9 @@ return [
             'link' => '/paie',
             'active' => false,
             'sub_items' => [
-                ['label' => 'Calcul de paie', 'link' => '/paie/calcul'],
-                ['label' => 'Primes', 'link' => '/paie/primes'],
-                ['label' => 'IRSA', 'link' => '/paie/irsa']
+                ['label' => 'Calcul de paie', 'link' => '/paiement/employes'],
+                ['label' => 'Primes', 'link' => '/paiement/prime'],
+                ['label' => 'IRSA', 'link' => '/paiement/irsa']
             ]
         ],
         [
@@ -160,10 +160,10 @@ return [
             'link' => '/paie',
             'active' => false,
             'sub_items' => [
-                ['label' => 'Calcul de paie', 'link' => '/paie/calcul'],
-                ['label' => 'Primes', 'link' => '/paie/primes'],
-                ['label' => 'IRSA', 'link' => '/paie/irsa'],
-                ['label' => 'Historique', 'link' => '/paie/historique']
+                ['label' => 'Calcul de paie', 'link' => '/paiement/employes'],
+                ['label' => 'Primes', 'link' => '/paiement/prime'],
+                ['label' => 'IRSA', 'link' => '/paiement/irsa'],
+                ['label' => 'Historique', 'link' => '/paiement/historique']
             ]
         ],
         [
