@@ -139,9 +139,7 @@ return [
             'link' => '/conges',
             'active' => false,
             'sub_items' => [
-                ['label' => 'Demandes en attente', 'link' => '/conges/attente'],
-                ['label' => 'Historique', 'link' => '/conges/historique'],
-                ['label' => 'Types de congés', 'link' => '/conges/types'],
+                ['label' => 'Demandes en attente', 'link' => '/rh/conges/attente'],
                 ['label' => 'Planification', 'link' => '/conges/planification']
             ]
         ],
@@ -261,8 +259,8 @@ return [
             'link' => '/production/conges',
             'active' => false,
             'sub_items' => [
-                ['label' => 'Demandes en attente', 'link' => '/production/conges/attente'],
-                ['label' => 'Calendrier équipe', 'link' => '/production/conges/calendrier']
+                ['label' => 'Demandes en attente', 'link' => '/conges/attente'],
+                ['label' => 'Calendrier équipe', 'link' => '/conges/calendrier']
             ]
         ],
         [
@@ -359,8 +357,7 @@ return [
             'link' => '/commercial/conges',
             'active' => false,
             'sub_items' => [
-                ['label' => 'Demandes en attente', 'link' => '/commercial/conges/attente'],
-                ['label' => 'Calendrier', 'link' => '/commercial/conges/calendrier']
+                ['label' => 'Demandes en attente', 'link' => '/conges/attente']
             ]
         ]
     ],

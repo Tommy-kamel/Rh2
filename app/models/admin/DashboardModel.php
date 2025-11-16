@@ -44,7 +44,8 @@ class DashboardModel
             $sql .= " WHERE c.status = 1 AND ct.id_departement = ?";
             $params[] = $id_departement;
         } else {
-            $sql .= " WHERE c.status = 1";
+            // Pour RH, compter les congés validés par département (status = 11)
+            $sql .= " WHERE c.status = 11";
         }
         
         $stmt = Flight::db()->prepare($sql);

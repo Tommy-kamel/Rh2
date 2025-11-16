@@ -16,6 +16,33 @@ class RhDashboardController
     }
 
     /**
+     * Affiche la liste complète des congés en attente (pour RH)
+     */
+    public function listeCongesAttente()
+    {
+        if (!$this->verifierAccesRh()) {
+            return;
+        }
+
+        // RH voit tous les départements (id_departement = null)
+        $conges_en_attente = $this->model->listeCongeEnAttente(null);
+        
+        // Récupérer les messages de la session
+        $success_message = $_SESSION['success_message'] ?? null;
+        $error_message = $_SESSION['error_message'] ?? null;
+        
+        // Effacer les messages après les avoir récupérés
+        unset($_SESSION['success_message']);
+        unset($_SESSION['error_message']);
+        
+        Flight::render('admin/conges_attente', [
+            'conges_en_attente' => $conges_en_attente,
+            'success_message' => $success_message,
+            'error_message' => $error_message
+        ]);
+    }
+
+    /**
      * Affiche le dashboard RH
      */
     public function afficher()

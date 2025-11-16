@@ -38,6 +38,7 @@ $router->get('/logout', function() use ($Admin_Auth_Controller) {
 // Routes Admin
 $Admin_Dashboard_Controller = new AdminDashboardController();
 $router->get('/dashboard', [$Admin_Dashboard_Controller, 'afficher']);
+$router->get('/conges/attente', [$Admin_Dashboard_Controller, 'listeCongesAttente']);
 $router->post('/admin/conges/valider', [$Admin_Dashboard_Controller, 'validerConge']);
 $router->get('/admin/conges/refuser/@id_conge', [$Admin_Dashboard_Controller, 'refuserConge']);
 $router->get('/admin/conges/details/@id_conge', [$Admin_Dashboard_Controller, 'voirDetailsConge']);
@@ -47,6 +48,7 @@ $router->post('/admin/conges/modifier/@id_conge', [$Admin_Dashboard_Controller, 
 // Routes RH (Ressources Humaines)
 $Rh_Dashboard_Controller = new RhDashboardController();
 $router->get('/rh/dashboard', [$Rh_Dashboard_Controller, 'afficher']);
+$router->get('/rh/conges/attente', [$Rh_Dashboard_Controller, 'listeCongesAttente']);
 $router->get('/rh/conges/refuser/@id_conge', [$Rh_Dashboard_Controller, 'refuserConge']);
 $router->get('/rh/conges/details/@id_conge', [$Rh_Dashboard_Controller, 'voirDetailsConge']);
 $router->get('/rh/conges/modifier/@id_conge', [$Rh_Dashboard_Controller, 'modifierConge']);

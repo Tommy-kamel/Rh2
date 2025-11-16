@@ -16,6 +16,39 @@ class DashboardController
     }
 
     /**
+     * Affiche la liste complète des congés en attente
+     */
+    public function listeCongesAttente()
+    {
+        if (!$this->verifierAcces()) {
+            return;
+        }
+
+        $id_departement = $_SESSION['id_departement'] ?? null;
+        
+        // Si c'est RH (id_departement = 1), passer null pour voir tous les départements
+        if ($id_departement === 1) {
+            $conges_en_attente = $this->model->listeCongeEnAttente(null);
+        } else {
+            $conges_en_attente = $this->model->listeCongeEnAttente($id_departement);
+        }
+        
+        // Récupérer les messages de la session
+        $success_message = $_SESSION['success_message'] ?? null;
+        $error_message = $_SESSION['error_message'] ?? null;
+        
+        // Effacer les messages après les avoir récupérés
+        unset($_SESSION['success_message']);
+        unset($_SESSION['error_message']);
+        
+        Flight::render('admin/conges_attente', [
+            'conges_en_attente' => $conges_en_attente,
+            'success_message' => $success_message,
+            'error_message' => $error_message
+        ]);
+    }
+
+    /**
      * Affiche le dashboard admin
      */
     public function afficher()
