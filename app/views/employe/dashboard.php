@@ -7,6 +7,16 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/css/styles.css">
     <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        .spinning {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
     <div class="app-container">
@@ -23,7 +33,17 @@
                     <span class="user-role"><?= $_SESSION['nom_poste'] ?? 'Employé' ?></span>
                 </div>
             </header>
-            
+
+            <!-- Messages flash -->
+            <?php if (isset($_SESSION['flash_message'])): ?>
+                <div class="alert alert-<?= $_SESSION['flash_message']['type'] === 'success' ? 'success' : 'danger' ?> alert-dismissible fade show" role="alert">
+                    <i data-feather="<?= $_SESSION['flash_message']['type'] === 'success' ? 'check-circle' : 'alert-circle' ?>" class="me-2"></i>
+                    <?= htmlspecialchars($_SESSION['flash_message']['message']) ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+                </div>
+                <?php unset($_SESSION['flash_message']); ?>
+            <?php endif; ?>
+
             <div class="content-wrapper">
                 <!-- Statistiques rapides -->
                 <div class="stats-grid">
@@ -80,7 +100,7 @@
                             <h3>Pointer</h3>
                             <p>Enregistrer mon arrivée/départ</p>
                         </a>
-                        <a href="/employe/conges/demande" class="action-card">
+                        <a href="#" class="action-card" data-bs-toggle="modal" data-bs-target="#demandeCongeModal">
                             <i data-feather="calendar"></i>
                             <h3>Demander un congé</h3>
                             <p>Faire une nouvelle demande</p>
@@ -119,8 +139,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php if (!empty($dernieres_demandes)): ?>
-                                    <?php foreach ($dernieres_demandes as $demande): ?>
+                                <?php if (!empty($liste_conge)): ?>
+                                    <?php foreach ($liste_conge as $demande): ?>
                                         <tr>
                                             <td><?= htmlspecialchars($demande['type']) ?></td>
                                             <td><?= date('d/m/Y', strtotime($demande['date_debut'])) ?></td>
@@ -236,6 +256,86 @@
                 }
             });
         });
+
+        // Gestion du modal de demande de congé
+        document.getElementById('demandeCongeModal').addEventListener('shown.bs.modal', function () {
+            // Recharger les icônes Feather dans le modal
+            feather.replace();
+        });
+
+        // Validation côté client avant soumission
+        document.getElementById('demandeCongeForm').addEventListener('submit', function(e) {
+            const typeConge = document.getElementById('type_conge').value;
+            const duree = document.getElementById('duree').value;
+            const dateDebut = document.getElementById('date_debut').value;
+
+            if (!typeConge || !duree || !dateDebut) {
+                e.preventDefault();
+                alert('Veuillez remplir tous les champs obligatoires.');
+                return false;
+            }
+
+            // Le formulaire sera soumis normalement (pas d'AJAX)
+            return true;
+        });
     </script>
+
+    <!-- Modal Demande de Congé -->
+    <div class="modal fade" id="demandeCongeModal" tabindex="-1" aria-labelledby="demandeCongeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="demandeCongeModalLabel">
+                        <i data-feather="calendar" class="me-2"></i>
+                        Demander un congé
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                </div>
+                <form id="demandeCongeForm" method="POST" action="/employe/conges/demander">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="type_conge" class="form-label">Type de congé</label>
+                            <select class="form-select" id="type_conge" name="type_conge" required>
+                                <option value="">Choisir un type de congé</option>
+                                <?php if (!empty($type_conges)): ?>
+                                    <?php foreach ($type_conges as $type): ?>
+                                        <option value="<?= $type['id_type_conge'] ?>">
+                                            <?= htmlspecialchars($type['type']) ?>
+                                            <?php if ($type['pourcentage_salaire'] < 100): ?>
+                                                (<?= $type['pourcentage_salaire'] ?>% du salaire)
+                                            <?php endif; ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="duree" class="form-label">Durée (en jours)</label>
+                            <input type="number" class="form-control" id="duree" name="duree" min="1" max="30" required>
+                            <div class="form-text">Nombre de jours de congé demandé</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="date_debut" class="form-label">Date de début</label>
+                            <input type="date" class="form-control" id="date_debut" name="date_debut" required>
+                            <div class="form-text">Date à laquelle commence le congé</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="raison" class="form-label">Raison (optionnel)</label>
+                            <textarea class="form-control" id="raison" name="raison" rows="3" placeholder="Expliquez brièvement la raison de votre demande de congé..."></textarea>
+                            <div class="form-text">Champ optionnel - maximum 500 caractères</div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i data-feather="send" class="me-2"></i>
+                            Soumettre la demande
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

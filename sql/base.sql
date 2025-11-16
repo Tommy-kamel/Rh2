@@ -58,7 +58,6 @@ CREATE TABLE documents (
 CREATE TABLE type_conge (
     id_type_conge INT PRIMARY KEY AUTO_INCREMENT,
     type VARCHAR(255),
-    duree INT,
     pourcentage_salaire INT
 );
 
@@ -71,7 +70,7 @@ CREATE TABLE conge (
     date_fin DATE,
     raison VARCHAR(255),
     date_validation DATE,
-    status INT, /* 1: en attente, 11: valider par le chef de departement, 21: valider par le rh */
+    status INT, /* 1: en attente, 11: valider par le chef de departement, 21: valider par le rh, 0:refuse */
     FOREIGN KEY(id_employe) REFERENCES employe(id_employe),
     FOREIGN KEY(id_type_conge) REFERENCES type_conge(id_type_conge)
 );
@@ -117,6 +116,7 @@ CREATE TABLE absence (
     id_absence INT PRIMARY KEY AUTO_INCREMENT,
     id_employe INT,
     date_absence DATE,
+    estdeductible BOOLEAN,
     FOREIGN KEY(id_employe) REFERENCES employe(id_employe)
 );
 
@@ -134,6 +134,7 @@ CREATE TABLE prime_divers (
     motif text,
     montant_prime DOUBLE,
     date_prime DATE,
+    type enum("rendement", "diver"),
     FOREIGN KEY (id_employe) REFERENCES employe(id_employe)
 );
 
@@ -144,33 +145,19 @@ CREATE TABLE taux_irsa (
     taux INT
 );
 
-INSERT INTO departement (nom_departement) VALUES
-('Ressources Humaines'),
-('Production'),
-('Achat et vente'),
-('Gestion de stock'),
-('Gestion d''immobilisation');
-
-INSERT INTO user (id_departement,nom_utilisateur, mot_de_passe) VALUES 
-(1,'rh_user', 'RH'),
-(2,'production_user', 'PROD'),
-(3,'achat_vente_user', 'ACHAT'),
-(4,'stock_user', 'STOCK'),
-(5,'immobilisation_user', 'IMMO');
-
-INSERT INTO poste (nom) VALUES
-('Directeur Général'),
-('Chef de Département RH'),
-('Développeur'),
-('Comptable'),
-('Commercial'),
-('Technicien'),
-('Secrétaire'),
-('Manager Production');
-
-INSERT INTO employe (nom, prenom, date_naissance, email,mot_de_passe, sexe, telephone, adresse, numero_cnaps) VALUES
-('Rakoto', 'Jean', '1990-01-15', 'jean.rakoto@email.com', '123', 'Homme', '0341234567', 'Antananarivo', 123456789),
-('Rabe', 'Marie', '1985-05-20', 'marie.rabe@email.com', '123', 'Femme', '0339876543', 'Toamasina', 987654321),
-('Andrianaivo', 'Paul', '1992-03-10', 'paul.andrianaivo@email.com', '123', 'Homme', '0324567890', 'Fianarantsoa', 456789123),
-('Rasoa', 'Sophie', '1988-11-25', 'sophie.rasoa@email.com', '123', 'Femme', '0345678901', 'Mahajanga', 789123456),
-('Randria', 'Marc', '1995-07-08', 'marc.randria@email.com', '123', 'Homme', '0330123456', 'Toliara', 321654987);
+CREATE TABLE fiche_paie (
+    id_fiche_paie INT AUTO_INCREMENT PRIMARY KEY,
+    date_fiche DATE,
+    id_employe INT,
+    absence_mois INT,
+    heure_sup DOUBLE,
+    salaire_brut DOUBLE,
+    cnaps DOUBLE,
+    retenue_sanitaire DOUBLE,
+    revenue_imposable DOUBLE,
+    total_irsa DOUBLE,
+    total_retenu DOUBLE,
+    net_a_payer DOUBLE,
+    net_du_mois DOUBLE,
+    FOREIGN KEY (id_employe) REFERENCES employe(id_employe)
+);

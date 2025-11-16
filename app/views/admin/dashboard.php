@@ -90,11 +90,42 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td colspan="6" class="text-center text-muted">
-                                        Aucune demande en attente
-                                    </td>
-                                </tr>
+                                <?php if (!empty($conges_en_attente)): ?>
+                                    <?php foreach ($conges_en_attente as $conge): ?>
+                                        <tr>
+                                            <td><?= htmlspecialchars($conge['nom'] . ' ' . $conge['prenom']) ?></td>
+                                            <td>
+                                                <span class="badge badge-primary"><?= htmlspecialchars($conge['type']) ?></span>
+                                            </td>
+                                            <td><?= date('d/m/Y', strtotime($conge['date_debut'])) ?></td>
+                                            <td><?= date('d/m/Y', strtotime($conge['date_fin'])) ?></td>
+                                            <td>
+                                                <?php 
+                                                $date_debut = new DateTime($conge['date_debut']);
+                                                $date_fin = new DateTime($conge['date_fin']);
+                                                $duree = $date_debut->diff($date_fin)->days + 1;
+                                                echo $duree . ' jour' . ($duree > 1 ? 's' : '');
+                                                ?>
+                                            </td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <button class="btn btn-sm btn-success" title="Valider">
+                                                        <i data-feather="check"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-danger" title="Refuser">
+                                                        <i data-feather="x"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <tr>
+                                        <td colspan="6" class="text-center text-muted">
+                                            Aucune demande en attente
+                                        </td>
+                                    </tr>
+                                <?php endif; ?>
                             </tbody>
                         </table>
                     </div>

@@ -23,9 +23,17 @@ class DashboardController
             return;
         }
 
-        $statistiques = $this->model->getStatistiques();
+        // Rediriger les RH vers leur dashboard spécifique
+        if (isset($_SESSION['nom_departement']) && $_SESSION['nom_departement'] === 'Ressources Humaines') {
+            Flight::redirect('/rh/dashboard');
+            return;
+        }
+
+        $id_departement = $_SESSION['id_departement'] ?? null;
+        $statistiques = $this->model->getStatistiques($id_departement);
+        $conges_en_attente = $this->model->listeCongeEnAttente($id_departement);
         
-        $this->rendreDashboard($statistiques);
+        $this->rendreDashboard($statistiques, $conges_en_attente);
     }
 
     /**
@@ -43,13 +51,14 @@ class DashboardController
     /**
      * Rend la vue du dashboard avec les données
      */
-    private function rendreDashboard($statistiques)
+    private function rendreDashboard($statistiques, $conges_en_attente)
     {
         Flight::render('admin/dashboard', [
             'total_employes' => $statistiques['total_employes'],
             'conges_attente' => $statistiques['conges_attente'],
             'absences_aujourd_hui' => $statistiques['absences_aujourd_hui'],
-            'presents_aujourd_hui' => $statistiques['presents_aujourd_hui']
+            'presents_aujourd_hui' => $statistiques['presents_aujourd_hui'],
+            'conges_en_attente' => $conges_en_attente
         ]);
     }
 }
