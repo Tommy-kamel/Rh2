@@ -40,8 +40,8 @@ class CalendrierModel
             'date_fin' => date("Y-m-t", strtotime("$annee-$mois-01"))
         ];
         
-        // Filtrer par département si spécifié
-        if ($id_departement !== null) {
+        // Filtrer par département si spécifié (sauf pour RH qui voit tout)
+        if ($id_departement !== null && $id_departement != 1) {
             $sql .= " AND d.id_departement = :id_departement";
             $params['id_departement'] = $id_departement;
         }
@@ -77,7 +77,7 @@ class CalendrierModel
         
         $params = ['date' => $date];
         
-        if ($id_departement !== null) {
+        if ($id_departement !== null && $id_departement != 1) {
             $sql .= " AND d.id_departement = :id_departement";
             $params['id_departement'] = $id_departement;
         }

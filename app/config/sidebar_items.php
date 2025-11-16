@@ -106,6 +106,12 @@ return [
             'sub_items' => []
         ],
         [
+            'icon' => 'calendar',
+            'label' => 'Calendrier',
+            'link' => '/calendrier',
+            'active' => false,
+        ],
+        [
             'icon' => 'users',
             'label' => 'Gestion des employés',
             'link' => '/employes',
@@ -193,13 +199,7 @@ return [
         //         ['label' => 'Jours fériés', 'link' => '/parametres/jours-feries'],
         //         ['label' => 'Horaires de travail', 'link' => '/parametres/horaires']
         //     ]
-        // ],
-        [
-            'icon' => 'calendar',
-            'label' => 'Calendrier',
-            'link' => '/calendrier',
-            'active' => false,
-        ]
+        // ]
     ],
 
     'Production' => [
@@ -216,6 +216,12 @@ return [
             'link' => '/statistiques',
             'active' => false,
             'sub_items' => []
+        ],
+        [
+            'icon' => 'calendar',
+            'label' => 'Calendrier',
+            'link' => '/calendrier',
+            'active' => false,
         ],
         [
             'icon' => 'users',
@@ -297,6 +303,12 @@ return [
             'sub_items' => []
         ],
         [
+            'icon' => 'calendar',
+            'label' => 'Calendrier',
+            'link' => '/calendrier',
+            'active' => false,
+        ],
+        [
             'icon' => 'shopping-cart',
             'label' => 'Achats',
             'link' => '/achats',
@@ -367,6 +379,12 @@ return [
             'link' => '/statistiques',
             'active' => false,
             'sub_items' => []
+        ],
+        [
+            'icon' => 'calendar',
+            'label' => 'Calendrier',
+            'link' => '/calendrier',
+            'active' => false,
         ],
         [
             'icon' => 'package',
@@ -448,6 +466,12 @@ return [
             'link' => '/statistiques',
             'active' => false,
             'sub_items' => []
+        ],
+        [
+            'icon' => 'calendar',
+            'label' => 'Calendrier',
+            'link' => '/calendrier',
+            'active' => false,
         ],
         [
             'icon' => 'archive',

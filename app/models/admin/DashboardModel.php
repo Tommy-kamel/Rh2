@@ -104,12 +104,12 @@ class DashboardModel
     }
 
     public function listeCongeEnAttente($id_departement = null){
-        $sql = "SELECT * FROM vue_conge_en_attente";
-        $params = [];
-        
         if ($id_departement !== null) {
-            $sql .= " WHERE id_departement = ?";
-            $params[] = $id_departement;
+            $sql = "SELECT * FROM vue_conge_en_attente WHERE id_departement = ?";
+            $params = [$id_departement];
+        } else {
+            $sql = "SELECT * FROM vue_conge_en_attente_rh";
+            $params = [];
         }
         
         $sql .= " ORDER BY date_demande DESC";
