@@ -6,6 +6,7 @@ use app\controllers\admin\RhDashboardController;
 use app\controllers\employe\AuthController as EmployeAuthController;
 use app\controllers\employe\DashboardController as EmployeDashboardController;
 use app\controllers\employe\CongeController as EmployeCongeController;
+use app\controllers\admin\EmployeeController;
 use flight\Engine;
 use flight\net\Router;
 
@@ -47,6 +48,32 @@ $router->get('/employe/dashboard', [$Employe_Dashboard_Controller, 'afficher']);
 
 $EmployeCongeController = new EmployeCongeController();
 $router->post('/employe/conges/demander', [$EmployeCongeController, 'addConge']);
+
+$EmployeeController = new EmployeeController();
+$router->get('/employes', [$EmployeeController, 'liste']);
+$router->get('/employes/ajouter', [$EmployeeController, 'ajouter']);              // <-- page ajout employé (form)
+$router->post('/employes/ajouter', [$EmployeeController, 'store']);  
+$router->get('/employes/@id', [$EmployeeController, 'afficher']);
+
+// pages séparées
+$router->get('/employes/@id/contrat', [$EmployeeController, 'contrat']);
+$router->get('/employes/@id/postes', [$EmployeeController, 'postes']);
+$router->get('/employes/@id/documents', [$EmployeeController, 'documents']);
+
+// actions déjà présentes (création/renouvellement/terminer/ajout poste/upload document)
+$router->post('/employes/@id/contrat/creer', [$EmployeeController, 'creerContrat']);
+$router->post('/employes/@id/contrat/renouveler', [$EmployeeController, 'renouvelerContrat']);
+$router->post('/employes/@id/contrat/terminer', [$EmployeeController, 'terminerContrat']);
+$router->post('/employes/@id/poste/ajouter', [$EmployeeController, 'ajouterPosteHistory']);
+$router->post('/employes/@id/documents/upload', [$EmployeeController, 'uploadDocument']);
+
+
+$router->get('/employes/ajouter', [$EmployeeController, 'ajouter']);              // <-- page ajout employé (form)
+$router->post('/employes/ajouter', [$EmployeeController, 'store']);              // <-- enregistrement nouvel employé
+
+// ...existing code...
+// ...existing code...
+// ...existing code...
 
 // Redirection page d'accueil
 $router->get('/', function() {
