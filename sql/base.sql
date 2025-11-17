@@ -15,6 +15,11 @@ CREATE TABLE employe(
     numero_cnaps INT
 );
 
+ALTER TABLE employe
+    ADD COLUMN cin VARCHAR(50) DEFAULT NULL,
+    ADD COLUMN photo VARCHAR(255) DEFAULT NULL,
+    ADD COLUMN lieu_naissance VARCHAR(255) DEFAULT NULL;
+
 CREATE TABLE departement(
    id_departement INT PRIMARY KEY AUTO_INCREMENT,
    nom_departement VARCHAR(50)
@@ -146,6 +151,41 @@ CREATE TABLE taux_irsa (
     taux INT
 );
 
+CREATE TABLE contrat_history (
+    id_contrat_history INT AUTO_INCREMENT PRIMARY KEY,
+    id_contrat INT,
+    id_employe INT,
+    salaire DECIMAL(15,2),
+    date_debut DATE,
+    date_fin DATE,
+    type ENUM('CDD','CDI','Essai'),
+    id_poste INT,
+    id_departement INT,
+    changed_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(id_employe) REFERENCES employe(id_employe)
+);
+
+CREATE TABLE poste_history (
+    id_poste_history INT AUTO_INCREMENT PRIMARY KEY,
+    id_employe INT,
+    id_poste INT,
+    id_departement INT,
+    date_debut DATE,
+    date_fin DATE,
+    motif VARCHAR(255),
+    changed_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(id_employe) REFERENCES employe(id_employe)
+);
+
+ALTER TABLE documents
+    ADD COLUMN type_document VARCHAR(100) DEFAULT NULL,
+    ADD COLUMN uploaded_at DATETIME DEFAULT CURRENT_TIMESTAMP;
+
+-- ...existing code...
+ALTER TABLE contrat
+    ADD COLUMN periode_essai_jours INT DEFAULT 0,
+    ADD COLUMN renouvellement_count INT DEFAULT 0;
+-- ...existing code...
 CREATE TABLE fiche_paie (
     id_fiche_paie INT AUTO_INCREMENT PRIMARY KEY,
     date_fiche DATE,
