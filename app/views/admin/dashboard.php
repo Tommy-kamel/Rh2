@@ -6,6 +6,7 @@
     <title>Tableau de bord - Admin</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/rh-dashboard.css">
     <script src="https://unpkg.com/feather-icons"></script>
 </head>
 <body>
@@ -25,6 +26,23 @@
             </header>
             
             <div class="content-wrapper">
+                <!-- Messages de succès/erreur -->
+                <?php if (isset($success_message)): ?>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i data-feather="check-circle"></i>
+                        <?= htmlspecialchars($success_message) ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                <?php endif; ?>
+                
+                <?php if (isset($error_message)): ?>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i data-feather="alert-circle"></i>
+                        <?= htmlspecialchars($error_message) ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                <?php endif; ?>
+
                 <!-- Statistiques principales -->
                 <div class="stats-grid">
                     <div class="stat-card">
@@ -75,17 +93,23 @@
                             <i data-feather="calendar"></i>
                             Demandes de congés en attente
                         </h2>
-                        <a href="/conges/attente" class="btn btn-link">Voir tout</a>
+                        <div class="section-actions">
+                            <input type="text" id="searchTable" class="form-control" placeholder="Rechercher..." style="width: 250px; display: inline-block; margin-right: 10px;">
+                            <a href="/conges/attente" class="btn btn-link">Voir tout</a>
+                        </div>
                     </div>
                     <div class="table-responsive">
-                        <table class="table">
+                        <table class="table" id="congesTable">
                             <thead>
                                 <tr>
+                                    <th>Département</th>
                                     <th>Employé</th>
+                                    <th>Poste</th>
                                     <th>Type</th>
                                     <th>Date début</th>
                                     <th>Date fin</th>
                                     <th>Durée</th>
+                                    <th>Date demande</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -93,9 +117,13 @@
                                 <?php if (!empty($conges_en_attente)): ?>
                                     <?php foreach ($conges_en_attente as $conge): ?>
                                         <tr>
-                                            <td><?= htmlspecialchars($conge['nom'] . ' ' . $conge['prenom']) ?></td>
                                             <td>
-                                                <span class="badge badge-primary"><?= htmlspecialchars($conge['type']) ?></span>
+                                                <span class="badge bg-info text-dark"><?= htmlspecialchars($conge['nom_departement']) ?></span>
+                                            </td>
+                                            <td><?= htmlspecialchars($conge['nom'] . ' ' . $conge['prenom']) ?></td>
+                                            <td><?= htmlspecialchars($conge['nom_poste'] ?? 'N/A') ?></td>
+                                            <td>
+                                                <span class="badge bg-primary text-white"><?= htmlspecialchars($conge['type'] ?? 'N/A') ?></span>
                                             </td>
                                             <td><?= date('d/m/Y', strtotime($conge['date_debut'])) ?></td>
                                             <td><?= date('d/m/Y', strtotime($conge['date_fin'])) ?></td>
@@ -107,21 +135,34 @@
                                                 echo $duree . ' jour' . ($duree > 1 ? 's' : '');
                                                 ?>
                                             </td>
+                                            <td><?= date('d/m/Y', strtotime($conge['date_demande'])) ?></td>
                                             <td>
-                                                <div class="btn-group">
-                                                    <button class="btn btn-sm btn-success" title="Valider">
-                                                        <i data-feather="check"></i>
-                                                    </button>
-                                                    <button class="btn btn-sm btn-danger" title="Refuser">
-                                                        <i data-feather="x"></i>
-                                                    </button>
+                                                <div style="display: flex; gap: 8px; align-items: center;">
+                                                    <form method="POST" action="/admin/conges/valider" style="display: inline;">
+                                                        <input type="hidden" name="id_conge" value="<?= $conge['id_conge'] ?>">
+                                                        <button type="submit" title="Valider" onclick="return confirm('Confirmer la validation de cette demande de congé ?')" style="color: #28a745; text-decoration: none; background: none; border: none; cursor: pointer; padding: 0;">
+                                                            <i data-feather="check-circle" style="width: 20px; height: 20px;"></i>
+                                                        </button>
+                                                    </form>
+                                                    <a href="/admin/conges/refuser/<?= $conge['id_conge'] ?>" 
+                                                       title="Refuser" onclick="return confirm('Confirmer le refus de cette demande de congé ?')" style="color: #dc3545; text-decoration: none;">
+                                                        <i data-feather="x-circle" style="width: 20px; height: 20px;"></i>
+                                                    </a>
+                                                    <a href="/admin/conges/details/<?= $conge['id_conge'] ?>" 
+                                                       title="Voir détails" style="color: #17a2b8; text-decoration: none;">
+                                                        <i data-feather="eye" style="width: 20px; height: 20px;"></i>
+                                                    </a>
+                                                    <a href="/admin/conges/modifier/<?= $conge['id_conge'] ?>" 
+                                                       title="Modifier" style="color: #ffc107; text-decoration: none;">
+                                                        <i data-feather="edit" style="width: 20px; height: 20px;"></i>
+                                                    </a>
                                                 </div>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php else: ?>
                                     <tr>
-                                        <td colspan="6" class="text-center text-muted">
+                                        <td colspan="9" class="text-center text-muted">
                                             Aucune demande en attente
                                         </td>
                                     </tr>
@@ -129,10 +170,20 @@
                             </tbody>
                         </table>
                     </div>
+                    
+                    <!-- Pagination -->
+                    <div class="pagination-wrapper">
+                        <div class="pagination-info">
+                            <span>Affichage <span id="currentStart">1</span> à <span id="currentEnd">5</span> sur <span id="totalRows">0</span> entrées</span>
+                        </div>
+                        <div class="pagination" id="pagination">
+                            <!-- Pagination buttons will be generated by JavaScript -->
+                        </div>
+                    </div>
                 </section>
                 
                 <!-- Répartition par département -->
-                <section class="section">
+                <!-- <section class="section">
                     <h2 class="section-title">
                         <i data-feather="pie-chart"></i>
                         Répartition par département
@@ -159,7 +210,7 @@
                             </div>
                         <?php endforeach; ?>
                     </div>
-                </section>
+                </section> -->
             </div>
         </main>
     </div>
@@ -170,13 +221,19 @@
         // Gestion du menu déroulant
         document.querySelectorAll('.has-submenu > .menu-link').forEach(link => {
             link.addEventListener('click', (e) => {
+                e.preventDefault();
                 const parent = link.parentElement;
-                if (!parent.classList.contains('active')) {
-                    e.preventDefault();
-                    parent.classList.toggle('open');
-                }
+                // Fermer tous les autres sous-menus
+                document.querySelectorAll('.has-submenu').forEach(item => {
+                    if (item !== parent) {
+                        item.classList.remove('open');
+                    }
+                });
+                // Toggle le sous-menu actuel
+                parent.classList.toggle('open');
             });
         });
     </script>
+    <script src="/assets/js/rh-dashboard.js"></script>
 </body>
 </html>

@@ -139,8 +139,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php if (!empty($liste_conge)): ?>
-                                    <?php foreach ($liste_conge as $demande): ?>
+                                <?php if (!empty($dernieres_demandes)): ?>
+                                    <?php foreach ($dernieres_demandes as $demande): ?>
                                         <tr>
                                             <td><?= htmlspecialchars($demande['type']) ?></td>
                                             <td><?= date('d/m/Y', strtotime($demande['date_debut'])) ?></td>
@@ -249,11 +249,16 @@
         // Gestion du menu déroulant
         document.querySelectorAll('.has-submenu > .menu-link').forEach(link => {
             link.addEventListener('click', (e) => {
+                e.preventDefault();
                 const parent = link.parentElement;
-                if (!parent.classList.contains('active')) {
-                    e.preventDefault();
-                    parent.classList.toggle('open');
-                }
+                // Fermer tous les autres sous-menus
+                document.querySelectorAll('.has-submenu').forEach(item => {
+                    if (item !== parent) {
+                        item.classList.remove('open');
+                    }
+                });
+                // Toggle le sous-menu actuel
+                parent.classList.toggle('open');
             });
         });
 

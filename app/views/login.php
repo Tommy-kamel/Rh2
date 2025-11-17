@@ -6,6 +6,7 @@
     <title>Connexion - Système RH</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/css/styles.css">
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Outfit&display=swap" rel="stylesheet"> -->
     <script src="https://unpkg.com/feather-icons"></script>
 </head>
 <body class="login-page">
