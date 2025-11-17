@@ -31,6 +31,7 @@
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+        
     }
 
     body {
@@ -491,6 +492,24 @@
 <script src="https://unpkg.com/feather-icons"></script>
 <script>
     feather.replace();
+
+    document.querySelectorAll('.has-submenu > .menu-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const parent = link.parentElement;
+                const submenu = parent.querySelector('.submenu');
+                // Fermer tous les autres sous-menus
+                document.querySelectorAll('.submenu').forEach(sub => {
+                    if (sub !== submenu) {
+                        sub.classList.remove('show');
+                        sub.parentElement.classList.remove('open');
+                    }
+                });
+                // Toggle le sous-menu actuel
+                submenu.classList.toggle('show');
+                parent.classList.toggle('open');
+            });
+        });
 
     // Gestion de l'aperçu de la photo
     document.getElementById('photoInput').addEventListener('change', function(e) {

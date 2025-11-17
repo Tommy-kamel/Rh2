@@ -105,12 +105,6 @@ return [
             'active' => false,
             'sub_items' => []
         ],
-        // [
-        //     'icon' => 'calendar',
-        //     'label' => 'Calendrier',
-        //     'link' => '/calendrier',
-        //     'active' => false,
-        // ],
         [
             'icon' => 'users',
             'label' => 'Gestion des employés',
@@ -118,21 +112,9 @@ return [
             'active' => false,
             'sub_items' => [
                 ['label' => 'Liste des employés', 'link' => '/employes'],
-                ['label' => 'Ajouter un employé', 'link' => '/employes/ajouter'],
-                ['label' => 'Contrats', 'link' => '/employes/contrats'],
-                ['label' => 'Historique', 'link' => '/employes/historique']
+                ['label' => 'Ajouter un employé', 'link' => '/employes/ajouter']
             ]
         ],
-        // [
-        //     'icon' => 'briefcase',
-        //     'label' => 'Postes',
-        //     'link' => '/postes',
-        //     'active' => false,
-        //     'sub_items' => [
-        //         ['label' => 'Liste des postes', 'link' => '/postes/liste'],
-        //         ['label' => 'Ajouter un poste', 'link' => '/postes/ajouter']
-        //     ]
-        // ],
         [
             'icon' => 'calendar',
             'label' => 'Gestion des congés',
@@ -144,28 +126,6 @@ return [
                 ['label' => 'Calendrier des congés', 'link' => '/calendrier']
             ]
         ],
-        // [
-        //     'icon' => 'clock',
-        //     'label' => 'Pointage',
-        //     'link' => '/pointage',
-        //     'active' => false,
-        //     'sub_items' => [
-        //         ['label' => 'Pointages du jour', 'link' => '/pointage/aujourd-hui'],
-        //         ['label' => 'Historique', 'link' => '/pointage/historique'],
-        //         ['label' => 'Heures supplémentaires', 'link' => '/pointage/heures-sup']
-        //     ]
-        // ],
-        // [
-        //     'icon' => 'alert-circle',
-        //     'label' => 'Absences & Retards',
-        //     'link' => '/absences',
-        //     'active' => false,
-        //     'sub_items' => [
-        //         ['label' => 'Absences', 'link' => '/absences/liste'],
-        //         ['label' => 'Retards', 'link' => '/retards/liste'],
-        //         ['label' => 'Justificatifs', 'link' => '/absences/justificatifs']
-        //     ]
-        // ],
         [
             'icon' => 'clock',
             'label' => 'Pointage',
@@ -198,28 +158,7 @@ return [
                 ['label' => 'IRSA', 'link' => '/paiement/irsa'],
                 ['label' => 'Historique', 'link' => '/paiement/historique']
             ]
-        ],
-        // [
-        //     'icon' => 'file-text',
-        //     'label' => 'Documents',
-        //     'link' => '/documents',
-        //     'active' => false,
-        //     'sub_items' => [
-        //         ['label' => 'Tous les documents', 'link' => '/documents/liste'],
-        //         ['label' => 'Ajouter document', 'link' => '/documents/ajouter']
-        //     ]
-        // ],
-        // [
-        //     'icon' => 'settings',
-        //     'label' => 'Paramètres RH',
-        //     'link' => '/parametres',
-        //     'active' => false,
-        //     'sub_items' => [
-        //         ['label' => 'Départements', 'link' => '/parametres/departements'],
-        //         ['label' => 'Jours fériés', 'link' => '/parametres/jours-feries'],
-        //         ['label' => 'Horaires de travail', 'link' => '/parametres/horaires']
-        //     ]
-        // ]
+        ]
     ],
 
     'Production' => [

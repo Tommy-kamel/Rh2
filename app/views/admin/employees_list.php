@@ -299,7 +299,24 @@ h1 {
 <script src="https://unpkg.com/feather-icons"></script>
 <script>
     feather.replace();
-        // Recherche existante
+    document.querySelectorAll('.has-submenu > .menu-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const parent = link.parentElement;
+                const submenu = parent.querySelector('.submenu');
+                // Fermer tous les autres sous-menus
+                document.querySelectorAll('.submenu').forEach(sub => {
+                    if (sub !== submenu) {
+                        sub.classList.remove('show');
+                        sub.parentElement.classList.remove('open');
+                    }
+                });
+                // Toggle le sous-menu actuel
+                submenu.classList.toggle('show');
+                parent.classList.toggle('open');
+            });
+        });
+
         const input = document.getElementById('searchInput');
         const rows = Array.from(document.querySelectorAll('#employeesTable tbody tr'));
         input.addEventListener('input', e => {

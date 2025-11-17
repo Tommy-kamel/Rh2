@@ -182,35 +182,6 @@
                     </div>
                 </section>
                 
-                <!-- Répartition par département -->
-                <!-- <section class="section">
-                    <h2 class="section-title">
-                        <i data-feather="pie-chart"></i>
-                        Répartition par département
-                    </h2>
-                    <div class="departments-grid">
-                        <?php 
-                        $departments = [
-                            ['name' => 'Ressources Humaines', 'count' => 12, 'color' => 'blue'],
-                            ['name' => 'Production', 'count' => 45, 'color' => 'green'],
-                            ['name' => 'Achat et vente', 'count' => 18, 'color' => 'orange'],
-                            ['name' => 'Gestion de stock', 'count' => 8, 'color' => 'purple'],
-                            ['name' => 'Gestion d\'immobilisation', 'count' => 6, 'color' => 'red']
-                        ];
-                        foreach ($departments as $dept): 
-                        ?>
-                            <div class="department-card">
-                                <div class="department-header">
-                                    <h3><?= $dept['name'] ?></h3>
-                                    <span class="department-count <?= $dept['color'] ?>"><?= $dept['count'] ?></span>
-                                </div>
-                                <div class="department-progress">
-                                    <div class="progress-bar <?= $dept['color'] ?>" style="width: <?= ($dept['count']/50)*100 ?>%"></div>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                </section> -->
             </div>
         </main>
     </div>
