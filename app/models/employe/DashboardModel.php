@@ -7,16 +7,15 @@ use Flight;
 class DashboardModel
 {
     /**
-     * Récupère les dernières demandes de congé d'un employé
+     * Récupère toutes les demandes de congé d'un employé
      */
-    public function getDernieresDemandesConge($id_employe)
+    public function getToutesDemandesConge($id_employe)
     {
         $sql = "SELECT c.*, tc.type 
                 FROM conge c
                 LEFT JOIN type_conge tc ON c.id_type_conge = tc.id_type_conge
                 WHERE c.id_employe = :id_employe
-                ORDER BY c.date_demande DESC
-                LIMIT 5";
+                ORDER BY c.date_demande DESC";
         
         $stmt = Flight::db()->prepare($sql);
         $stmt->execute(['id_employe' => $id_employe]);
@@ -118,7 +117,7 @@ class DashboardModel
     public function getDonneesDashboard($id_employe)
     {
         return [
-            'dernieres_demandes' => $this->getDernieresDemandesConge($id_employe),
+            'dernieres_demandes' => $this->getToutesDemandesConge($id_employe),
             'derniers_pointages' => $this->getDerniersPointages($id_employe),
             'solde_conges' => $this->getNombreJourCongeRestantAnnee($id_employe),
             'heures_travaillees' => $this->getHeuresTravailleesMois($id_employe),

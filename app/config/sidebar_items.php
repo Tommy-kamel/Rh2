@@ -457,81 +457,6 @@ return [
                 ['label' => 'Historique', 'link' => '/conges/historique']
             ]
         ]
-        // [
-        //     'icon' => 'archive',
-        //     'label' => 'Immobilisations',
-        //     'link' => '/immobilisations',
-        //     'active' => false,
-        //     'sub_items' => [
-        //         ['label' => 'Liste des biens', 'link' => '/immobilisations/liste'],
-        //         ['label' => 'Ajouter un bien', 'link' => '/immobilisations/ajouter'],
-        //         ['label' => 'Catégories', 'link' => '/immobilisations/categories']
-        //     ]
-        // ],
-        // [
-        //     'icon' => 'trending-down',
-        //     'label' => 'Amortissements',
-        //     'link' => '/immobilisations/amortissements',
-        //     'active' => false,
-        //     'sub_items' => [
-        //         ['label' => 'Calcul amortissement', 'link' => '/immobilisations/amortissements/calcul'],
-        //         ['label' => 'Tableau amortissement', 'link' => '/immobilisations/amortissements/tableau'],
-        //         ['label' => 'Historique', 'link' => '/immobilisations/amortissements/historique']
-        //     ]
-        // ],
-        // [
-        //     'icon' => 'tool',
-        //     'label' => 'Maintenance',
-        //     'link' => '/immobilisations/maintenance',
-        //     'active' => false,
-        //     'sub_items' => [
-        //         ['label' => 'Planning maintenance', 'link' => '/immobilisations/maintenance/planning'],
-        //         ['label' => 'Interventions', 'link' => '/immobilisations/maintenance/interventions'],
-        //         ['label' => 'Coûts maintenance', 'link' => '/immobilisations/maintenance/couts']
-        //     ]
-        // ],
-        // [
-        //     'icon' => 'map-pin',
-        //     'label' => 'Localisation',
-        //     'link' => '/immobilisations/localisation',
-        //     'active' => false,
-        //     'sub_items' => [
-        //         ['label' => 'Sites', 'link' => '/immobilisations/localisation/sites'],
-        //         ['label' => 'Affectations', 'link' => '/immobilisations/localisation/affectations'],
-        //         ['label' => 'Transferts', 'link' => '/immobilisations/localisation/transferts']
-        //     ]
-        // ],
-        // [
-        //     'icon' => 'trash-2',
-        //     'label' => 'Cessions & Rebuts',
-        //     'link' => '/immobilisations/cessions',
-        //     'active' => false,
-        //     'sub_items' => [
-        //         ['label' => 'Cessions', 'link' => '/immobilisations/cessions/liste'],
-        //         ['label' => 'Mises au rebut', 'link' => '/immobilisations/cessions/rebuts']
-        //     ]
-        // ],
-        // [
-        //     'icon' => 'file-text',
-        //     'label' => 'Rapports',
-        //     'link' => '/immobilisations/rapports',
-        //     'active' => false,
-        //     'sub_items' => [
-        //         ['label' => 'État du patrimoine', 'link' => '/immobilisations/rapports/patrimoine'],
-        //         ['label' => 'Inventaire', 'link' => '/immobilisations/rapports/inventaire'],
-        //         ['label' => 'Valeur nette comptable', 'link' => '/immobilisations/rapports/vnc']
-        //     ]
-        // ],
-        // [
-        //     'icon' => 'users',
-        //     'label' => 'Équipe',
-        //     'link' => '/immobilisations/equipe',
-        //     'active' => false,
-        //     'sub_items' => [
-        //         ['label' => 'Liste équipe', 'link' => '/immobilisations/equipe/liste'],
-        //         ['label' => 'Tâches', 'link' => '/immobilisations/equipe/taches']
-        //     ]
-        // ]
     ],
 
     'employe' => [
@@ -555,7 +480,6 @@ return [
             'link' => '/employe/conges',
             'active' => false,
             'sub_items' => [
-                ['label' => 'Faire une demande', 'link' => '/employe/conges/demande'],
                 ['label' => 'Mes demandes', 'link' => '/employe/conges/liste']
             ]
         ],

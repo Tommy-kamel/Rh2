@@ -88,6 +88,7 @@ $router->get('/employe/dashboard', [$Employe_Dashboard_Controller, 'afficher']);
 
 $EmployeCongeController = new EmployeCongeController();
 $router->post('/employe/conges/demander', [$EmployeCongeController, 'addConge']);
+$router->get('/employe/conges/liste', [$EmployeCongeController, 'liste']);
 
 $EmployeeController = new EmployeeController();
 $router->get('/employes', [$EmployeeController, 'liste']);

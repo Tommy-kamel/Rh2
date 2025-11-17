@@ -74,6 +74,24 @@ class CongeController
     }
 
     /**
+     * Affiche la liste des congés de l'employé
+     */
+    public function liste() {
+        if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== 'employe') {
+            Flight::redirect('/login');
+            return;
+        }
+
+        $id_employe = $_SESSION['user_id'];
+        $dashboardModel = new DashboardModel();
+        $demandes = $dashboardModel->getToutesDemandesConge($id_employe);
+
+        Flight::render('employe/conges_liste', [
+            'demandes' => $demandes
+        ]);
+    }
+
+    /**
      * Valide que la date de début est au moins 14 jours après la date de demande
      */
     private function validerDelaiPrevenance($date_demande, $date_debut) {
