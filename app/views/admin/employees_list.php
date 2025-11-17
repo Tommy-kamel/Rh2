@@ -3,33 +3,77 @@
 <head>
 <meta charset="utf-8">
 <title>Liste des employés</title>
-<!-- <link rel="stylesheet" href="/css/bootstrap.min.css">
-<link rel="stylesheet" href="/assets/css/styles.css"> -->
-
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/assets/css/styles.css">
 <style>
-    /* === Styles de base === */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
+    margin: 0;
+    padding: 0;
+}
+
+.app-container {
+    display: flex;
     min-height: 100vh;
-    padding: 20px;
+}
+
+.main-content {
+    flex: 1;
+    margin-left: var(--sidebar-width);
+    background: #f8fafc;
+}
+
+.main-header {
+    background: white;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.page-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0;
+}
+
+.content-wrapper {
+    padding: 2rem;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.user-name {
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.user-role {
+    font-size: 0.875rem;
+    color: #64748b;
 }
 
 .container {
     background: white;
-    border-radius: 15px;
-    padding: 30px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    max-width: 1400px;
-    margin: 0 auto;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-/* === Titre === */
 h1 {
-    color: #333;
-    font-size: 2.5rem;
-    margin-bottom: 25px;
-    font-weight: 700;
+    color: #1e293b;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
 }
 
 /* === Barre de recherche === */
@@ -65,9 +109,9 @@ h1 {
 }
 
 .btn-primary {
-    /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
-    background: #2041d3ff;
+    background: #2563eb;
     color: white;
+    font-weight: 500;
 }
 
 .btn-primary:hover {
@@ -110,8 +154,7 @@ h1 {
 }
 
 .table thead {
-    /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
-    background:black;
+    background: #1e293b;
 }
 
 .table thead th {
@@ -195,13 +238,30 @@ h1 {
 
 </head>
 <body>
-
-<div class="container py-4">
-    <h1>Liste des employés</h1>
-    <div class="mb-3 d-flex">
-        <input id="searchInput" class="form-control me-2" placeholder="Rechercher par nom, prénom, email, poste..." style="max-width:420px;">
-        <a href="/employes/ajouter" class="btn btn-primary">Ajouter</a>
-    </div>
+<div class="app-container">
+    <?php include __DIR__ . '/../partials/sidebar.php'; ?>
+    
+    <main class="main-content">
+        <header class="main-header">
+            <h1 class="page-title">
+                <i data-feather="users"></i>
+                Liste des employés
+            </h1>
+            <div class="user-info">
+                <span class="user-name"><?= $_SESSION['nom_utilisateur'] ?? '' ?></span>
+                <span class="user-role"><?= $_SESSION['nom_departement'] ?? 'Administrateur' ?></span>
+            </div>
+        </header>
+        
+        <div class="content-wrapper">
+            <div class="container">
+                <div class="mb-3 d-flex">
+                    <input id="searchInput" class="form-control me-2" placeholder="Rechercher par nom, prénom, email, poste..." style="max-width:420px;">
+                    <a href="/employes/ajouter" class="btn btn-primary">
+                        <i data-feather="plus"></i>
+                        Ajouter un employé
+                    </a>
+                </div>
 
     <table class="table table-hover" id="employeesTable">
         <thead><tr><th>Photo</th><th>Nom</th><th>Prénom</th><th>Email</th><th>Téléphone</th><th>Poste</th><th>Action</th></tr></thead>
@@ -230,12 +290,15 @@ h1 {
         <?php endforeach; ?>
         </tbody>
     </table>
+            </div>
+        </div>
+    </main>
 </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        feather.replace();
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/feather-icons"></script>
+<script>
+    feather.replace();
         // Recherche existante
         const input = document.getElementById('searchInput');
         const rows = Array.from(document.querySelectorAll('#employeesTable tbody tr'));

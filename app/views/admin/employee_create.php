@@ -4,12 +4,13 @@
 <meta charset="utf-8">
 <title>Ajouter un employé</title>
 <link rel="stylesheet" href="/css/bootstrap.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
     /* === Variables CSS === */
     :root {
-        --primary: #2041d3;
-        --primary-dark: #1a35b8;
+        --primary: #2563eb;
+        --primary-dark: #1d4ed8;
         --primary-light: #e8ecff;
         --secondary: #667eea;
         --accent: #764ba2;
@@ -33,42 +34,49 @@
     }
 
     body {
-        font-family: 'Inter', sans-serif;
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .app-container {
+        display: flex;
         min-height: 100vh;
-        padding: 20px;
-        color: var(--text-dark);
-        line-height: 1.6;
+    }
+
+    .main-content {
+        flex: 1;
+        margin-left: var(--sidebar-width);
+        background: #f8fafc;
+    }
+
+    .main-header {
+        background: white;
+        padding: 1.5rem 2rem;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .page-title {
+        font-size: 1.75rem;
+        font-weight: 600;
+        color: #1e293b;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin: 0;
+    }
+
+    .content-wrapper {
+        padding: 2rem;
     }
 
     .container {
         background: white;
         border-radius: var(--radius);
-        padding: 40px;
-        box-shadow: var(--shadow-lg);
+        padding: 2rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         max-width: 800px;
         margin: 0 auto;
-        backdrop-filter: blur(10px);
-    }
-
-    /* === En-tête === */
-    .page-header {
-        display: flex;
-        align-items: center;
-        margin-bottom: 30px;
-        padding-bottom: 20px;
-        border-bottom: 2px solid var(--primary-light);
-    }
-
-    h2 {
-        color: var(--text-dark);
-        font-size: 2.2rem;
-        font-weight: 700;
-        background: linear-gradient(135deg, var(--primary), var(--accent));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        margin: 0;
     }
 
     /* === Bouton retour === */
@@ -185,7 +193,7 @@
 
     /* === Bouton de soumission === */
     .btn-primary {
-        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        background: var(--primary);
         color: white;
         border: none;
         padding: 16px 40px;
@@ -201,9 +209,9 @@
     }
 
     .btn-primary:hover {
+        background: var(--primary-dark);
         transform: translateY(-2px);
         box-shadow: var(--shadow-lg);
-        background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
     }
 
     .btn-primary:active {
@@ -336,17 +344,25 @@
 </style>
 </head>
 <body>
-<div class="container py-4">
-    <a href="/employes" class="btn btn-light">
-        <i data-feather="arrow-left"></i>
-        Retour à la liste
-    </a>
+<div class="app-container">
+    <?php include __DIR__ . '/../partials/sidebar.php'; ?>
+    
+    <main class="main-content">
+        <header class="main-header">
+            <h1 class="page-title">
+                <i data-feather="user-plus"></i>
+                Ajouter un employé
+            </h1>
+        </header>
+        
+        <div class="content-wrapper">
+            <div class="container">
+                <a href="/employes" class="btn btn-light">
+                    <i data-feather="arrow-left"></i>
+                    Retour à la liste
+                </a>
 
-    <div class="page-header">
-        <h2>Ajouter un employé</h2>
-    </div>
-
-    <form method="POST" action="/employes/ajouter" enctype="multipart/form-data" class="form-container" id="employeeForm">
+                <form method="POST" action="/employes/ajouter" enctype="multipart/form-data" class="form-container" id="employeeForm">
         <!-- Section Informations personnelles -->
         <div class="form-section">
             <h3 class="section-title">

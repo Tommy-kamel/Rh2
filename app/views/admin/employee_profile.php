@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <title>Fiche employé — Lecture seule</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/styles.css">
     <style>
         :root {
-            --primary-color: #3498db;
-            --primary-dark: #2980b9;
+            --primary-color: #2563eb;
+            --primary-dark: #1d4ed8;
             --secondary-color: #2c3e50;
             --accent-color: #9b59b6;
             --light-bg: #f8f9fa;
@@ -19,14 +19,46 @@
         }
         
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f5f7fa;
-            color: #333;
-            line-height: 1.6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            background: #f8fafc;
+        }
+
+        .main-header {
+            background: white;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .page-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin: 0;
+        }
+
+        .content-wrapper {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 100%;
         }
         
         .btn-light {
@@ -264,36 +296,46 @@
 </head>
 <body>
 <?php $e = $employee ?? []; ?>
-<div class="container py-4">
-    <a href="/employes" class="btn btn-light mb-4">&larr; Retour à la liste</a>
+<div class="app-container">
+    <?php include __DIR__ . '/../partials/sidebar.php'; ?>
+    
+    <main class="main-content">
+        <header class="main-header">
+            <h1 class="page-title">
+                <i data-feather="user"></i>
+                Fiche employé — <?= htmlspecialchars($e['prenom'].' '.$e['nom']) ?>
+            </h1>
+        </header>
+        
+        <div class="content-wrapper">
+            <div class="container">
+                <div class="employee-header">
+                    <?php if (!empty($e['photo'])): ?>
+                        <img src="<?= htmlspecialchars($e['photo']) ?>" alt="Photo employé" class="employee-avatar">
+                    <?php else: ?>
+                        <div class="employee-avatar d-flex align-items-center justify-content-center bg-light text-muted">
+                            <i data-feather="user" style="width: 40px; height: 40px;"></i>
+                        </div>
+                    <?php endif; ?>
+                    <div>
+                        <h1 class="employee-name"><?= htmlspecialchars(($e['prenom'] ?? '') . ' ' . ($e['nom'] ?? '')) ?></h1>
+                        <div class="employee-id">ID: <?= htmlspecialchars($e['id_employe'] ?? '') ?></div>
+                        <div>
+                            <?php if (!empty($e['contrat_type'])): ?>
+                                <span class="badge status-active">Contrat <?= htmlspecialchars($e['contrat_type'] ?? '') ?></span>
+                            <?php else: ?>
+                                <span class="badge status-inactive">Sans contrat</span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
 
-    <div class="employee-header">
-        <?php if (!empty($e['photo'])): ?>
-            <img src="<?= htmlspecialchars($e['photo']) ?>" alt="Photo employé" class="employee-avatar">
-        <?php else: ?>
-            <div class="employee-avatar d-flex align-items-center justify-content-center bg-light text-muted">
-                <i data-feather="user" style="width: 40px; height: 40px;"></i>
-            </div>
-        <?php endif; ?>
-        <div>
-            <h1 class="employee-name"><?= htmlspecialchars(($e['prenom'] ?? '') . ' ' . ($e['nom'] ?? '')) ?></h1>
-            <div class="employee-id">ID: <?= htmlspecialchars($e['id_employe'] ?? '') ?></div>
-            <div>
-                <?php if (!empty($e['contrat_type'])): ?>
-                    <span class="badge status-active">Contrat <?= htmlspecialchars($e['contrat_type'] ?? '') ?></span>
-                <?php else: ?>
-                    <span class="badge status-inactive">Sans contrat</span>
-                <?php endif; ?>
-            </div>
-        </div>
-    </div>
-
-    <div class="row g-4">
-        <div class="col-md-8">
-            <div class="card mb-4">
-                <h3 class="section-title">Informations personnelles</h3>
-                
-                <div class="info-grid">
+                <div class="row g-4">
+                    <div class="col-md-8">
+                        <div class="card mb-4">
+                            <h3 class="section-title">Informations personnelles</h3>
+                            
+                            <div class="info-grid">
                     <div class="info-item">
                         <div class="field-label">Date de naissance</div>
                         <div class="field-value"><?= !empty($e['date_naissance']) ? date('d/m/Y', strtotime($e['date_naissance'])) : '-' ?></div>
@@ -326,14 +368,14 @@
                 
                 <div class="mt-3">
                     <div class="field-label">Adresse</div>
-                    <div class="field-value"><?= nl2br(htmlspecialchars($e['adresse'] ?? '-')) ?></div>
-                </div>
-            </div>
+                                    <div class="field-value"><?= nl2br(htmlspecialchars($e['adresse'] ?? '-')) ?></div>
+                            </div>
+                        </div>
 
-            <div class="card">
-                <h3 class="section-title">Contrat actuel</h3>
+                        <div class="card">
+                            <h3 class="section-title">Contrat actuel</h3>
 
-                <?php if (!empty($e['contrat_type']) || !empty($e['contrat_date_debut'])): ?>
+                            <?php if (!empty($e['contrat_type']) || !empty($e['contrat_date_debut'])): ?>
                     <div class="info-grid">
                         <div class="info-item">
                             <div class="field-label">Type</div>
@@ -371,114 +413,12 @@
                     </div>
                 <?php else: ?>
                     <p class="text-muted">Aucun contrat trouvé pour cet employé.</p>
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createContractModal">Créer un contrat</button>
-                <?php endif; ?>
-            </div>
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createContractModal">Créer un contrat</button>
+                            <?php endif; ?>
+                        </div>
+                    </div>
 
-<!-- Modal Create Contract -->
-<div class="modal fade" id="createContractModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog">
-    <form class="modal-content" method="POST" action="/employes/<?= $e['id_employe'] ?>/contrat/creer">
-      <div class="modal-header">
-        <h5 class="modal-title">Créer contrat</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <div class="mb-3">
-          <label class="form-label">Salaire</label>
-          <input name="salaire" class="form-control" required>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Date début</label>
-          <input type="date" name="date_debut" class="form-control" required>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Date fin (optionnel)</label>
-          <input type="date" name="date_fin" class="form-control">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Type</label>
-          <select name="type" class="form-select">
-            <option>CDI</option>
-            <option>CDD</option>
-            <option>Essai</option>
-          </select>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Période d'essai (jours)</label>
-          <input type="number" name="periode_essai_jours" class="form-control" min="0" value="0">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Poste (id_poste)</label>
-          <input name="id_poste" class="form-control">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Département (id_departement)</label>
-          <input name="id_departement" class="form-control">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-        <button class="btn btn-primary">Créer</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-<!-- Modal Renew Contract -->
-<div class="modal fade" id="renewContractModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog">
-    <form class="modal-content" method="POST" action="/employes/<?= $e['id_employe'] ?>/contrat/renouveler">
-      <div class="modal-header">
-        <h5 class="modal-title">Renouveler contrat</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
-      </div>
-      <div class="modal-body">
-        <input type="hidden" name="id_contrat" value="<?= htmlspecialchars($e['id_contrat'] ?? '') ?>">
-        <div class="mb-3">
-          <label class="form-label">Salaire</label>
-          <input name="salaire" class="form-control" value="<?= htmlspecialchars($e['salaire'] ?? '') ?>">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Date début nouvelle période</label>
-          <input type="date" name="date_debut" class="form-control" required>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Date fin (optionnel)</label>
-          <input type="date" name="date_fin" class="form-control">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Type</label>
-          <select name="type" class="form-select">
-            <option>CDI</option>
-            <option>CDD</option>
-            <option>Essai</option>
-          </select>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Période d'essai (jours)</label>
-          <input type="number" name="periode_essai_jours" class="form-control" min="0" value="0">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Poste (id_poste)</label>
-          <input name="id_poste" class="form-control" value="<?= htmlspecialchars($e['id_poste'] ?? '') ?>">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Département (id_departement)</label>
-          <input name="id_departement" class="form-control" value="<?= htmlspecialchars($e['id_departement'] ?? '') ?>">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-        <button type="submit" class="btn btn-primary">Renouveler</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-        </div>
-
-        <aside class="col-md-4">
+                    <aside class="col-md-4">
             <div class="card mb-4 text-center">
                 <h5 class="section-title">Photo</h5>
                 <?php if (!empty($e['photo'])): ?>
@@ -600,7 +540,111 @@
                 <?php endif; ?>
             </div>
         </aside>
-    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Modal Create Contract -->
+<div class="modal fade" id="createContractModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <form class="modal-content" method="POST" action="/employes/<?= $e['id_employe'] ?>/contrat/creer">
+      <div class="modal-header">
+        <h5 class="modal-title">Créer contrat</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label class="form-label">Salaire</label>
+          <input name="salaire" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Date début</label>
+          <input type="date" name="date_debut" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Date fin (optionnel)</label>
+          <input type="date" name="date_fin" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Type</label>
+          <select name="type" class="form-select">
+            <option>CDI</option>
+            <option>CDD</option>
+            <option>Essai</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Période d'essai (jours)</label>
+          <input type="number" name="periode_essai_jours" class="form-control" min="0" value="0">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Poste (id_poste)</label>
+          <input name="id_poste" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Département (id_departement)</label>
+          <input name="id_departement" class="form-control">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        <button class="btn btn-primary">Créer</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal Renew Contract -->
+<div class="modal fade" id="renewContractModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <form class="modal-content" method="POST" action="/employes/<?= $e['id_employe'] ?>/contrat/renouveler">
+      <div class="modal-header">
+        <h5 class="modal-title">Renouveler contrat</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" name="id_contrat" value="<?= htmlspecialchars($e['id_contrat'] ?? '') ?>">
+        <div class="mb-3">
+          <label class="form-label">Salaire</label>
+          <input name="salaire" class="form-control" value="<?= htmlspecialchars($e['salaire'] ?? '') ?>">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Date début nouvelle période</label>
+          <input type="date" name="date_debut" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Date fin (optionnel)</label>
+          <input type="date" name="date_fin" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Type</label>
+          <select name="type" class="form-select">
+            <option>CDI</option>
+            <option>CDD</option>
+            <option>Essai</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Période d'essai (jours)</label>
+          <input type="number" name="periode_essai_jours" class="form-control" min="0" value="0">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Poste (id_poste)</label>
+          <input name="id_poste" class="form-control" value="<?= htmlspecialchars($e['id_poste'] ?? '') ?>">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Département (id_departement)</label>
+          <input name="id_departement" class="form-control" value="<?= htmlspecialchars($e['id_departement'] ?? '') ?>">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        <button type="submit" class="btn btn-primary">Renouveler</button>
+      </div>
+    </form>
+  </div>
 </div>
 
 <!-- ensure Bootstrap JS + Feather icons are loaded so modals and icons work -->

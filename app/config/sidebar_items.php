@@ -117,7 +117,7 @@ return [
             'link' => '/employes',
             'active' => false,
             'sub_items' => [
-                ['label' => 'Liste des employés', 'link' => '/employes/liste'],
+                ['label' => 'Liste des employés', 'link' => '/employes'],
                 ['label' => 'Ajouter un employé', 'link' => '/employes/ajouter'],
                 ['label' => 'Contrats', 'link' => '/employes/contrats'],
                 ['label' => 'Historique', 'link' => '/employes/historique']
