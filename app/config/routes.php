@@ -17,6 +17,8 @@ use app\controllers\paiement\DetailPaiementPDFController;
 use flight\Engine;
 use flight\net\Router;
 
+
+require_once('route_rojo.php');
 /** 
  * @var Router $router 
  * @var Engine $app
@@ -89,6 +91,8 @@ $router->get('/', function() {
     Flight::redirect('/login');
 });
  
+
+
 
 // $router->get('/hello-world/@name', function($name) {
 // 	echo '<h1>Hello world! Oh hey '.$name.'!</h1>';

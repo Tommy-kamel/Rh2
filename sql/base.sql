@@ -118,6 +118,7 @@ CREATE TABLE absence (
     date_absence DATE,
     estdeductible BOOLEAN,
     FOREIGN KEY(id_employe) REFERENCES employe(id_employe)
+    
 );
 
 CREATE TABLE retard (
@@ -161,3 +162,48 @@ CREATE TABLE fiche_paie (
     net_du_mois DOUBLE,
     FOREIGN KEY (id_employe) REFERENCES employe(id_employe)
 );
+ALTER TABLE absence ADD COLUMN estdeductible BOOLEAN DEFAULT FALSE;
+
+INSERT INTO poste (nom) VALUES 
+('Développeur'),
+('Commercial'),
+('Comptable');
+
+-- Insérer les règles d'heure de pointage pour chaque poste
+INSERT INTO heure_pointage (id_poste, heure_debut, heure_fin) VALUES 
+(1, '08:00:00', '17:00:00'), -- Développeur : 8h-17h
+(2, '08:30:00', '17:30:00'), -- Commercial : 8h30-17h30
+(3, '07:30:00', '16:30:00'); -- Comptable : 7h30-16h30
+
+-- Insérer les employés
+INSERT INTO employe (nom, prenom, date_naissance, email, mot_de_passe, sexe, telephone, adresse, numero_cnaps) VALUES 
+('Rakoto', 'Jean', '1990-05-15', 'jean.rakoto@entreprise.mg', 'motdepasse123', 'Homme', '+261 34 12 345 67', 'Lot IVB 123 Antananarivo', 123456),
+('Rasoa', 'Marie', '1992-08-22', 'marie.rasoa@entreprise.mg', 'motdepasse123', 'Femme', '+261 33 12 345 68', 'Lot V 456 Antananarivo', 123457),
+('Randria', 'Paul', '1988-12-10', 'paul.randria@entreprise.mg', 'motdepasse123', 'Homme', '+261 32 12 345 69', 'Lot VI 789 Antananarivo', 123458);
+
+-- Insérer les contrats (CDI)
+INSERT INTO contrat (id_employe, salaire, date_debut, date_fin, type, id_poste) VALUES 
+(1, 1200000.00, '2023-01-15', NULL, 'CDI', 1),  -- Jean Rakoto - Développeur
+(2, 900000.00, '2023-03-20', NULL, 'CDI', 2),   -- Marie Rasoa - Commercial
+(3, 1100000.00, '2022-11-10', NULL, 'CDI', 3); -- Paul Randria - Comptable
+
+
+INSERT INTO heure_sup (type, pourcentage_majoration) VALUES 
+('week-end', 50),
+('nuit', 25),
+('jour_ferie', 100),
+('imprevu', 30);
+
+
+INSERT INTO type_conge (type, pourcentage_salaire) VALUES 
+('Congé annuel', 100),
+('Congé maladie', 80),
+('Congé sans solde', 0);
+
+INSERT INTO conge (id_employe, id_type_conge, date_demande, date_debut, date_fin, raison, date_validation, status) VALUES 
+(1, 1, '2025-01-10', '2025-02-01', '2025-02-05', 'Vacances familiales', '2025-01-15', 21),
+(1, 1, '2025-03-15', '2025-04-01', '2025-04-03', 'Repos', '2025-03-20', 21),
+(2, 1, '2025-02-01', '2025-02-15', '2025-02-20', 'Vacances', '2025-02-05', 21),
+(2, 2, '2025-03-10', '2025-03-11', '2025-03-13', 'Maladie', '2025-03-10', 21);
+
+

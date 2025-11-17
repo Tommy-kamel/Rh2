@@ -167,6 +167,27 @@ return [
         //     ]
         // ],
         [
+            'icon' => 'clock',
+            'label' => 'Pointage',
+            'link' => '/pointage',
+            'active' => false,
+            'sub_items' => [
+                ['label' => 'Pointages Arrivee', 'link' => '/pointage/arrivee'],
+                ['label' => 'Pointage Depart', 'link' => '/pointage/depart']
+            ]
+        ],
+        [
+            'icon' => 'alert-circle',
+            'label' => 'Absences & Retards',
+            'link' => '/absences',
+            'active' => false,
+            'sub_items' => [
+                ['label' => 'Releve de presence', 'link' => '/releve-presence'],
+                ['label' => 'Fiche', 'link' => '/paie/integration'],
+                ['label' => 'Fiche par Employe', 'link' => '/paie/fiche']
+            ]
+        ],
+        [
             'icon' => 'dollar-sign',
             'label' => 'Paie & Primes',
             'link' => '/paie',
