@@ -1,0 +1,9 @@
+Guide pour demander un congé :
+
+1. Connectez-vous à votre compte employé.
+2. Allez dans "Mes congés" > "Faire une demande".
+3. Remplissez le formulaire avec les dates, le type de congé et la raison.
+4. Soumettez la demande. Elle sera validée par RH.
+5. Vous recevrez une notification une fois approuvée.
+
+Rappel : Vous devez demander au moins 14 jours à l'avance pour les congés annuels.

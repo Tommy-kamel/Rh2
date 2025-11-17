@@ -342,5 +342,7 @@
         </div>
     </div>
 
+    <?php include __DIR__ . '/../chatbot.php'; ?>
+
 </body>
 </html>

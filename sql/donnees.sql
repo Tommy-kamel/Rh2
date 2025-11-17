@@ -141,3 +141,41 @@ INSERT INTO conge (id_employe, id_type_conge, date_demande, date_debut, date_fin
 (8, 2, '2025-11-25', '2026-02-10', '2026-02-15', 'Consultation médicale en cours', '2025-11-28', 11),
 (9, 1, '2025-11-26', '2026-02-20', '2026-03-10', 'Voyage professionnel validé', '2025-11-29', 21),
 (10, 6, '2025-11-27', '2026-03-01', '2026-03-05', 'Séminaire approuvé', '2025-11-30', 21);
+(10, 1, '2025-08-15', '2025-09-01', '2025-09-15', 'Anniversaire mariage', '2025-08-20', 21);
+
+-- Réponses du chatbot RH
+INSERT INTO chatbot_responses (keyword, response, is_dynamic) VALUES
+('congé', 'Pour les congés, consultez votre dashboard ou contactez RH. Vous avez droit à 30 jours par an.', 1),
+('horaire', 'Les horaires de travail sont de 8h à 17h du lundi au vendredi.', 0),
+('paie', 'Votre paie est versée le 30 de chaque mois. Consultez vos bulletins dans "Mes bulletins de paie".', 0),
+('absence', 'En cas d\'absence, informez votre supérieur et RH au plus tôt.', 0),
+('retard', 'Les retards doivent être justifiés. Plus de 3 retards par mois peuvent affecter votre salaire.', 0),
+('prime', 'Les primes sont versées selon les performances et les politiques de l\'entreprise.', 0),
+('salaire', 'Votre salaire est indiqué dans votre contrat. Pour les augmentations, discutez avec votre manager.', 1),
+('demander congé', 'Guide pour demander un congé.', 1),
+('pointer', 'Guide pour pointer votre présence.', 1),
+('bulletin', 'Guide pour consulter votre salaire.', 1),
+('profil', 'Vos informations personnelles.', 1),
+('mes infos', 'Vos informations personnelles.', 1),
+('bonjour', 'Salut ! Comment puis-je vous aider avec vos questions RH ?', 0),
+('salut', 'Hey ! Que puis-je faire pour vous ?', 0),
+('aide', 'Je peux vous aider avec : congés, salaire, horaires, demandes, etc. Posez votre question !', 0);
+
+CREATE TABLE chatbot_synonyms (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    keyword_id INT,
+    synonym VARCHAR(255),
+    FOREIGN KEY (keyword_id) REFERENCES chatbot_responses(id)
+);
+
+INSERT INTO chatbot_synonyms (keyword_id, synonym) VALUES
+((SELECT id FROM chatbot_responses WHERE keyword = 'congé'), 'vacances'),
+((SELECT id FROM chatbot_responses WHERE keyword = 'congé'), 'repos'),
+((SELECT id FROM chatbot_responses WHERE keyword = 'congé'), 'absence'),
+((SELECT id FROM chatbot_responses WHERE keyword = 'paie'), 'salaire'),
+((SELECT id FROM chatbot_responses WHERE keyword = 'paie'), 'rémunération'),
+((SELECT id FROM chatbot_responses WHERE keyword = 'paie'), 'paye'),
+((SELECT id FROM chatbot_responses WHERE keyword = 'horaire'), 'heures'),
+((SELECT id FROM chatbot_responses WHERE keyword = 'horaire'), 'temps de travail'),
+((SELECT id FROM chatbot_responses WHERE keyword = 'attestation'), 'certificat'),
+((SELECT id FROM chatbot_responses WHERE keyword = 'attestation'), 'document');

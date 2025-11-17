@@ -151,6 +151,21 @@ CREATE TABLE taux_irsa (
     taux INT
 );
 
+-- Table pour les réponses du chatbot RH
+CREATE TABLE chatbot_responses(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    keyword VARCHAR(255) NOT NULL,
+    response TEXT NOT NULL,
+    is_dynamic BOOLEAN DEFAULT FALSE
+);
+
+-- Vue pour calculer le nombre total de jours de congé par employé
+CREATE VIEW vue_nombre_conge AS
+SELECT id_employe, SUM(DATEDIFF(date_fin, date_debut) + 1) as duree_totale_conges_jours
+FROM conge
+WHERE status = 21
+GROUP BY id_employe;
+
 CREATE TABLE contrat_history (
     id_contrat_history INT AUTO_INCREMENT PRIMARY KEY,
     id_contrat INT,

@@ -8,6 +8,8 @@ use app\controllers\admin\StatistiquesController;
 use app\controllers\employe\AuthController as EmployeAuthController;
 use app\controllers\employe\DashboardController as EmployeDashboardController;
 use app\controllers\employe\CongeController as EmployeCongeController;
+require_once __DIR__ . '/../../chatbot/ChatbotController.php';
+use chatbot\ChatbotController;
 use app\controllers\paiement\PaiementEmployeController;
 use app\controllers\paiement\FichePaiementController;
 use app\controllers\paiement\DetailPaiementController;
@@ -117,6 +119,12 @@ $router->post('/employes/ajouter', [$EmployeeController, 'store']);             
 $router->get('/', function() {
     Flight::redirect('/login');
 });
+
+// Routes Chatbot
+
+$Chatbot_Controller = new ChatbotController();
+$router->get('/chatbot', [$Chatbot_Controller, 'index']);
+$router->post('/chatbot/send', [$Chatbot_Controller, 'sendMessage']);
  
 
 
