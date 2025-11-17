@@ -70,7 +70,7 @@ CREATE TABLE conge (
     date_fin DATE,
     raison VARCHAR(255),
     date_validation DATE,
-    status INT, /* 1: en attente, 11: valider par le chef de departement, 21: valider par le rh, 0:refuse */
+    status INT, /* 1: en attente, 11: valide par le chef de departement, 21: valide par le rh, 0:refuse */
     FOREIGN KEY(id_employe) REFERENCES employe(id_employe),
     FOREIGN KEY(id_type_conge) REFERENCES type_conge(id_type_conge)
 );

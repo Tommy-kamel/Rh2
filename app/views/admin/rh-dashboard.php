@@ -19,13 +19,38 @@
                     <i data-feather="home"></i>
                     Tableau de bord RH - Vue Globale
                 </h1>
-                <div class="user-info">
-                    <span class="user-name"><?= $_SESSION['nom_utilisateur'] ?? '' ?></span>
-                    <span class="user-role badge badge-primary">Ressources Humaines</span>
+                <div style="display: flex; align-items: center; gap: 2rem;">
+                    <div class="notification-icon" style="position: relative;">
+                        <i data-feather="bell" style="width: 28px; height: 28px; color: #495057; cursor: pointer; stroke-width: 2;"></i>
+                        <span class="notification-badge" style="position: absolute; top: -8px; right: -8px; background-color: #dc3545; color: white; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+                            <?= $conges_attente ?? 0 ?>
+                        </span>
+                    </div>
+                    <div class="user-info">
+                        <span class="user-name"><?= $_SESSION['nom_utilisateur'] ?? '' ?></span>
+                        <span class="user-role badge badge-primary">Ressources Humaines</span>
+                    </div>
                 </div>
             </header>
             
             <div class="content-wrapper">
+                <!-- Messages de succès/erreur -->
+                <?php if (isset($success_message)): ?>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i data-feather="check-circle"></i>
+                        <?= htmlspecialchars($success_message) ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                <?php endif; ?>
+                
+                <?php if (isset($error_message)): ?>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i data-feather="alert-circle"></i>
+                        <?= htmlspecialchars($error_message) ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                <?php endif; ?>
+
                 <!-- Statistiques globales de tous les départements -->
                 <div class="stats-grid">
                     <div class="stat-card">
@@ -91,6 +116,7 @@
                                 <tr>
                                     <th>Département</th>
                                     <th>Employé</th>
+                                    <th>Poste</th>
                                     <th>Type</th>
                                     <th>Date début</th>
                                     <th>Date fin</th>
@@ -107,6 +133,7 @@
                                                 <span class="badge badge-info"><?= htmlspecialchars($conge['nom_departement']) ?></span>
                                             </td>
                                             <td><?= htmlspecialchars($conge['nom'] . ' ' . $conge['prenom']) ?></td>
+                                            <td><?= htmlspecialchars($conge['nom_poste'] ?? 'N/A') ?></td>
                                             <td>
                                                 <span class="badge badge-primary"><?= htmlspecialchars($conge['type']) ?></span>
                                             </td>
@@ -122,26 +149,32 @@
                                             </td>
                                             <td><?= date('d/m/Y', strtotime($conge['date_demande'])) ?></td>
                                             <td>
-                                                <div class="btn-group">
-                                                    <button class="btn btn-sm btn-success" title="Valider" 
-                                                            onclick="validerConge(<?= $conge['id_conge'] ?>)">
-                                                        <i data-feather="check"></i>
-                                                    </button>
-                                                    <button class="btn btn-sm btn-danger" title="Refuser"
-                                                            onclick="refuserConge(<?= $conge['id_conge'] ?>)">
-                                                        <i data-feather="x"></i>
-                                                    </button>
-                                                    <button class="btn btn-sm btn-info" title="Voir détails"
-                                                            onclick="voirDetailsConge(<?= $conge['id_conge'] ?>)">
-                                                        <i data-feather="eye"></i>
-                                                    </button>
+                                                <div style="display: flex; gap: 8px; align-items: center;">
+                                                    <form method="POST" action="/admin/conges/valider" style="display: inline;">
+                                                        <input type="hidden" name="id_conge" value="<?= $conge['id_conge'] ?>">
+                                                        <button type="submit" title="Valider" onclick="return confirm('Confirmer la validation de cette demande de congé ?')" style="color: #28a745; text-decoration: none; background: none; border: none; cursor: pointer; padding: 0;">
+                                                            <i data-feather="check-circle" style="width: 20px; height: 20px;"></i>
+                                                        </button>
+                                                    </form>
+                                                    <a href="/rh/conges/refuser/<?= $conge['id_conge'] ?>" 
+                                                       title="Refuser" onclick="return confirm('Confirmer le refus de cette demande de congé ?')" style="color: #dc3545; text-decoration: none;">
+                                                        <i data-feather="x-circle" style="width: 20px; height: 20px;"></i>
+                                                    </a>
+                                                    <a href="/rh/conges/details/<?= $conge['id_conge'] ?>" 
+                                                       title="Voir détails" style="color: #17a2b8; text-decoration: none;">
+                                                        <i data-feather="eye" style="width: 20px; height: 20px;"></i>
+                                                    </a>
+                                                    <a href="/rh/conges/modifier/<?= $conge['id_conge'] ?>" 
+                                                       title="Modifier" style="color: #ffc107; text-decoration: none;">
+                                                        <i data-feather="edit" style="width: 20px; height: 20px;"></i>
+                                                    </a>
                                                 </div>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php else: ?>
                                     <tr>
-                                        <td colspan="8" class="text-center text-muted">
+                                        <td colspan="9" class="text-center text-muted">
                                             Aucune demande en attente
                                         </td>
                                     </tr>
@@ -153,7 +186,7 @@
                     <!-- Pagination -->
                     <div class="pagination-wrapper">
                         <div class="pagination-info">
-                            <span>Affichage <span id="currentStart">1</span> à <span id="currentEnd">10</span> sur <span id="totalRows">0</span> entrées</span>
+                            <span>Affichage <span id="currentStart">1</span> à <span id="currentEnd">5</span> sur <span id="totalRows">0</span> entrées</span>
                         </div>
                         <div class="pagination" id="pagination">
                             <!-- Pagination buttons will be generated by JavaScript -->
@@ -170,11 +203,16 @@
         // Gestion du menu déroulant
         document.querySelectorAll('.has-submenu > .menu-link').forEach(link => {
             link.addEventListener('click', (e) => {
+                e.preventDefault();
                 const parent = link.parentElement;
-                if (!parent.classList.contains('active')) {
-                    e.preventDefault();
-                    parent.classList.toggle('open');
-                }
+                // Fermer tous les autres sous-menus
+                document.querySelectorAll('.has-submenu').forEach(item => {
+                    if (item !== parent) {
+                        item.classList.remove('open');
+                    }
+                });
+                // Toggle le sous-menu actuel
+                parent.classList.toggle('open');
             });
         });
     </script>

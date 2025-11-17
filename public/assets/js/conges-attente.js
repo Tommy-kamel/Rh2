@@ -1,4 +1,4 @@
-// Pagination et recherche pour le tableau des congés
+// Pagination, recherche et filtres pour la liste complète des congés en attente
 document.addEventListener('DOMContentLoaded', function() {
     const table = document.getElementById('congesTable');
     if (!table) {
@@ -8,18 +8,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const tbody = table.querySelector('tbody');
     const searchInput = document.getElementById('searchTable');
+    const filterDepartement = document.getElementById('filterDepartement');
+    const filterType = document.getElementById('filterType');
+    const btnResetFilters = document.getElementById('btnResetFilters');
     const paginationContainer = document.getElementById('pagination');
     
-    if (!tbody) {
-        console.error('tbody non trouvé');
-        return;
-    }
-    if (!paginationContainer) {
-        console.error('pagination container non trouvé');
+    if (!tbody || !paginationContainer) {
+        console.error('Éléments requis non trouvés');
         return;
     }
     
-    const rowsPerPage = 5;
+    const rowsPerPage = 10;
     let currentPage = 1;
     let allRows = [];
     let filteredRows = [];
@@ -34,20 +33,39 @@ document.addEventListener('DOMContentLoaded', function() {
         updateTable();
     }
 
-    // Fonction de recherche
-    function searchTable(query) {
-        query = query.toLowerCase().trim();
+    // Fonction de recherche et filtrage
+    function applyFilters() {
+        const searchQuery = searchInput ? searchInput.value.toLowerCase().trim() : '';
+        const deptFilter = filterDepartement ? filterDepartement.value.toLowerCase() : '';
+        const typeFilter = filterType ? filterType.value.toLowerCase() : '';
         
-        if (query === '') {
-            filteredRows = [...allRows];
-        } else {
-            filteredRows = allRows.filter(row => {
-                const cells = row.querySelectorAll('td');
-                return Array.from(cells).some(cell => {
-                    return cell.textContent.toLowerCase().includes(query);
+        filteredRows = allRows.filter(row => {
+            const cells = row.querySelectorAll('td');
+            
+            // Recherche textuelle
+            let matchesSearch = true;
+            if (searchQuery !== '') {
+                matchesSearch = Array.from(cells).some(cell => {
+                    return cell.textContent.toLowerCase().includes(searchQuery);
                 });
-            });
-        }
+            }
+            
+            // Filtre département
+            let matchesDept = true;
+            if (deptFilter !== '') {
+                const deptCell = cells[0]; // Première colonne = département
+                matchesDept = deptCell && deptCell.textContent.toLowerCase().includes(deptFilter);
+            }
+            
+            // Filtre type
+            let matchesType = true;
+            if (typeFilter !== '') {
+                const typeCell = cells[3]; // Quatrième colonne = type
+                matchesType = typeCell && typeCell.textContent.toLowerCase().includes(typeFilter);
+            }
+            
+            return matchesSearch && matchesDept && matchesType;
+        });
         
         currentPage = 1;
         updateTable();
@@ -80,9 +98,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Mettre à jour les informations de pagination
     function updatePaginationInfo(start, end) {
-        document.getElementById('currentStart').textContent = filteredRows.length > 0 ? start + 1 : 0;
-        document.getElementById('currentEnd').textContent = Math.min(end, filteredRows.length);
-        document.getElementById('totalRows').textContent = filteredRows.length;
+        const currentStartEl = document.getElementById('currentStart');
+        const currentEndEl = document.getElementById('currentEnd');
+        const totalRowsEl = document.getElementById('totalRows');
+        const totalRowsInfoEl = document.getElementById('totalRowsInfo');
+        
+        if (currentStartEl) currentStartEl.textContent = filteredRows.length > 0 ? start + 1 : 0;
+        if (currentEndEl) currentEndEl.textContent = Math.min(end, filteredRows.length);
+        if (totalRowsEl) totalRowsEl.textContent = filteredRows.length;
+        if (totalRowsInfoEl) totalRowsInfoEl.textContent = filteredRows.length;
     }
 
     // Générer les boutons de pagination
@@ -171,45 +195,28 @@ document.addEventListener('DOMContentLoaded', function() {
         return btn;
     }
 
-    // Écouteur pour la recherche
+    // Écouteurs d'événements pour la recherche et les filtres
     if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-            searchTable(e.target.value);
+        searchInput.addEventListener('input', applyFilters);
+    }
+    
+    if (filterDepartement) {
+        filterDepartement.addEventListener('change', applyFilters);
+    }
+    
+    if (filterType) {
+        filterType.addEventListener('change', applyFilters);
+    }
+    
+    if (btnResetFilters) {
+        btnResetFilters.addEventListener('click', () => {
+            if (searchInput) searchInput.value = '';
+            if (filterDepartement) filterDepartement.value = '';
+            if (filterType) filterType.value = '';
+            applyFilters();
         });
     }
 
     // Initialiser
     initRows();
 });
-
-// Fonctions de gestion des congés
-// function validerConge(idConge) {
-//     if (confirm('Voulez-vous vraiment valider cette demande de congé ?')) {
-//         // TODO: Implémenter l'appel AJAX pour valider
-//         console.log('Valider congé:', idConge);
-//         // Exemple d'appel AJAX :
-//         // fetch('/rh/conges/valider', {
-//         //     method: 'POST',
-//         //     headers: { 'Content-Type': 'application/json' },
-//         //     body: JSON.stringify({ id_conge: idConge })
-//         // })
-//         // .then(response => response.json())
-//         // .then(data => {
-//         //     if (data.success) {
-//         //         location.reload();
-//         //     }
-//         // });
-//     }
-// }
-
-// function refuserConge(idConge) {
-//     if (confirm('Voulez-vous vraiment refuser cette demande de congé ?')) {
-//         // TODO: Implémenter l'appel AJAX pour refuser
-//         console.log('Refuser congé:', idConge);
-//     }
-// }
-
-// function voirDetailsConge(idConge) {
-//     // TODO: Implémenter l'affichage des détails dans une modale
-//     console.log('Voir détails congé:', idConge);
-// }

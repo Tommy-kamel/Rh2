@@ -3,6 +3,7 @@
 namespace app\controllers\employe;
 
 use app\models\employe\CongeModel;
+use app\models\employe\DashboardModel;
 use Flight;
 use DateTime;
 use Exception;
@@ -30,6 +31,19 @@ class CongeController
             $_SESSION['flash_message'] = [
                 'type' => 'error',
                 'message' => $validation['message']
+            ];
+            Flight::redirect('/employe/dashboard');
+            return;
+        }
+
+        // Vérifier si l'employé a assez de jours de congé restants
+        $dashboardModel = new DashboardModel();
+        $joursRestants = $dashboardModel->getNombreJourCongeRestantAnnee($id_employe);
+        
+        if ($duree > $joursRestants && $id_type_conge == 1) { // Supposons que le type_conge 1 est pour les congés annuels
+            $_SESSION['flash_message'] = [
+                'type' => 'error',
+                'message' => "Vous ne disposez que de $joursRestants jour(s) de congé restants. Durée demandée : $duree jour(s)."
             ];
             Flight::redirect('/employe/dashboard');
             return;
