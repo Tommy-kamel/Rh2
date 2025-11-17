@@ -8,59 +8,300 @@
     <link rel="stylesheet" href="/assets/css/styles.css">
     <script src="https://unpkg.com/feather-icons"></script>
     <style>
-        .employe-card { 
-            border: 1px solid #e0e0e0; 
-            border-radius: 8px;
-            padding: 15px; 
-            margin-bottom: 15px; 
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        .employes-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
         }
-        .statut-badge { font-weight: bold; }
-        .retard-info { color: #dc3545; }
-        .heure-actuelle { margin-bottom: 10px; font-weight: bold; }
-        .btn-pointer { background: #007bff; color: white; border: none; }
-        .btn-absent { background: #dc3545; color: white; border: none; }
-        .btn-tous { background: #28a745; color: white; border: none; }
-        .statut-absent { color: #dc3545; font-weight: bold; }
-        .statut-pointe { color: #28a745; font-weight: bold; }
-        .statut-non-pointe { color: #ffc107; font-weight: bold; }
+        
+        .employe-card { 
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px; 
+            background: #ffffff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .employe-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-color: #007bff;
+        }
+
+        .employe-card.pointe {
+            border-left: 4px solid #28a745;
+        }
+
+        .employe-card.absent {
+            border-left: 4px solid #dc3545;
+        }
+
+        .employe-card.a-pointer {
+            border-left: 4px solid #ffc107;
+        }
+        
+        .statut-badge { 
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 6px 12px;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .statut-pointe {
+            background-color: #f8f9fa;
+            color: #28a745;
+            border: 1px solid #28a745;
+        }
+
+        .statut-absent {
+            background-color: #f8f9fa;
+            color: #dc3545;
+            border: 1px solid #dc3545;
+        }
+
+        .statut-non-pointe {
+            background-color: #f8f9fa;
+            color: #856404;
+            border: 1px solid #ffc107;
+        }
+        
+        .heure-actuelle { 
+            margin-bottom: 12px; 
+            font-weight: 500;
+            color: #6c757d;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .heure-actuelle i {
+            color: #6c757d;
+        }
+        
+        .btn-pointer { 
+            background: #007bff;
+            color: white; 
+            border: none;
+            border-radius: 6px;
+            padding: 10px 16px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            flex: 1;
+        }
+
+        .btn-pointer:hover {
+            background: #0056b3;
+            transform: translateY(-1px);
+        }
+        
+        .btn-absent { 
+            background: #d73d3dff;
+            color: white; 
+            border: none;
+            border-radius: 6px;
+            padding: 10px 16px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            flex: 1;
+        }
+
+        .btn-absent:hover {
+            background: #560600ff;
+            transform: translateY(-1px);
+            color:white ;
+        }
+        
+        .btn-tous { 
+            background: #28a745;
+            color: white; 
+            border: none;
+            border-radius: 6px;
+            padding: 12px 24px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .btn-tous:hover {
+            background: #1e7e34;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline-secondary {
+            border-radius: 6px;
+            padding: 12px 24px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .btn-outline-secondary:hover {
+            transform: translateY(-1px);
+        }
+        
         .employe-info {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
+            align-items: flex-start;
+            margin-bottom: 15px;
         }
+
         .employe-details {
             flex: 1;
         }
+
+        .employe-nom {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 4px;
+        }
+
+        .employe-poste {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-bottom: 0;
+        }
+
+        .employe-horaire {
+            font-size: 0.85rem;
+            color: #495057;
+            font-weight: 500;
+            margin-top: 4px;
+        }
+        
         .employe-actions {
             display: flex;
-            gap: 8px;
+            gap: 10px;
+            margin-top: 15px;
         }
+
+        .action-group {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+        }
+        
         .pointage-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 1px solid #e9ecef;
         }
+
+        .date-section h2 {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .date-section p {
+            margin: 5px 0 0 0;
+            color: #6c757d;
+        }
+        
         .pointage-controls {
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 12px;
         }
+        
         .heure-input {
-            padding: 8px 12px;
-            border: 1px solid #ced4da;
-            border-radius: 4px;
+            padding: 10px 12px;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
             font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            width: 100%;
+            background: white;
         }
+
+        .heure-input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 2px rgba(0,123,255,0.1);
+            outline: none;
+        }
+        
         .badge-retard {
-            background-color: #dc3545;
+            background: #dc3545;
             color: white;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-left: 8px;
+        }
+
+        .alert-pointage {
+            border-radius: 6px;
+            border: none;
+            padding: 12px 16px;
+            margin-bottom: 0;
+            font-weight: 500;
+        }
+
+        .alert-success {
+            background: #f8fff9;
+            color: #155724;
+            border-left: 3px solid #28a745;
+        }
+
+        .alert-danger {
+            background: #fff8f8;
+            color: #721c24;
+            border-left: 3px solid #dc3545;
+        }
+
+        .statut-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+        }
+
+        .indicator-pointe { background-color: #28a745; }
+        .indicator-absent { background-color: #dc3545; }
+        .indicator-a-pointer { background-color: #ffc107; }
+
+        @media (max-width: 768px) {
+            .employes-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pointage-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .pointage-controls {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        .content-wrapper {
+            padding: 20px;
+        }
+
+        .main-header {
+            margin-bottom: 0;
+        }
+
+        .card-divider {
+            height: 1px;
+            background: #e9ecef;
+            margin: 15px 0;
         }
     </style>
 </head>
@@ -82,21 +323,21 @@
             
             <div class="content-wrapper">
                 <div class="pointage-header">
-                    <div>
+                    <div class="date-section">
                         <h2><?= date('d/m/Y') ?></h2>
-                        <p class="text-muted">Saisissez l'heure d'arrivée pour chaque employé</p>
+                        <p>Saisissez l'heure d'arrivée pour chaque employé</p>
                     </div>
                     <div class="pointage-controls">
                         <button type="button" class="btn btn-tous" onclick="pointerTous()">
                             <i data-feather="check-circle"></i> Pointer tous
                         </button>
                         <button type="button" class="btn btn-outline-secondary" onclick="actualiserHeures()">
-                            <i data-feather="refresh-cw"></i> Actualiser les heures
+                            <i data-feather="refresh-cw"></i> Actualiser
                         </button>
                     </div>
                 </div>
                 
-                <div class="employes-list">
+                <div class="employes-grid">
                     <?php foreach ($employes as $employe): 
                         $initiales = substr($employe['prenom'],0,1) . substr($employe['nom'],0,1);
                         $estDejaPointe = $employe['statut_pointage'] === 'deja_pointe';
@@ -110,49 +351,73 @@
                             if ($diff > 0) $retardMinutes = ceil($diff/60);
                         }
                         $heureActuelle = date('H:i');
+                        
+                        // Déterminer la classe CSS en fonction du statut
+                        $cardClass = '';
+                        if ($estDejaPointe) $cardClass = 'pointe';
+                        elseif ($estAbsent) $cardClass = 'absent';
+                        else $cardClass = 'a-pointer';
                     ?>
-                        <div class="employe-card">
+                        <div class="employe-card <?= $cardClass ?>">
                             <div class="employe-info">
                                 <div class="employe-details">
-                                    <h4><?= htmlspecialchars($employe['prenom'].' '.$employe['nom']) ?></h4>
-                                    <p class="text-muted"><?= htmlspecialchars($employe['nom_poste']) ?> - Horaire: <?= substr($employe['heure_debut'],0,5) ?></p>
+                                    <div class="employe-nom"><?= htmlspecialchars($employe['prenom'].' '.$employe['nom']) ?></div>
+                                    <div class="employe-poste"><?= htmlspecialchars($employe['nom_poste']) ?></div>
+                                    <div class="employe-horaire">Horaire: <?= substr($employe['heure_debut'],0,5) ?></div>
                                 </div>
                                 <div class="statut-badge">
                                     <?php if ($estDejaPointe): ?>
-                                        <span class="statut-pointe">✅ Déjà Pointé</span>
+                                        <span class="statut-pointe">
+                                            <span class="statut-indicator indicator-pointe"></span>
+                                            Déjà Pointé
+                                        </span>
                                     <?php elseif ($estAbsent): ?>
-                                        <span class="statut-absent">🚫 Absent</span>
+                                        <span class="statut-absent">
+                                            <span class="statut-indicator indicator-absent"></span>
+                                            Absent
+                                        </span>
                                     <?php else: ?>
-                                        <span class="statut-non-pointe">⏰ À Pointer</span>
+                                        <span class="statut-non-pointe">
+                                            <span class="statut-indicator indicator-a-pointer"></span>
+                                            À Pointer
+                                        </span>
                                     <?php endif; ?>
                                     
-                                    <?php if ($retardMinutes > 0): ?>
+                                    <?php if ($retardMinutes > 5): ?>
                                         <span class="badge-retard">Retard: <?= $retardMinutes ?> min</span>
                                     <?php endif; ?>
                                 </div>
                             </div>
 
+                            <div class="card-divider"></div>
+
                             <?php if ($estDejaPointe && $heureArrivee): ?>
-                                <div class="alert alert-success">
-                                    Heure d'arrivée: <strong><?= date('H:i', strtotime($heureArrivee)) ?></strong> le <?= date('d/m/Y', strtotime($heureArrivee)) ?>
+                                <div class="alert alert-success alert-pointage">
+                                    <strong>Heure d'arrivée:</strong> <?= date('H:i', strtotime($heureArrivee)) ?> 
+                                    <br><small>le <?= date('d/m/Y', strtotime($heureArrivee)) ?></small>
                                 </div>
                             <?php elseif ($estAbsent): ?>
-                                <div class="alert alert-danger">
+                                <div class="alert alert-danger alert-pointage">
                                     <strong>Employé marqué absent pour aujourd'hui</strong>
                                 </div>
                             <?php else: ?>
-                                <div class="heure-actuelle">Heure actuelle: <span id="heureActuelle_<?= $employe['id_employe'] ?>"><?= $heureActuelle ?></span></div>
+                                <div class="heure-actuelle">
+                                    <i data-feather="clock"></i>
+                                    Heure actuelle: <span id="heureActuelle_<?= $employe['id_employe'] ?>"><?= $heureActuelle ?></span>
+                                </div>
                                 <div class="employe-actions">
                                     <input type="time" class="heure-input" id="heure_<?= $employe['id_employe'] ?>" name="heure_<?= $employe['id_employe'] ?>" value="<?= $heureActuelle ?>" required>
                                     <input type="hidden" name="employe_<?= $employe['id_employe'] ?>" value="<?= $employe['id_employe'] ?>">
                                     
-                                    <button type="button" class="btn btn-pointer" onclick="pointerEmploye(<?= $employe['id_employe'] ?>)" id="btn_<?= $employe['id_employe'] ?>">
-                                        <i data-feather="check"></i> Pointer
-                                    </button>
-                                    
-                                    <button type="button" class="btn btn-absent" onclick="marquerAbsentManuellement(<?= $employe['id_employe'] ?>)" id="btn_absent_<?= $employe['id_employe'] ?>">
-                                        <i data-feather="x"></i> Marquer absent
-                                    </button>
+                                    <div class="action-group">
+                                        <button type="button" class="btn btn-pointer" onclick="pointerEmploye(<?= $employe['id_employe'] ?>)" id="btn_<?= $employe['id_employe'] ?>">
+                                            <i data-feather="check"></i> Pointer
+                                        </button>
+                                        
+                                        <button type="button" class="btn btn-absent" onclick="marquerAbsentManuellement(<?= $employe['id_employe'] ?>)" id="btn_absent_<?= $employe['id_employe'] ?>">
+                                            <i data-feather="x"></i> Absent
+                                        </button>
+                                    </div>
                                 </div>
                             <?php endif; ?>
                         </div>
@@ -184,6 +449,18 @@
             const t = `${h}:${m}`;
             document.querySelectorAll('input[type="time"]').forEach(i => i.value = t);
             document.querySelectorAll('[id^="heureActuelle_"]').forEach(s => s.textContent = t);
+            
+            // Animation de rafraîchissement
+            const btn = event.target;
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<i data-feather="check"></i> Actualisé';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+                btn.disabled = false;
+                feather.replace();
+            }, 1000);
         }
 
         function pointerEmploye(id) {
@@ -205,6 +482,8 @@
             .then(d => {
                 if(d.status === 'success'){ 
                     btn.innerHTML = '<i data-feather="check"></i> Pointé'; 
+                    btn.classList.remove('btn-pointer');
+                    btn.classList.add('btn-success');
                     setTimeout(() => location.reload(), 1500);
                 } else { 
                     alert(d.message); 
@@ -234,18 +513,20 @@
             .then(r => r.json())
             .then(data => {
                 if (data.status === 'success') {
-                    alert(data.message);
+                    btn.innerHTML = '<i data-feather="check"></i> Absent';
+                    btn.classList.remove('btn-absent');
+                    btn.classList.add('btn-danger');
                     setTimeout(() => location.reload(), 1000);
                 } else {
                     alert('Erreur: ' + data.message);
                     btn.disabled = false;
-                    btn.innerHTML = '<i data-feather="x"></i> Marquer absent';
+                    btn.innerHTML = '<i data-feather="x"></i> Absent';
                 }
             })
             .catch(error => {
                 alert('Erreur de connexion');
                 btn.disabled = false;
-                btn.innerHTML = '<i data-feather="x"></i> Marquer absent';
+                btn.innerHTML = '<i data-feather="x"></i> Absent';
             });
         }
 
@@ -264,6 +545,11 @@
             
             if(pointages.length === 0) return alert('Aucun employé à pointer.');
             
+            const btn = event.target;
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<i data-feather="loader"></i> Pointage en cours...';
+            btn.disabled = true;
+            
             fetch('/pointage/multiple', {
                 method: 'POST',
                 headers: { 'Content-Type':'application/json' },
@@ -272,14 +558,18 @@
             .then(r => r.json())
             .then(d => {
                 if(d.status === 'success') {
-                    alert('Tous pointés!'); 
+                    btn.innerHTML = '<i data-feather="check"></i> Tous pointés!'; 
                     setTimeout(() => location.reload(), 1500);
                 } else {
                     alert('Erreur pointage multiple.');
+                    btn.innerHTML = originalHTML;
+                    btn.disabled = false;
                 }
             })
             .catch(e => {
                 alert('Erreur pointage multiple');
+                btn.innerHTML = originalHTML;
+                btn.disabled = false;
             });
         }
 

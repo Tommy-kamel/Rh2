@@ -10,49 +10,168 @@
     <style>
         .table-responsive {
             background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
             overflow: hidden;
+            border: 1px solid #e9ecef;
         }
-        .statut-present { color: #28a745; font-weight: bold; }
-        .statut-absent { color: #dc3545; font-weight: bold; }
-        .statut-non-pointe { color: #ffc107; font-weight: bold; }
-        .heures-sup { color: #007bff; font-weight: 500; }
+        
+        .table thead th {
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+            font-weight: 600;
+            color: #2c3e50;
+            padding: 15px 12px;
+        }
+        
+        .table tbody td {
+            padding: 12px;
+            vertical-align: middle;
+            border-color: #f1f3f4;
+        }
+        
+        .table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .statut-present { 
+            color: #28a745; 
+            font-weight: 600;
+            background: #f8fff9;
+            padding: 6px 12px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+        
+        .statut-absent { 
+            color: #dc3545; 
+            font-weight: 600;
+            background: #fff8f8;
+            padding: 6px 12px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+        
+        .statut-non-pointe { 
+            color: #ffc107; 
+            font-weight: 600;
+            background: #fffbf0;
+            padding: 6px 12px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+        
+        .heures-sup { 
+            color: #007bff; 
+            font-weight: 600;
+            background: #f0f8ff;
+            padding: 6px 10px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+        
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 15px;
             margin-bottom: 25px;
         }
+        
         .stat-card {
             background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            padding: 20px 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
             text-align: center;
+            border: 1px solid #e9ecef;
+            transition: transform 0.2s ease;
         }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+        }
+        
         .stat-number {
-            font-size: 2rem;
-            font-weight: bold;
+            font-size: 1.8rem;
+            font-weight: 700;
             margin-bottom: 5px;
         }
+        
         .stat-present { color: #28a745; }
         .stat-absent { color: #dc3545; }
         .stat-non-pointe { color: #ffc107; }
         .stat-heures-sup { color: #007bff; }
+        
         .date-filter {
             background: white;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            margin-bottom: 25px;
+            border: 1px solid #e9ecef;
         }
+        
         .badge-retard {
-            background-color: #fd7e14;
+            background: linear-gradient(135deg, #fd7e14, #e55a00);
             color: white;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .page-title-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .page-title-section h2 {
+            margin: 0;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .employe-name {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .form-control {
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 8px 12px;
+        }
+        
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 2px rgba(0,123,255,0.1);
+        }
+        
+        .btn-primary {
+            background: #007bff;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 20px;
+            font-weight: 500;
+        }
+        
+        .btn-primary:hover {
+            background: #0056b3;
+            transform: translateY(-1px);
+        }
+        
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .table-responsive {
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
@@ -90,7 +209,9 @@
                     </form>
                 </div>
 
-                <h2 class="mb-4">Relevé du <?= date('d/m/Y', strtotime($date_selectionnee)) ?></h2>
+                <div class="page-title-section">
+                    <h2>Relevé du <?= date('d/m/Y', strtotime($date_selectionnee)) ?></h2>
+                </div>
 
                 <!-- Statistiques -->
                 <?php
@@ -120,7 +241,7 @@
                     </div>
                     <div class="stat-card">
                         <div class="stat-number stat-heures-sup"><?= $avecHeuresSup ?></div>
-                        <div class="text-muted">Avec heures supp</div>
+                        <div class="text-muted">Heures supp</div>
                     </div>
                 </div>
 
@@ -142,7 +263,7 @@
                         <tbody>
                             <?php foreach ($releve as $ligne): ?>
                                 <tr>
-                                    <td><strong><?= htmlspecialchars($ligne['employe']) ?></strong></td>
+                                    <td><span class="employe-name"><?= htmlspecialchars($ligne['employe']) ?></span></td>
                                     <td><?= date('d/m/Y', strtotime($ligne['date'])) ?></td>
                                     <td><?= $ligne['arrivee'] ?></td>
                                     <td><?= $ligne['depart'] ?></td>
@@ -151,17 +272,25 @@
                                         <?php if ($ligne['retard'] !== '—' && $ligne['retard'] !== '0 min'): ?>
                                             <span class="badge-retard"><?= $ligne['retard'] ?></span>
                                         <?php else: ?>
-                                            <?= $ligne['retard'] ?>
+                                            <span class="text-muted">—</span>
                                         <?php endif; ?>
                                     </td>
-                                    <td class="heures-sup"><?= $ligne['heures_sup'] ?></td>
-                                    <td class="
-                                        <?php if ($ligne['statut'] === 'Présent'): ?>statut-present
-                                        <?php elseif ($ligne['statut'] === 'Absent'): ?>statut-absent
-                                        <?php else: ?>statut-non-pointe
+                                    <td>
+                                        <?php if ($ligne['heures_sup'] !== '—'): ?>
+                                            <span class="heures-sup"><?= $ligne['heures_sup'] ?></span>
+                                        <?php else: ?>
+                                            <span class="text-muted">—</span>
                                         <?php endif; ?>
-                                    ">
-                                        <?= $ligne['statut'] ?>
+                                    </td>
+                                    <td>
+                                        <span class="
+                                            <?php if ($ligne['statut'] === 'Présent'): ?>statut-present
+                                            <?php elseif ($ligne['statut'] === 'Absent'): ?>statut-absent
+                                            <?php else: ?>statut-non-pointe
+                                            <?php endif; ?>
+                                        ">
+                                            <?= $ligne['statut'] ?>
+                                        </span>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -175,7 +304,6 @@
     <script>
         feather.replace();
         
-        // Gestion du menu déroulant
         document.querySelectorAll('.has-submenu > .menu-link').forEach(link => {
             link.addEventListener('click', (e) => {
                 const parent = link.parentElement;

@@ -164,15 +164,12 @@ class RojoPointageModel
         $arrivee = new DateTime($date_heure_arrive);
         $depart = new DateTime($date_heure_depart);
 
-        // -> Si l'heure de départ est après minuit (moins que l'heure d'arrivée)
         if ($depart < $arrivee) {
             $depart->modify('+1 day');
         }
 
-        // Heure de fin de travail normale
         $heure_fin_ref = new DateTime($arrivee->format('Y-m-d') . ' ' . $horaire['heure_fin']);
-
-        // -> Si l'horaire normal finit après minuit (ex : 22h - 02h)
+        
         if ($horaire['heure_fin'] < $horaire['heure_debut']) {
             $heure_fin_ref->modify('+1 day');
         }

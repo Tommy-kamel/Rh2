@@ -176,7 +176,6 @@ INSERT INTO heure_sup (type, pourcentage_majoration) VALUES
 ('jour_ferie', 100),
 ('imprevu', 30);
 
-
 INSERT INTO type_conge (type, pourcentage_salaire) VALUES 
 ('Congé annuel', 100),
 ('Congé maladie', 80),
@@ -187,5 +186,3 @@ INSERT INTO conge (id_employe, id_type_conge, date_demande, date_debut, date_fin
 (1, 1, '2025-03-15', '2025-04-01', '2025-04-03', 'Repos', '2025-03-20', 21),
 (2, 1, '2025-02-01', '2025-02-15', '2025-02-20', 'Vacances', '2025-02-05', 21),
 (2, 2, '2025-03-10', '2025-03-11', '2025-03-13', 'Maladie', '2025-03-10', 21);
-
-
