@@ -2,7 +2,7 @@
 
 namespace app\controllers\paiement;
 
-require '/home/mandaniaina/Documents/Mr Tovo/Rh2-main/public/assets/lib/dompdf/autoload.inc.php';
+require 'C:\xampp\htdocs\S5\Mr Tovo\Rh2\public\assets\lib\dompdf\autoload.inc.php';
 
 use Dompdf\Dompdf;
 use app\models\paiement\PaiementEmployeModel;
