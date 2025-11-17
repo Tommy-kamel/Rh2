@@ -292,13 +292,19 @@ class DashboardController
             // Récupérer tous les congés en attente pour contexte
             $tousCongesAttente = $this->model->listeCongeEnAttente($id_departement == 1 ? null : $id_departement);
             
+            // Limiter à 5 congés pour l'IA
+            $congesAttenteForIA = array_slice($tousCongesAttente, 0, 5);
+            
             // Récupérer tous les congés validés futurs pour détecter les chevauchements
             $congesValidesFuturs = $this->model->listeCongeValidesApresAujourdHui($id_departement == 1 ? null : $id_departement);
+            
+            // Limiter à 5 congés validés pour l'IA
+            $congesValidesFutursForIA = array_slice($congesValidesFuturs, 0, 5);
             
             // Appeler Gemini
             require_once __DIR__ . '/../../services/GeminiService.php';
             $geminiService = new \GeminiService();
-            $suggestion = $geminiService->suggererActionsPourConge($congeDetails, $tousCongesAttente, $congesValidesFuturs);
+            $suggestion = $geminiService->suggererActionsPourConge($congeDetails, $congesAttenteForIA, $congesValidesFutursForIA);
             
             error_log("Suggestion reçue: " . substr($suggestion, 0, 200));
             

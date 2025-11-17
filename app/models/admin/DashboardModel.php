@@ -63,7 +63,7 @@ class DashboardModel
             $params[] = $id_departement;
         }
         
-        $sql .= " ORDER BY date_demande DESC";
+        $sql .= " ORDER BY date_demande DESC LIMIT 5";
         
         $stmt = Flight::db()->prepare($sql);
         $stmt->execute($params);
