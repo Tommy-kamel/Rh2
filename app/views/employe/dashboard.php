@@ -119,58 +119,7 @@
                 </section>
                 
                 <!-- Mes derniers pointages -->
-                <section class="section">
-                    <div class="section-header">
-                        <h2 class="section-title">
-                            <i data-feather="clock"></i>
-                            Mes derniers pointages
-                        </h2>
-                        <a href="/employe/pointage/historique" class="btn btn-link">Voir tout</a>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Heure d'arrivée</th>
-                                    <th>Heure de départ</th>
-                                    <th>Durée</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php if (!empty($derniers_pointages)): ?>
-                                    <?php foreach ($derniers_pointages as $pointage): ?>
-                                        <tr>
-                                            <td><?= date('d/m/Y', strtotime($pointage['date_heure_arrive'])) ?></td>
-                                            <td><?= date('H:i', strtotime($pointage['date_heure_arrive'])) ?></td>
-                                            <td>
-                                                <?= $pointage['date_heure_depart'] ? date('H:i', strtotime($pointage['date_heure_depart'])) : '-' ?>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                if ($pointage['date_heure_depart']) {
-                                                    $debut = new DateTime($pointage['date_heure_arrive']);
-                                                    $fin = new DateTime($pointage['date_heure_depart']);
-                                                    $diff = $debut->diff($fin);
-                                                    echo $diff->format('%Hh %Im');
-                                                } else {
-                                                    echo '-';
-                                                }
-                                                ?>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                <?php else: ?>
-                                    <tr>
-                                        <td colspan="4" class="text-center text-muted">
-                                            Aucun pointage enregistré
-                                        </td>
-                                    </tr>
-                                <?php endif; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
+                
             </div>
         </main>
     </div>
