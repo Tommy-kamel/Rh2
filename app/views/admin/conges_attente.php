@@ -7,7 +7,11 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/css/styles.css">
     <link rel="stylesheet" href="/assets/css/rh-dashboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
     <div class="app-container">
@@ -109,10 +113,16 @@
                             <i data-feather="list"></i>
                             Liste complète
                         </h2>
-                        <div class="section-actions">
-                            <span class="badge bg-primary" style="font-size: 1rem; padding: 0.5rem 1rem;">
-                                <span id="totalRows">0</span> demande(s)
-                            </span>
+                        <div class="section-actions" style="display: flex; gap: 1rem; align-items: center;">
+                            <?php if (!empty($conges_en_attente)): ?>
+                            <button type="button" onclick="getAllSuggestions()" class="btn-gemini" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.2rem; border: none; border-radius: 24px; background: linear-gradient(135deg, #4285f4 0%, #9b72cb 50%, #d96570 100%); color: white; font-weight: 500; cursor: pointer; box-shadow: 0 2px 8px rgba(66, 133, 244, 0.3); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(66, 133, 244, 0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(66, 133, 244, 0.3)';">
+                                <img src="/assets/images/gemini-color.svg" alt="Gemini" style="width: 20px; height: 20px; filter: brightness(0) invert(1);">
+                                Suggérer avec IA
+                            </button>
+                            <?php endif; ?>
+                            <!-- <span style="font-size: 1.5rem; font-weight: 600; color: #4285f4;">
+                                <span id="totalRows">0</span>
+                            </span> -->
                         </div>
                     </div>
                     <div class="table-responsive">
@@ -201,6 +211,29 @@
             </div>
         </main>
     </div>
+
+    <!-- Modal pour les suggestions IA -->
+    <div class="modal fade" id="suggestionModal" tabindex="-1" aria-labelledby="suggestionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="suggestionModalLabel" style="display: flex; align-items: center; gap: 0.5rem;">
+                        <img src="/assets/images/gemini-color.svg" alt="Gemini" style="width: 24px; height: 24px;">
+                        Suggestions IA pour l'optimisation des congés
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="suggestionContent">
+                        <!-- Le contenu de la suggestion sera inséré ici -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
     
     <script>
         feather.replace();
@@ -220,6 +253,124 @@
                 parent.classList.toggle('open');
             });
         });
+
+        // Fonction pour obtenir les suggestions IA pour tous les congés
+        function getAllSuggestions() {
+            const suggestionContent = document.getElementById('suggestionContent');
+            suggestionContent.innerHTML = `
+                <div class="text-center py-5">
+                    <div class="spinner-border" role="status" style="width: 2rem; height: 2rem; border-width: 0.2rem; color: #4285f4;">
+                        <span class="visually-hidden">Analyse en cours...</span>
+                    </div>
+                    <p class="mt-3" style="font-family: 'Outfit', sans-serif; font-size: 0.95rem; color: #5f6368; font-weight: 400;">Analyse en cours...</p>
+                </div>
+            `;
+            
+            // Afficher le modal
+            const modal = new bootstrap.Modal(document.getElementById('suggestionModal'));
+            modal.show();
+            
+            // Prendre le premier congé comme référence (le système analysera tous les congés)
+            const firstCongeId = <?= !empty($conges_en_attente) ? $conges_en_attente[0]['id_conge'] : 0 ?>;
+            
+            fetch(`/admin/conges/suggestions/${firstCongeId}`)
+                .then(response => {
+                    console.log('Response status:', response.status);
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Data received:', data);
+                    if (data.error) {
+                        suggestionContent.innerHTML = `
+                            <div style="padding: 1.5rem; background: #fef7f7; border-radius: 12px; border: 1px solid #f5c6cb; font-family: 'Outfit', sans-serif;">
+                                <p style="color: #721c24; margin: 0; font-weight: 500;">Erreur: ${data.error}</p>
+                            </div>
+                        `;
+                    } else if (!data.suggestion) {
+                        suggestionContent.innerHTML = `
+                            <div style="padding: 1.5rem; background: #fff3cd; border-radius: 12px; border: 1px solid #ffc107; font-family: 'Outfit', sans-serif;">
+                                <p style="color: #664d03; margin: 0; font-weight: 500;">Aucune suggestion reçue. Données: ${JSON.stringify(data)}</p>
+                            </div>
+                        `;
+                    } else {
+                        // Afficher la réponse avec style élégant
+                        const text = data.suggestion;
+                        console.log('Texte brut:', text);
+                        let formattedHtml = '<div style="font-family: \'Outfit\', sans-serif; line-height: 1.8; color: #202124;">';
+                        
+                        // Séparer par doubles sauts de ligne pour identifier les blocs
+                        const blocks = text.split('\n\n').filter(b => b.trim() !== '');
+                        console.log('Blocs:', blocks);
+                        
+                        blocks.forEach(block => {
+                            const lines = block.split('\n').map(l => l.trim()).filter(l => l !== '');
+                            
+                            if (lines.length === 0) return;
+                            
+                            // Première ligne = employé (nom + département)
+                            const employeeLine = lines[0];
+                            // Deuxième ligne = période
+                            const periodeLine = lines.length > 1 ? lines[1] : '';
+                            // Troisième ligne = action
+                            const actionLine = lines.length > 2 ? lines[2] : '';
+                            // Quatrième ligne = justification
+                            const justificationLine = lines.length > 3 ? lines[3] : '';
+                            
+                            let actionColor, actionBg, actionIcon, actionText;
+                            
+                            if (actionLine.includes('VALIDER')) {
+                                actionColor = '#0f5132';
+                                actionBg = '#d1e7dd';
+                                actionIcon = '✓';
+                                actionText = 'Valider';
+                            } else if (actionLine.includes('REFUSER')) {
+                                actionColor = '#842029';
+                                actionBg = '#f8d7da';
+                                actionIcon = '✗';
+                                actionText = 'Refuser';
+                            } else if (actionLine.includes('NOUVELLE') || actionLine.includes('PROPOSER')) {
+                                actionColor = '#664d03';
+                                actionBg = '#fff3cd';
+                                actionIcon = '⚠';
+                                actionText = 'Proposer nouvelle date';
+                            } else {
+                                actionColor = '#084298';
+                                actionBg = '#cfe2ff';
+                                actionIcon = 'ℹ';
+                                actionText = 'Information';
+                            }
+                            
+                            const reason = justificationLine.replace(/^Justification\s*:\s*/i, '');
+                            
+                            formattedHtml += `
+                                <div style="margin-bottom: 1.25rem; padding: 1.25rem; background: #ffffff; border: 1px solid #e8eaed; border-radius: 12px; transition: all 0.2s ease;" onmouseover="this.style.boxShadow='0 2px 8px rgba(0,0,0,0.08)'; this.style.borderColor='#dadce0';" onmouseout="this.style.boxShadow='none'; this.style.borderColor='#e8eaed';">
+                                    <div style="display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 0.75rem;">
+                                        <div style="flex: 1;">
+                                            <p style="margin: 0 0 0.25rem 0; font-size: 0.95rem; color: #202124; font-weight: 600; line-height: 1.4;">${employeeLine}</p>
+                                            <p style="margin: 0; font-size: 0.85rem; color: #5f6368; font-weight: 400;">${periodeLine}</p>
+                                        </div>
+                                        <div style="padding: 0.375rem 0.875rem; background: ${actionBg}; border-radius: 20px; font-size: 0.8rem; font-weight: 600; color: ${actionColor}; white-space: nowrap;">
+                                            ${actionIcon} ${actionText}
+                                        </div>
+                                    </div>
+                                    <p style="margin: 0; font-size: 0.875rem; color: #5f6368; line-height: 1.6; font-weight: 400;">${reason}</p>
+                                </div>
+                            `;
+                        });
+                        
+                        formattedHtml += '</div>';
+                        suggestionContent.innerHTML = formattedHtml;
+                    }
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                    suggestionContent.innerHTML = `
+                        <div style="padding: 1.5rem; background: #fef7f7; border-radius: 12px; border: 1px solid #f5c6cb; font-family: 'Outfit', sans-serif;">
+                            <p style="color: #721c24; margin: 0; font-weight: 500;">Erreur de connexion: ${error.message}</p>
+                        </div>
+                    `;
+                });
+        }
     </script>
     <script src="/assets/js/conges-attente.js"></script>
 </body>

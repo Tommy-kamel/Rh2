@@ -137,14 +137,14 @@ class DashboardModel
 
     public function listeCongeValidesApresAujourdHui($id_departement = null){
         if ($id_departement !== null) {
-            $sql = "SELECT * FROM vue_liste_conge_valide WHERE id_departement = ? AND c.status=11";
+            $sql = "SELECT * FROM vue_liste_conge_valide WHERE id_departement = ? AND (status='valide par chef departement' OR status='valide par RH')";
             $params = [$id_departement];
         } else {
-            $sql = "SELECT * FROM vue_liste_conge_valide WHERE c.status IN (21, 31)";
+            $sql = "SELECT * FROM vue_liste_conge_valide WHERE status='valide par chef departement' OR status='valide par RH'";
             $params = [];
         }
         
-        $sql .= " ORDER BY date_demande DESC";
+        $sql .= " ORDER BY date_debut ASC";
         
         $stmt = Flight::db()->prepare($sql);
         $stmt->execute($params);
@@ -176,7 +176,7 @@ class DashboardModel
 
     public function voirDetailsConge($id_conge, $id_departement) {
         // Pour RH (id_departement = 1), utiliser la vue spécifique RH
-        if ($id_departement === 1 || $id_departement === null) {
+        if ($id_departement == 1 || $id_departement === null) {
             $sql = "SELECT * FROM vue_conge_en_attente_rh WHERE id_conge = :id_conge";
             $params = ['id_conge' => $id_conge];
         } else {

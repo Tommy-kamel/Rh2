@@ -45,6 +45,7 @@ $router->get('/admin/conges/refuser/@id_conge', [$Admin_Dashboard_Controller, 'r
 $router->get('/admin/conges/details/@id_conge', [$Admin_Dashboard_Controller, 'voirDetailsConge']);
 $router->get('/admin/conges/modifier/@id_conge', [$Admin_Dashboard_Controller, 'modifierConge']);
 $router->post('/admin/conges/modifier/@id_conge', [$Admin_Dashboard_Controller, 'traiterModifierConge']);
+$router->get('/admin/conges/suggestions/@id_conge', [$Admin_Dashboard_Controller, 'getSuggestionsConge']);
 
 // Routes RH (Ressources Humaines)
 $Rh_Dashboard_Controller = new RhDashboardController();

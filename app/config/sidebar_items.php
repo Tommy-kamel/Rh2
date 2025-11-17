@@ -139,7 +139,7 @@ return [
             'link' => '/conges',
             'active' => false,
             'sub_items' => [
-                ['label' => 'Demandes en attente', 'link' => '/conges/attente'],
+                ['label' => 'Demandes en attente', 'link' => '/rh/conges/attente'],
                 ['label' => 'Historique', 'link' => '/conges/historique'],
                 ['label' => 'Calendrier des congés', 'link' => '/calendrier']
             ]

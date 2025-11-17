@@ -272,4 +272,40 @@ class DashboardController
             'error_message' => $error_message
         ]);
     }
+
+    public function getSuggestionsConge($id_conge) {
+        $id_departement = $_SESSION['id_departement'] ?? null;
+        
+        if ($id_conge === null || empty($id_conge) || $id_departement === null) {
+            Flight::json(['error' => 'Paramètres manquants'], 400);
+            return;
+        }
+        
+        try {
+            // Récupérer les détails du congé
+            $congeDetails = $this->model->voirDetailsConge($id_conge, $id_departement);
+            if (!$congeDetails) {
+                Flight::json(['error' => 'Congé non trouvé'], 404);
+                return;
+            }
+            
+            // Récupérer tous les congés en attente pour contexte
+            $tousCongesAttente = $this->model->listeCongeEnAttente($id_departement == 1 ? null : $id_departement);
+            
+            // Récupérer tous les congés validés futurs pour détecter les chevauchements
+            $congesValidesFuturs = $this->model->listeCongeValidesApresAujourdHui($id_departement == 1 ? null : $id_departement);
+            
+            // Appeler Gemini
+            require_once __DIR__ . '/../../services/GeminiService.php';
+            $geminiService = new \GeminiService();
+            $suggestion = $geminiService->suggererActionsPourConge($congeDetails, $tousCongesAttente, $congesValidesFuturs);
+            
+            error_log("Suggestion reçue: " . substr($suggestion, 0, 200));
+            
+            Flight::json(['suggestion' => $suggestion]);
+        } catch (Exception $e) {
+            error_log("Erreur getSuggestionsConge: " . $e->getMessage());
+            Flight::json(['error' => 'Erreur: ' . $e->getMessage()], 500);
+        }
+    }
 }
