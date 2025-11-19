@@ -3,6 +3,7 @@
 namespace app\controllers\employe;
 
 use app\models\employe\CongeModel;
+use app\models\employe\DashboardModel;
 use Flight;
 use DateTime;
 use Exception;
@@ -35,6 +36,19 @@ class CongeController
             return;
         }
 
+        // Vérifier si l'employé a assez de jours de congé restants
+        $dashboardModel = new DashboardModel();
+        $joursRestants = $dashboardModel->getNombreJourCongeRestantAnnee($id_employe);
+        
+        if ($duree > $joursRestants && $id_type_conge == 1) { // Supposons que le type_conge 1 est pour les congés annuels
+            $_SESSION['flash_message'] = [
+                'type' => 'error',
+                'message' => "Vous ne disposez que de $joursRestants jour(s) de congé restants. Durée demandée : $duree jour(s)."
+            ];
+            Flight::redirect('/employe/dashboard');
+            return;
+        }
+
         // Calcul de la date de fin
         $date_fin = $this->calculerDateFin($date_debut, $duree);
 
@@ -57,6 +71,24 @@ class CongeController
         }
 
         Flight::redirect('/employe/dashboard');
+    }
+
+    /**
+     * Affiche la liste des congés de l'employé
+     */
+    public function liste() {
+        if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== 'employe') {
+            Flight::redirect('/login');
+            return;
+        }
+
+        $id_employe = $_SESSION['user_id'];
+        $dashboardModel = new DashboardModel();
+        $demandes = $dashboardModel->getToutesDemandesConge($id_employe);
+
+        Flight::render('employe/conges_liste', [
+            'demandes' => $demandes
+        ]);
     }
 
     /**

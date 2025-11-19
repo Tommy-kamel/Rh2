@@ -1,0 +1,321 @@
+/* Styles pour le calendrier */
+
+.calendar-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    gap: 1rem;
+}
+
+.calendar-selectors {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.calendar-selectors .form-select {
+    min-width: 150px;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.calendar-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0;
+}
+
+.calendar-legend {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex-wrap: wrap;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Styles pour le modal des détails */
+.conge-detail-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.conge-detail-item:last-child {
+    border-bottom: none;
+}
+
+.conge-detail-item strong {
+    color: #495057;
+    font-weight: 600;
+}
+
+.conge-detail-item span {
+    color: #2c3e50;
+}
+.legend-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.calendar-container {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+    background-color: #dee2e6;
+    border: 1px solid #dee2e6;
+}
+
+.calendar-header {
+    background-color: #f8f9fa;
+    padding: 0.75rem;
+    text-align: center;
+    font-weight: 600;
+    color: #495057;
+    border: 1px solid #dee2e6;
+}
+
+.calendar-day {
+    background-color: white;
+    min-height: 110px;
+    padding: 0.5rem;
+    position: relative;
+    border: 1px solid #dee2e6;
+    transition: all 0.2s;
+}
+
+.conge-badge {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background-color: #dc3545;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.2rem 0.5rem;
+    border-radius: 12px;
+    z-index: 10;
+}
+
+.calendar-day:hover {
+    background-color: #f8f9fa;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-day.empty {
+    background-color: #f8f9fa;
+    cursor: default;
+}
+
+.calendar-day.empty:hover {
+    background-color: #f8f9fa;
+    box-shadow: none;
+}
+
+.calendar-day.today {
+    background-color: #e7f3ff;
+    border: 2px solid #0d6efd;
+}
+
+.calendar-day.today .day-number {
+    background-color: #0d6efd;
+    color: white;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.day-number {
+    font-weight: 700;
+    color: #495057;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.day-events {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    max-height: 75px;
+    position: relative;
+}
+
+.event {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.5rem;
+    margin-bottom: 0.3rem;
+    background-color: transparent;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+
+.event:hover {
+    background-color: #e3f2fd;
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.event-name {
+    color: #2c3e50;
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: normal;
+    word-wrap: break-word;
+    line-height: 1.3;
+}
+
+
+
+/* Tooltip pour afficher tous les congés */
+.calendar-day {
+    position: relative;
+}
+
+.calendar-day .tooltip-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    min-width: 250px;
+    max-width: 350px;
+    margin-top: 0.5rem;
+    pointer-events: auto;
+}
+
+.calendar-day:hover .tooltip-content.show {
+    display: block;
+    pointer-events: auto;
+}
+
+.tooltip-content h6 {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+    color: #495057;
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 0.5rem;
+}
+
+.tooltip-content .tooltip-event {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 0.6rem;
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+
+.tooltip-content .tooltip-event:hover {
+    background-color: #e3f2fd;
+}
+
+.tooltip-content .tooltip-event:last-child {
+    margin-bottom: 0;
+}
+
+.tooltip-content .tooltip-event .status-dot {
+    margin-top: 0.2rem;
+}
+
+.tooltip-content .tooltip-event-content {
+    flex: 1;
+    color: #2c3e50;
+}
+
+.tooltip-content .tooltip-event-content strong {
+    font-size: 0.9rem;
+    color: #2c3e50;
+}
+
+.tooltip-content .tooltip-event-content small {
+    font-size: 0.75rem;
+    color: #6c757d;
+}
+
+/* Styles pour les couleurs de statut *//* Responsive */
+@media (max-width: 768px) {
+    .calendar-navigation {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .calendar-legend {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .calendar-day {
+        min-height: 80px;
+        padding: 0.25rem;
+    }
+    
+    .day-events {
+        max-height: 50px;
+    }
+    
+    .event {
+        font-size: 0.65rem;
+        padding: 0.15rem 0.3rem;
+    }
+}
+
+/* Animation pour le chargement */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.calendar-container {
+    animation: fadeIn 0.5s ease-out;
+}

@@ -3,6 +3,8 @@
 use app\controllers\admin\AuthController as AdminAuthController;
 use app\controllers\admin\DashboardController as AdminDashboardController;
 use app\controllers\admin\RhDashboardController;
+use app\controllers\admin\CalendrierController;
+use app\controllers\admin\StatistiquesController;
 use app\controllers\employe\AuthController as EmployeAuthController;
 use app\controllers\employe\DashboardController as EmployeDashboardController;
 use app\controllers\employe\CongeController as EmployeCongeController;
@@ -14,9 +16,18 @@ use app\controllers\paiement\HistoriqueFicheController;
 use app\controllers\paiement\DetailPaiementPDFController;
 require_once __DIR__ . '/../../chatbot/ChatbotController.php';
 use chatbot\ChatbotController;
+use app\controllers\paiement\PaiementEmployeController;
+use app\controllers\paiement\FichePaiementController;
+use app\controllers\paiement\DetailPaiementController;
+use app\controllers\paiement\PrimesGlobalController;
+use app\controllers\paiement\HistoriqueFicheController;
+use app\controllers\paiement\DetailPaiementPDFController;
+use app\controllers\admin\EmployeeController;
 use flight\Engine;
 use flight\net\Router;
 
+
+require_once('route_rojo.php');
 /** 
  * @var Router $router 
  * @var Engine $app
@@ -44,10 +55,38 @@ $router->get('/logout', function() use ($Admin_Auth_Controller) {
 // Routes Admin
 $Admin_Dashboard_Controller = new AdminDashboardController();
 $router->get('/dashboard', [$Admin_Dashboard_Controller, 'afficher']);
+$router->get('/conges/attente', [$Admin_Dashboard_Controller, 'listeCongesAttente']);
+$router->get('/conges/historique', [$Admin_Dashboard_Controller, 'listeCongesHistorique']);
+$router->post('/admin/conges/valider', [$Admin_Dashboard_Controller, 'validerConge']);
+$router->get('/admin/conges/refuser/@id_conge', [$Admin_Dashboard_Controller, 'refuserConge']);
+$router->get('/admin/conges/details/@id_conge', [$Admin_Dashboard_Controller, 'voirDetailsConge']);
+$router->get('/admin/conges/modifier/@id_conge', [$Admin_Dashboard_Controller, 'modifierConge']);
+$router->post('/admin/conges/modifier/@id_conge', [$Admin_Dashboard_Controller, 'traiterModifierConge']);
+$router->get('/admin/conges/suggestions/@id_conge', [$Admin_Dashboard_Controller, 'getSuggestionsConge']);
 
 // Routes RH (Ressources Humaines)
 $Rh_Dashboard_Controller = new RhDashboardController();
 $router->get('/rh/dashboard', [$Rh_Dashboard_Controller, 'afficher']);
+$router->get('/rh/conges/attente', [$Rh_Dashboard_Controller, 'listeCongesAttente']);
+$router->get('/rh/conges/refuser/@id_conge', [$Rh_Dashboard_Controller, 'refuserConge']);
+$router->get('/rh/conges/details/@id_conge', [$Rh_Dashboard_Controller, 'voirDetailsConge']);
+$router->get('/rh/conges/modifier/@id_conge', [$Rh_Dashboard_Controller, 'modifierConge']);
+$router->post('/rh/conges/modifier/@id_conge', [$Rh_Dashboard_Controller, 'traiterModifierConge']);
+
+// Routes Calendrier
+$Calendrier_Controller = new CalendrierController();
+$router->get('/calendrier', [$Calendrier_Controller, 'afficher']);
+
+// Routes Statistiques
+$Statistiques_Controller = new StatistiquesController();
+$router->get('/statistiques', [$Statistiques_Controller, 'afficherStatistiques']);
+
+// API Statistiques (optionnel pour utilisation AJAX)
+$router->get('/api/statistiques/genre', [$Statistiques_Controller, 'getStatistiquesGenre']);
+$router->get('/api/statistiques/age', [$Statistiques_Controller, 'getStatistiquesAge']);
+$router->get('/api/statistiques/departement', [$Statistiques_Controller, 'getStatistiquesDepartement']);
+$router->get('/api/statistiques/contrat', [$Statistiques_Controller, 'getStatistiquesContrat']);
+$router->get('/api/statistiques/resume', [$Statistiques_Controller, 'getResumeEffectifs']);
 
 // Routes Employé
 $Employe_Dashboard_Controller = new EmployeDashboardController();
@@ -55,6 +94,33 @@ $router->get('/employe/dashboard', [$Employe_Dashboard_Controller, 'afficher']);
 
 $EmployeCongeController = new EmployeCongeController();
 $router->post('/employe/conges/demander', [$EmployeCongeController, 'addConge']);
+$router->get('/employe/conges/liste', [$EmployeCongeController, 'liste']);
+
+$EmployeeController = new EmployeeController();
+$router->get('/employes', [$EmployeeController, 'liste']);
+$router->get('/employes/ajouter', [$EmployeeController, 'ajouter']);              // <-- page ajout employé (form)
+$router->post('/employes/ajouter', [$EmployeeController, 'store']);  
+$router->get('/employes/@id', [$EmployeeController, 'afficher']);
+
+// pages séparées
+$router->get('/employes/@id/contrat', [$EmployeeController, 'contrat']);
+$router->get('/employes/@id/postes', [$EmployeeController, 'postes']);
+$router->get('/employes/@id/documents', [$EmployeeController, 'documents']);
+
+// actions déjà présentes (création/renouvellement/terminer/ajout poste/upload document)
+$router->post('/employes/@id/contrat/creer', [$EmployeeController, 'creerContrat']);
+$router->post('/employes/@id/contrat/renouveler', [$EmployeeController, 'renouvelerContrat']);
+$router->post('/employes/@id/contrat/terminer', [$EmployeeController, 'terminerContrat']);
+$router->post('/employes/@id/poste/ajouter', [$EmployeeController, 'ajouterPosteHistory']);
+$router->post('/employes/@id/documents/upload', [$EmployeeController, 'uploadDocument']);
+
+
+$router->get('/employes/ajouter', [$EmployeeController, 'ajouter']);              // <-- page ajout employé (form)
+$router->post('/employes/ajouter', [$EmployeeController, 'store']);              // <-- enregistrement nouvel employé
+
+// ...existing code...
+// ...existing code...
+// ...existing code...
 
 // Redirection page d'accueil
 $router->get('/', function() {
@@ -66,6 +132,8 @@ $Chatbot_Controller = new ChatbotController();
 $router->get('/chatbot', [$Chatbot_Controller, 'index']);
 $router->post('/chatbot/send', [$Chatbot_Controller, 'sendMessage']);
  
+
+
 
 // $router->get('/hello-world/@name', function($name) {
 // 	echo '<h1>Hello world! Oh hey '.$name.'!</h1>';
@@ -103,3 +171,8 @@ Flight::route('/paiement/fichepdf', [$paiementemploye, 'fichePDF']);
 Flight::route('/paiement/fiche-excel', [$paiementemploye, 'ficheExcel']);
 Flight::route('/paiement/fiche-excel-xml', [$paiementemploye, 'ficheExcelXML']);
 Flight::route('/paiement/fichepdf/@id_employe/@type/@mois_annee', [$detailPDF, 'showPDF']);
+Flight::route('/paiement/primePdf', [$primeglobal, 'fichePDF']);
+
+// Routes pour les primes globales
+Flight::route('GET /primes-global', [$primeglobal, 'index']);
+Flight::route('POST /primes-global/ajouter', [$primeglobal, 'ajouterPrime']);

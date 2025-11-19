@@ -118,127 +118,8 @@
                     </div>
                 </section>
                 
-                <!-- Mes dernières demandes -->
-                <section class="section">
-                    <div class="section-header">
-                        <h2 class="section-title">
-                            <i data-feather="list"></i>
-                            Mes dernières demandes de congé
-                        </h2>
-                        <a href="/employe/conges/liste" class="btn btn-link">Voir tout</a>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Type</th>
-                                    <th>Date début</th>
-                                    <th>Date fin</th>
-                                    <th>Durée</th>
-                                    <th>Statut</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php if (!empty($liste_conge)): ?>
-                                    <?php foreach ($liste_conge as $demande): ?>
-                                        <tr>
-                                            <td><?= htmlspecialchars($demande['type']) ?></td>
-                                            <td><?= date('d/m/Y', strtotime($demande['date_debut'])) ?></td>
-                                            <td><?= date('d/m/Y', strtotime($demande['date_fin'])) ?></td>
-                                            <td><?= $demande['duree'] ?> jours</td>
-                                            <td>
-                                                <?php
-                                                $status_class = '';
-                                                $status_text = '';
-                                                switch ($demande['status']) {
-                                                    case 1:
-                                                        $status_class = 'status-pending';
-                                                        $status_text = 'En attente';
-                                                        break;
-                                                    case 11:
-                                                        $status_class = 'status-approved';
-                                                        $status_text = 'Validé Chef Dept';
-                                                        break;
-                                                    case 21:
-                                                        $status_class = 'status-approved';
-                                                        $status_text = 'Validé RH';
-                                                        break;
-                                                    default:
-                                                        $status_class = 'status-rejected';
-                                                        $status_text = 'Refusé';
-                                                }
-                                                ?>
-                                                <span class="status-badge <?= $status_class ?>">
-                                                    <?= $status_text ?>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                <?php else: ?>
-                                    <tr>
-                                        <td colspan="5" class="text-center text-muted">
-                                            Aucune demande de congé
-                                        </td>
-                                    </tr>
-                                <?php endif; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
-                
                 <!-- Mes derniers pointages -->
-                <section class="section">
-                    <div class="section-header">
-                        <h2 class="section-title">
-                            <i data-feather="clock"></i>
-                            Mes derniers pointages
-                        </h2>
-                        <a href="/employe/pointage/historique" class="btn btn-link">Voir tout</a>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Heure d'arrivée</th>
-                                    <th>Heure de départ</th>
-                                    <th>Durée</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php if (!empty($derniers_pointages)): ?>
-                                    <?php foreach ($derniers_pointages as $pointage): ?>
-                                        <tr>
-                                            <td><?= date('d/m/Y', strtotime($pointage['date_heure_arrive'])) ?></td>
-                                            <td><?= date('H:i', strtotime($pointage['date_heure_arrive'])) ?></td>
-                                            <td>
-                                                <?= $pointage['date_heure_depart'] ? date('H:i', strtotime($pointage['date_heure_depart'])) : '-' ?>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                if ($pointage['date_heure_depart']) {
-                                                    $debut = new DateTime($pointage['date_heure_arrive']);
-                                                    $fin = new DateTime($pointage['date_heure_depart']);
-                                                    $diff = $debut->diff($fin);
-                                                    echo $diff->format('%Hh %Im');
-                                                } else {
-                                                    echo '-';
-                                                }
-                                                ?>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                <?php else: ?>
-                                    <tr>
-                                        <td colspan="4" class="text-center text-muted">
-                                            Aucun pointage enregistré
-                                        </td>
-                                    </tr>
-                                <?php endif; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
+                
             </div>
         </main>
     </div>
@@ -249,11 +130,16 @@
         // Gestion du menu déroulant
         document.querySelectorAll('.has-submenu > .menu-link').forEach(link => {
             link.addEventListener('click', (e) => {
+                e.preventDefault();
                 const parent = link.parentElement;
-                if (!parent.classList.contains('active')) {
-                    e.preventDefault();
-                    parent.classList.toggle('open');
-                }
+                // Fermer tous les autres sous-menus
+                document.querySelectorAll('.has-submenu').forEach(item => {
+                    if (item !== parent) {
+                        item.classList.remove('open');
+                    }
+                });
+                // Toggle le sous-menu actuel
+                parent.classList.toggle('open');
             });
         });
 

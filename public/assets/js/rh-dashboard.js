@@ -1,12 +1,25 @@
 // Pagination et recherche pour le tableau des congés
 document.addEventListener('DOMContentLoaded', function() {
     const table = document.getElementById('congesTable');
-    if (!table) return;
+    if (!table) {
+        console.error('Table congesTable non trouvée');
+        return;
+    }
 
     const tbody = table.querySelector('tbody');
     const searchInput = document.getElementById('searchTable');
     const paginationContainer = document.getElementById('pagination');
-    const rowsPerPage = 10;
+    
+    if (!tbody) {
+        console.error('tbody non trouvé');
+        return;
+    }
+    if (!paginationContainer) {
+        console.error('pagination container non trouvé');
+        return;
+    }
+    
+    const rowsPerPage = 5;
     let currentPage = 1;
     let allRows = [];
     let filteredRows = [];
@@ -16,6 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
         allRows = Array.from(tbody.querySelectorAll('tr')).filter(row => {
             return !row.querySelector('td[colspan]');
         });
+        console.log('Nombre de lignes trouvées:', allRows.length);
         filteredRows = [...allRows];
         updateTable();
     }
@@ -76,6 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
         paginationContainer.innerHTML = '';
 
+        // Ne pas afficher les boutons si une seule page ou aucune donnée
         if (totalPages <= 1) return;
 
         // Bouton Précédent
@@ -168,33 +183,33 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Fonctions de gestion des congés
-function validerConge(idConge) {
-    if (confirm('Voulez-vous vraiment valider cette demande de congé ?')) {
-        // TODO: Implémenter l'appel AJAX pour valider
-        console.log('Valider congé:', idConge);
-        // Exemple d'appel AJAX :
-        // fetch('/rh/conges/valider', {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify({ id_conge: idConge })
-        // })
-        // .then(response => response.json())
-        // .then(data => {
-        //     if (data.success) {
-        //         location.reload();
-        //     }
-        // });
-    }
-}
+// function validerConge(idConge) {
+//     if (confirm('Voulez-vous vraiment valider cette demande de congé ?')) {
+//         // TODO: Implémenter l'appel AJAX pour valider
+//         console.log('Valider congé:', idConge);
+//         // Exemple d'appel AJAX :
+//         // fetch('/rh/conges/valider', {
+//         //     method: 'POST',
+//         //     headers: { 'Content-Type': 'application/json' },
+//         //     body: JSON.stringify({ id_conge: idConge })
+//         // })
+//         // .then(response => response.json())
+//         // .then(data => {
+//         //     if (data.success) {
+//         //         location.reload();
+//         //     }
+//         // });
+//     }
+// }
 
-function refuserConge(idConge) {
-    if (confirm('Voulez-vous vraiment refuser cette demande de congé ?')) {
-        // TODO: Implémenter l'appel AJAX pour refuser
-        console.log('Refuser congé:', idConge);
-    }
-}
+// function refuserConge(idConge) {
+//     if (confirm('Voulez-vous vraiment refuser cette demande de congé ?')) {
+//         // TODO: Implémenter l'appel AJAX pour refuser
+//         console.log('Refuser congé:', idConge);
+//     }
+// }
 
-function voirDetailsConge(idConge) {
-    // TODO: Implémenter l'affichage des détails dans une modale
-    console.log('Voir détails congé:', idConge);
-}
+// function voirDetailsConge(idConge) {
+//     // TODO: Implémenter l'affichage des détails dans une modale
+//     console.log('Voir détails congé:', idConge);
+// }

@@ -111,6 +111,36 @@ INSERT INTO conge (id_employe, id_type_conge, date_demande, date_debut, date_fin
 (7, 4, '2025-10-15', '2025-10-29', '2025-10-31', 'Naissance deuxieme enfant', '2025-10-20', 21),
 (8, 1, '2025-11-05', '2025-11-20', '2025-12-05', 'Vacances prolongees', NULL, 1),
 (9, 2, '2025-10-28', '2025-11-12', '2025-11-17', 'Operation programmee', NULL, 1),
+(10, 1, '2025-08-15', '2025-09-01', '2025-09-15', 'Anniversaire mariage', '2025-08-20', 21),
+
+-- Congés supplémentaires futurs (à partir du 17 novembre 2025)
+(1, 1, '2025-11-01', '2025-12-01', '2025-12-10', 'Vacances de Noel', NULL, 1),
+(2, 1, '2025-11-10', '2025-12-15', '2025-12-31', 'Reveillon du Nouvel An', NULL, 1),
+(3, 6, '2025-11-15', '2026-01-05', '2026-01-15', 'Formation avancée', NULL, 1),
+(4, 1, '2025-11-20', '2026-01-20', '2026-02-05', 'Vacances hiver', NULL, 1),
+(5, 3, '2025-11-25', '2026-02-01', '2026-04-01', 'Congé maternité prolongé', NULL, 1),
+(6, 1, '2025-11-30', '2026-02-15', '2026-03-01', 'Voyage en Europe', NULL, 1),
+(7, 4, '2025-12-01', '2026-03-01', '2026-03-05', 'Naissance troisième enfant', NULL, 1),
+(8, 1, '2025-12-05', '2026-03-10', '2026-03-25', 'Vacances de printemps', NULL, 1),
+(9, 2, '2025-12-10', '2026-03-15', '2026-03-20', 'Chirurgie programmée', NULL, 1),
+(10, 1, '2025-12-15', '2026-04-01', '2026-04-15', 'Pâques en famille', NULL, 1),
+(11, 1, '2025-12-20', '2026-04-20', '2026-05-05', 'Voyage en Asie', NULL, 1),
+(12, 6, '2025-12-25', '2026-05-01', '2026-05-10', 'Conférence internationale', NULL, 1),
+(13, 1, '2026-01-01', '2026-05-15', '2026-05-30', 'Vacances été anticipées', NULL, 1),
+(14, 2, '2026-01-05', '2026-06-01', '2026-06-10', 'Contrôle médical annuel', NULL, 1),
+(15, 1, '2026-01-10', '2026-06-15', '2026-07-01', 'Grand voyage familial', NULL, 1),
+
+-- Congés supplémentaires avec statuts validés (21) et en cours (11) - TOUTES DATES FUTURES
+(1, 1, '2025-11-18', '2025-12-01', '2025-12-15', 'Vacances prolongées validées', '2025-11-20', 21),
+(2, 2, '2025-11-19', '2025-12-05', '2025-12-10', 'Maladie - convalescence', '2025-11-22', 11),
+(3, 6, '2025-11-20', '2025-12-10', '2025-12-15', 'Formation validée', '2025-11-25', 21),
+(4, 1, '2025-11-21', '2025-12-20', '2026-01-05', 'Congé annuel approuvé', '2025-11-25', 21),
+(5, 3, '2025-11-22', '2026-01-10', '2026-03-10', 'Congé maternité en cours', '2025-11-25', 11),
+(6, 1, '2025-11-23', '2026-01-15', '2026-01-30', 'Vacances été validées', '2025-11-26', 21),
+(7, 4, '2025-11-24', '2026-02-01', '2026-02-05', 'Congé paternité approuvé', '2025-11-27', 21),
+(8, 2, '2025-11-25', '2026-02-10', '2026-02-15', 'Consultation médicale en cours', '2025-11-28', 11),
+(9, 1, '2025-11-26', '2026-02-20', '2026-03-10', 'Voyage professionnel validé', '2025-11-29', 21),
+(10, 6, '2025-11-27', '2026-03-01', '2026-03-05', 'Séminaire approuvé', '2025-11-30', 21);
 (10, 1, '2025-08-15', '2025-09-01', '2025-09-15', 'Anniversaire mariage', '2025-08-20', 21);
 
 -- Réponses du chatbot RH

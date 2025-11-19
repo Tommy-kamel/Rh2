@@ -74,5 +74,4 @@ After that, open `http://localhost:8000` in your browser.
 
 ## Do it!
 That's it! Go build something flipping sweet!
-
-"Before appearing in the payment history of the fiche, you should save the employee fiche in 'calcul fiche' and choose the date."
+gg
