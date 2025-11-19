@@ -10,7 +10,7 @@ class FichePaiementModel
 
     public function genererFichePaie($id_employe, $mois_annee)
     {
-        $mois_annee = date('Y-m', strtotime($mois_annee)); // 2025_11
+        $mois_annee = date('Y-m', strtotime($mois_annee)); 
 
         // 1. Récupérer employé + contrat
         $sql = "SELECT e.*, c.salaire, c.date_debut, p.nom AS fonction, d.nom_departement

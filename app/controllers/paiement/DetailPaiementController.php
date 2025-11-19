@@ -45,7 +45,7 @@ class DetailPaiementController
                 break;
             case 'irsa':
                 $model2 = new FichePaiementModel();
-                $data = $model2->genererFichePaie($id_employe, $annee.$mois);
+                $data = $model2->genererFichePaie($id_employe, $annee.'-'.$mois);
                 break;
 
             case 'primes-historique':
@@ -108,7 +108,7 @@ class DetailPaiementController
             //     break;
             case 'irsa':
                 $model2 = new FichePaiementModel();
-                $data = $model2->genererFichePaie($id_employe, $annee.$mois);
+                $data = $model2->genererFichePaie($id_employe, $annee.'-'.$mois);
                 break;
 
             // case 'primes-historique':

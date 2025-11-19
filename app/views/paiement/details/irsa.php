@@ -146,8 +146,8 @@
             </tbody>
         </table>
 
-        <a href="/paiement/fiche?mois=<?= $data['annee'] ?>-<?= $data['mois'] ?>&id_employe=<?= $data['id_employe'] ?>" class="btn no-pdf">Retour à la fiche de paie</a>
-        <a href="/paiement/fichepdf/<?= $data['id_employe'] ?>/irsa/<?= $data['annee'] ?>-<?= $data['mois'] ?>" target="_blank" class="btn no-pdf">
+        <a href="/paiement/fiche?mois=<?= $data['mois_annee'] ?>&id_employe=<?= $data['id_employe'] ?>" class="btn no-pdf">Retour à la fiche de paie</a>
+        <a href="/paiement/fichepdf/<?= $data['id_employe'] ?>/irsa/<?= $data['mois_annee'] ?>" target="_blank" class="btn no-pdf">
             Télécharger PDF
         </a>
     </div>

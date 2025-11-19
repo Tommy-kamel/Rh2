@@ -166,3 +166,8 @@ Flight::route('/paiement/fichepdf', [$paiementemploye, 'fichePDF']);
 Flight::route('/paiement/fiche-excel', [$paiementemploye, 'ficheExcel']);
 Flight::route('/paiement/fiche-excel-xml', [$paiementemploye, 'ficheExcelXML']);
 Flight::route('/paiement/fichepdf/@id_employe/@type/@mois_annee', [$detailPDF, 'showPDF']);
+Flight::route('/paiement/primePdf', [$primeglobal, 'fichePDF']);
+
+// Routes pour les primes globales
+Flight::route('GET /primes-global', [$primeglobal, 'index']);
+Flight::route('POST /primes-global/ajouter', [$primeglobal, 'ajouterPrime']);
