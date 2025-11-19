@@ -98,101 +98,124 @@
                     </div>
                 </div>
                 
-                <!-- Demandes de congés en attente - Tous départements -->
+                <!-- Accès rapides aux fonctionnalités RH -->
                 <section class="section">
-                    <div class="section-header">
-                        <h2 class="section-title">
-                            <i data-feather="calendar"></i>
-                            Demandes de congés en attente - Tous départements
-                        </h2>
-                        <div class="section-actions">
-                            <input type="text" id="searchTable" class="form-control" placeholder="Rechercher..." style="width: 250px; display: inline-block; margin-right: 10px;">
-                            <a href="/rh/conges/attente" class="btn btn-link">Voir tout</a>
-                        </div>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table" id="congesTable">
-                            <thead>
-                                <tr>
-                                    <th>Département</th>
-                                    <th>Employé</th>
-                                    <th>Poste</th>
-                                    <th>Type</th>
-                                    <th>Date début</th>
-                                    <th>Date fin</th>
-                                    <th>Durée</th>
-                                    <th>Date demande</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php if (!empty($conges_en_attente)): ?>
-                                    <?php foreach ($conges_en_attente as $conge): ?>
-                                        <tr>
-                                            <td>
-                                                <span class="badge badge-info"><?= htmlspecialchars($conge['nom_departement']) ?></span>
-                                            </td>
-                                            <td><?= htmlspecialchars($conge['nom'] . ' ' . $conge['prenom']) ?></td>
-                                            <td><?= htmlspecialchars($conge['nom_poste'] ?? 'N/A') ?></td>
-                                            <td>
-                                                <span class="badge badge-primary"><?= htmlspecialchars($conge['type']) ?></span>
-                                            </td>
-                                            <td><?= date('d/m/Y', strtotime($conge['date_debut'])) ?></td>
-                                            <td><?= date('d/m/Y', strtotime($conge['date_fin'])) ?></td>
-                                            <td>
-                                                <?php 
-                                                $date_debut = new DateTime($conge['date_debut']);
-                                                $date_fin = new DateTime($conge['date_fin']);
-                                                $duree = $date_debut->diff($date_fin)->days + 1;
-                                                echo $duree . ' jour' . ($duree > 1 ? 's' : '');
-                                                ?>
-                                            </td>
-                                            <td><?= date('d/m/Y', strtotime($conge['date_demande'])) ?></td>
-                                            <td>
-                                                <div style="display: flex; gap: 8px; align-items: center;">
-                                                    <form method="POST" action="/admin/conges/valider" style="display: inline;">
-                                                        <input type="hidden" name="id_conge" value="<?= $conge['id_conge'] ?>">
-                                                        <button type="submit" title="Valider" onclick="return confirm('Confirmer la validation de cette demande de congé ?')" style="color: #28a745; text-decoration: none; background: none; border: none; cursor: pointer; padding: 0;">
-                                                            <i data-feather="check-circle" style="width: 20px; height: 20px;"></i>
-                                                        </button>
-                                                    </form>
-                                                    <a href="/rh/conges/refuser/<?= $conge['id_conge'] ?>" 
-                                                       title="Refuser" onclick="return confirm('Confirmer le refus de cette demande de congé ?')" style="color: #dc3545; text-decoration: none;">
-                                                        <i data-feather="x-circle" style="width: 20px; height: 20px;"></i>
-                                                    </a>
-                                                    <a href="/rh/conges/details/<?= $conge['id_conge'] ?>" 
-                                                       title="Voir détails" style="color: #17a2b8; text-decoration: none;">
-                                                        <i data-feather="eye" style="width: 20px; height: 20px;"></i>
-                                                    </a>
-                                                    <a href="/rh/conges/modifier/<?= $conge['id_conge'] ?>" 
-                                                       title="Modifier" style="color: #ffc107; text-decoration: none;">
-                                                        <i data-feather="edit" style="width: 20px; height: 20px;"></i>
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                <?php else: ?>
-                                    <tr>
-                                        <td colspan="9" class="text-center text-muted">
-                                            Aucune demande en attente
-                                        </td>
-                                    </tr>
-                                <?php endif; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                    <!-- Pagination -->
-                    <div class="pagination-wrapper">
-                        <div class="pagination-info">
-                            <span>Affichage <span id="currentStart">1</span> à <span id="currentEnd">5</span> sur <span id="totalRows">0</span> entrées</span>
-                        </div>
-                        <div class="pagination" id="pagination">
-                            <!-- Pagination buttons will be generated by JavaScript -->
-                        </div>
+                    <h2 class="section-title">
+                        <i data-feather="zap"></i>
+                        Accès rapides
+                    </h2>
+                    <div class="quick-access-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                        <!-- Statistiques -->
+                        <a href="/statistiques" class="access-card" style="text-decoration: none; color: inherit;">
+                            <div class="card-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                                <i data-feather="bar-chart-2"></i>
+                            </div>
+                            <h3>Statistiques</h3>
+                            <p>Voir les statistiques globales</p>
+                        </a>
+                        
+                        <!-- Gestion des employés -->
+                        <a href="/employes" class="access-card" style="text-decoration: none; color: inherit;">
+                            <div class="card-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                                <i data-feather="users"></i>
+                            </div>
+                            <h3>Liste des employés</h3>
+                            <p>Gérer les employés</p>
+                        </a>
+                        
+                        <!-- Demandes de congés en attente -->
+                        <a href="/rh/conges/attente" class="access-card" style="text-decoration: none; color: inherit;">
+                            <div class="card-icon" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">
+                                <i data-feather="calendar"></i>
+                            </div>
+                            <h3>Demandes en attente</h3>
+                            <p>Traiter les demandes de congés</p>
+                        </a>
+                        
+                        <!-- Pointages Arrivée -->
+                        <a href="/pointage/arrivee" class="access-card" style="text-decoration: none; color: inherit;">
+                            <div class="card-icon" style="background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);">
+                                <i data-feather="clock"></i>
+                            </div>
+                            <h3>Pointages Arrivée</h3>
+                            <p>Consulter les arrivées</p>
+                        </a>
+                        
+                        <!-- Relevé de présence -->
+                        <a href="/releve-presence" class="access-card" style="text-decoration: none; color: inherit;">
+                            <div class="card-icon" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">
+                                <i data-feather="alert-circle"></i>
+                            </div>
+                            <h3>Relevé de présence</h3>
+                            <p>Absences et retards</p>
+                        </a>
+                        
+                        <!-- Calcul de paie -->
+                        <a href="/paiement/employes" class="access-card" style="text-decoration: none; color: inherit;">
+                            <div class="card-icon" style="background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);">
+                                <i data-feather="dollar-sign"></i>
+                            </div>
+                            <h3>Calcul de paie</h3>
+                            <p>Gérer les paies</p>
+                        </a>
                     </div>
                 </section>
+                
+                <style>
+                    .quick-access-grid {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                        gap: 1.5rem;
+                        margin-top: 1.5rem;
+                    }
+                    
+                    .access-card {
+                        background: white;
+                        border-radius: 12px;
+                        padding: 2rem;
+                        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+                        transition: all 0.3s ease;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        text-align: center;
+                    }
+                    
+                    .access-card:hover {
+                        transform: translateY(-5px);
+                        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+                    }
+                    
+                    .access-card .card-icon {
+                        width: 70px;
+                        height: 70px;
+                        border-radius: 15px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        margin-bottom: 1.25rem;
+                    }
+                    
+                    .access-card .card-icon i {
+                        width: 35px;
+                        height: 35px;
+                        color: white;
+                        stroke-width: 2;
+                    }
+                    
+                    .access-card h3 {
+                        font-size: 1.125rem;
+                        font-weight: 600;
+                        color: #1e293b;
+                        margin-bottom: 0.5rem;
+                    }
+                    
+                    .access-card p {
+                        font-size: 0.875rem;
+                        color: #64748b;
+                        margin: 0;
+                    }
+                </style>
             </div>
         </main>
     </div>
@@ -205,17 +228,19 @@
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 const parent = link.parentElement;
+                const submenu = parent.querySelector('.submenu');
                 // Fermer tous les autres sous-menus
-                document.querySelectorAll('.has-submenu').forEach(item => {
-                    if (item !== parent) {
-                        item.classList.remove('open');
+                document.querySelectorAll('.submenu').forEach(sub => {
+                    if (sub !== submenu) {
+                        sub.classList.remove('show');
+                        sub.parentElement.classList.remove('open');
                     }
                 });
                 // Toggle le sous-menu actuel
+                submenu.classList.toggle('show');
                 parent.classList.toggle('open');
             });
         });
     </script>
-    <script src="/assets/js/rh-dashboard.js"></script>
 </body>
 </html>
