@@ -168,7 +168,11 @@ class DashboardModel
     }
 
     public function getDetailsConge($id_conge) {
-        $sql = "SELECT * FROM vue_conge_en_attente WHERE id_conge = :id_conge";
+        $sql = "SELECT c.*, e.nom, e.prenom, tc.type 
+                FROM conge c
+                JOIN employe e ON c.id_employe = e.id_employe
+                JOIN type_conge tc ON c.id_type_conge = tc.id_type_conge
+                WHERE c.id_conge = :id_conge";
         $stmt = Flight::db()->prepare($sql);
         $stmt->execute(['id_conge' => $id_conge]);
         return $stmt->fetch();

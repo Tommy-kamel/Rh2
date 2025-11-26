@@ -316,6 +316,127 @@ class StatistiquesModel
     }
 
     /**
+     * Calcule le taux d'absentéisme sur une période donnée.
+     * Retourne : periode_debut, periode_fin, total_absence_jours, effectifs_moyens, jours_periode, taux_absenteisme, unite
+     * @param string|null $date_debut
+     * @param string|null $date_fin
+     * @param int|null $id_departement
+     */
+    public function getTauxAbsenteisme($date_debut = null, $date_fin = null, $id_departement = null)
+    {
+        $date_debut = $date_debut ?: date('Y-01-01');
+        $date_fin = $date_fin ?: date('Y-12-31');
+
+        // Total des jours d'absence dans la période (la table absence enregistre 1 ligne = 1 jour d'absence)
+        $sql_abs = "SELECT COUNT(*) as total_absence_days
+                    FROM absence a
+                    INNER JOIN employe e ON a.id_employe = e.id_employe
+                    INNER JOIN contrat c ON e.id_employe = c.id_employe
+                    WHERE a.date_absence BETWEEN :date_debut AND :date_fin
+                    AND (c.date_debut <= a.date_absence AND (c.date_fin IS NULL OR c.date_fin >= a.date_absence))";
+
+        if ($id_departement !== null) {
+            $sql_abs .= " AND c.id_departement = :id_departement";
+        }
+
+        $stmt_abs = Flight::db()->prepare($sql_abs);
+        $params_abs = [
+            'date_debut' => $date_debut,
+            'date_fin' => $date_fin
+        ];
+        if ($id_departement !== null) {
+            $params_abs['id_departement'] = $id_departement;
+        }
+        $stmt_abs->execute($params_abs);
+        $row_abs = $stmt_abs->fetch();
+        $total_absence_days = $row_abs['total_absence_days'] ?? 0;
+
+        // Calcul des effectifs moyens sur la période (même logique que pour le turnover)
+        $sql_effectifs = "SELECT COUNT(DISTINCT e.id_employe) as effectifs_mensuels
+                         FROM employe e
+                         INNER JOIN contrat c ON e.id_employe = c.id_employe
+                         WHERE (
+                             (c.date_debut <= LAST_DAY(:date_calcul) AND (c.date_fin IS NULL OR c.date_fin >= :date_calcul))
+                         )";
+
+        if ($id_departement !== null) {
+            $sql_effectifs .= " AND c.id_departement = :id_departement";
+        }
+
+        $date_debut_obj = new \DateTime($date_debut);
+        $date_fin_obj = new \DateTime($date_fin);
+        $interval = new \DateInterval('P1M');
+        $period = new \DatePeriod($date_debut_obj, $interval, $date_fin_obj);
+
+        $total_effectifs = 0;
+        $nb_mois = 0;
+
+        foreach ($period as $dt) {
+            $stmt_eff = Flight::db()->prepare($sql_effectifs);
+            $params_eff = ['date_calcul' => $dt->format('Y-m-d')];
+            if ($id_departement !== null) {
+                $params_eff['id_departement'] = $id_departement;
+            }
+            $stmt_eff->execute($params_eff);
+            $res = $stmt_eff->fetch();
+            $total_effectifs += $res ? $res['effectifs_mensuels'] : 0;
+            $nb_mois++;
+        }
+
+        $effectifs_moyens = $nb_mois > 0 ? round($total_effectifs / $nb_mois, 0) : 0;
+
+        // Nombre de jours de la période (inclusif)
+        $dtStart = new \DateTime($date_debut);
+        $dtEnd = new \DateTime($date_fin);
+        $jours_periode = $dtEnd->diff($dtStart)->days + 1;
+
+        // Calcul du taux d'absentéisme : total_absence_days / (effectifs_moyens * jours_periode) * 100
+        $taux_absenteisme = 0;
+        if ($effectifs_moyens > 0 && $jours_periode > 0) {
+            $taux_absenteisme = round(($total_absence_days / ($effectifs_moyens * $jours_periode)) * 100, 2);
+        }
+
+        return [
+            'periode_debut' => $date_debut,
+            'periode_fin' => $date_fin,
+            'total_absence_jours' => (int)$total_absence_days,
+            'effectifs_moyens' => $effectifs_moyens,
+            'jours_periode' => $jours_periode,
+            'taux_absenteisme' => $taux_absenteisme,
+            'unite' => '%'
+        ];
+    }
+
+    /**
+     * Calcule l'ancienneté moyenne des employés actifs.
+     * @param int|null $id_departement
+     */
+    public function getAncienneteMoyenne($id_departement = null)
+    {
+        $sql = "SELECT ROUND(AVG(TIMESTAMPDIFF(YEAR, c.date_debut, CURDATE())), 1) as anciennete_moyenne
+                FROM employe e
+                INNER JOIN contrat c ON e.id_employe = c.id_employe
+                WHERE (CURDATE() BETWEEN c.date_debut AND c.date_fin OR c.date_fin IS NULL)";
+        
+        if ($id_departement !== null) {
+            $sql .= " AND c.id_departement = :id_departement";
+        }
+        
+        $stmt = Flight::db()->prepare($sql);
+        if ($id_departement !== null) {
+            $stmt->execute(['id_departement' => $id_departement]);
+        } else {
+            $stmt->execute();
+        }
+        $result = $stmt->fetch();
+        
+        return [
+            'anciennete_moyenne' => $result['anciennete_moyenne'] ?? 0,
+            'unite' => 'ans'
+        ];
+    }
+
+    /**
      * Récupère l'évolution des effectifs par mois (12 derniers mois)
      * @param int|null $id_departement - Si null, retourne pour tous les départements (RH)
      */

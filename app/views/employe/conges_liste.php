@@ -25,6 +25,7 @@
                 </div>
             </header>
 
+
             <!-- Messages flash -->
             <?php if (isset($_SESSION['flash_message'])): ?>
                 <div class="alert alert-<?= $_SESSION['flash_message']['type'] === 'success' ? 'success' : 'danger' ?> alert-dismissible fade show" role="alert">
@@ -70,8 +71,34 @@
                                             <td><?= htmlspecialchars(date('d/m/Y', strtotime($demande['date_fin']))) ?></td>
                                             <td><?= htmlspecialchars($demande['duree']) ?> jour(s)</td>
                                             <td>
-                                                <span class="badge bg-<?= $demande['status'] == 1 ? 'warning' : ($demande['status'] == 2 ? 'success' : 'danger') ?>">
-                                                    <?= $demande['status'] == 1 ? 'En attente' : ($demande['status'] == 2 ? 'Approuvé' : 'Refusé') ?>
+                                                <?php
+                                                $statusClass = '';
+                                                $statusText = '';
+                                                switch ($demande['status']) {
+                                                    case 0:
+                                                        $statusClass = 'danger';
+                                                        $statusText = 'Refusé';
+                                                        break;
+                                                    case 1:
+                                                        $statusClass = 'warning';
+                                                        $statusText = 'En attente';
+                                                        break;
+                                                    case 11:
+                                                        $statusClass = 'info';
+                                                        $statusText = 'Validé par chef département';
+                                                        break;
+                                                    case 21:
+                                                        $statusClass = 'success';
+                                                        $statusText = 'Approuvé';
+                                                        break;
+                                                    default:
+                                                        $statusClass = 'secondary';
+                                                        $statusText = 'Statut inconnu';
+                                                        break;
+                                                }
+                                                ?>
+                                                <span class="badge bg-<?= $statusClass ?>">
+                                                    <?= $statusText ?>
                                                 </span>
                                             </td>
                                         </tr>

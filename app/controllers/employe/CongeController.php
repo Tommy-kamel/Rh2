@@ -4,16 +4,18 @@ namespace app\controllers\employe;
 
 use app\models\employe\CongeModel;
 use app\models\employe\DashboardModel;
+use app\models\employe\NotificationModel;
 use Flight;
 use DateTime;
 use Exception;
 
 class CongeController
 {
+    private $notificationModel;
 
     public function __construct()
     {
-    
+        $this->notificationModel = new NotificationModel();
     }
 
     public function addConge(){
@@ -127,6 +129,59 @@ class CongeController
                 'message' => 'Erreur dans le format des dates'
             ];
         }
+    }
+
+    /**
+     * Retourne le nombre de notifications non lues pour l'employé connecté
+     */
+    public function getUnreadNotificationsCount() {
+        if (!isset($_SESSION['user_id'])) {
+            Flight::json(['error' => 'Non autorisé'], 401);
+            return;
+        }
+
+        $id_employe = $_SESSION['user_id'];
+        $count = $this->notificationModel->getUnreadNotifications($id_employe);
+        
+        Flight::json(['count' => $count]);
+    }
+
+    /**
+     * Retourne la dernière notification non lue pour l'employé connecté
+     */
+    public function getLatestNotification() {
+        if (!isset($_SESSION['user_id'])) {
+            Flight::json(['error' => 'Non autorisé'], 401);
+            return;
+        }
+
+        $id_employe = $_SESSION['user_id'];
+        $notifications = $this->notificationModel->getNotifications($id_employe, 1); // Dernière notification
+        
+        if (!empty($notifications)) {
+            $latest = $notifications[0];
+            if (!$latest['lu']) {
+                Flight::json(['notification' => $latest]);
+                return;
+            }
+        }
+        
+        Flight::json(['notification' => null]);
+    }
+
+    /**
+     * Marque une notification comme lue
+     */
+    public function markNotificationAsRead($id_notification) {
+        if (!isset($_SESSION['user_id'])) {
+            Flight::json(['error' => 'Non autorisé'], 401);
+            return;
+        }
+
+        $id_employe = $_SESSION['user_id'];
+        $success = $this->notificationModel->markAsRead($id_notification, $id_employe);
+        
+        Flight::json(['success' => $success]);
     }
 
     /**

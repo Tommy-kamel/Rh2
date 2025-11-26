@@ -89,6 +89,9 @@ $router->get('/employe/dashboard', [$Employe_Dashboard_Controller, 'afficher']);
 $EmployeCongeController = new EmployeCongeController();
 $router->post('/employe/conges/demander', [$EmployeCongeController, 'addConge']);
 $router->get('/employe/conges/liste', [$EmployeCongeController, 'liste']);
+$router->get('/employe/notifications/unread', [$EmployeCongeController, 'getUnreadNotificationsCount']);
+$router->get('/employe/notifications/latest', [$EmployeCongeController, 'getLatestNotification']);
+$router->post('/employe/notifications/mark-read/@id', [$EmployeCongeController, 'markNotificationAsRead']);
 
 $EmployeeController = new EmployeeController();
 $router->get('/employes', [$EmployeeController, 'liste']);

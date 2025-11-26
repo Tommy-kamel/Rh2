@@ -225,5 +225,72 @@
 
     <?php include __DIR__ . '/../chatbot.php'; ?>
 
+    <script>
+        // Gestion des notifications du navigateur
+        let lastNotificationId = 0;
+
+        // Demander la permission pour les notifications
+        function requestNotificationPermission() {
+            if ('Notification' in window) {
+                Notification.requestPermission().then(function(permission) {
+                    if (permission === 'granted') {
+                        console.log('Permission pour les notifications accordée');
+                    } else {
+                        console.log('Permission pour les notifications refusée');
+                    }
+                });
+            }
+        }
+
+        // Vérifier les nouvelles notifications
+        function checkNotifications() {
+            fetch('/employe/notifications/latest')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.notification && data.notification.id_notification !== lastNotificationId) {
+                        const notification = data.notification;
+                        showNotification(notification.titre, notification.message);
+                        lastNotificationId = notification.id_notification;
+                        // Marquer comme lue après affichage
+                        markAsRead(notification.id_notification);
+                    }
+                })
+                .catch(error => console.error('Erreur lors de la vérification des notifications:', error));
+        }
+
+        // Marquer une notification comme lue
+        function markAsRead(id_notification) {
+            fetch('/employe/notifications/mark-read/' + id_notification, {
+                method: 'POST'
+            }).catch(error => console.error('Erreur lors du marquage comme lu:', error));
+        }
+
+        // Afficher une notification du navigateur
+        function showNotification(title, body) {
+            if (Notification.permission === 'granted') {
+                // Utiliser une icône Feather (bell) en SVG data URL
+                const bellIcon = 'data:image/svg+xml;base64,' + btoa(`
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#4c6ef5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                    </svg>
+                `);
+                
+                new Notification(title, {
+                    body: body,
+                    icon: bellIcon,
+                    tag: 'rh-notification' // Pour éviter les doublons
+                });
+            }
+        }
+
+        // Initialiser au chargement de la page
+        document.addEventListener('DOMContentLoaded', function() {
+            requestNotificationPermission();
+            checkNotifications(); // Vérifier immédiatement
+            setInterval(checkNotifications, 30000); // Vérifier toutes les 30 secondes
+        });
+    </script>
+
 </body>
 </html>

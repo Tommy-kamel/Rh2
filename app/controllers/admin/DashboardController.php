@@ -3,16 +3,19 @@
 namespace app\controllers\admin;
 
 use app\models\admin\DashboardModel;
+use app\models\employe\NotificationModel;
 use Flight;
 use Exception;
 
 class DashboardController
 {
     private $model;
+    private $notificationModel;
 
     public function __construct()
     {
         $this->model = new DashboardModel();
+        $this->notificationModel = new NotificationModel();
     }
 
     /**
@@ -125,6 +128,20 @@ class DashboardController
         
         try {
             $this->model->validerConge($id_conge, $id_departement);
+            
+            // Récupérer l'id_employe du congé pour créer une notification
+            $conge_details = $this->model->getDetailsConge($id_conge);
+            if ($conge_details) {
+                $id_employe = $conge_details['id_employe'];
+                $status_message = $id_departement == 1 ? 'approuvé par les RH' : 'approuvé par le chef de département';
+                $this->notificationModel->createNotification(
+                    $id_employe,
+                    'Congé approuvé',
+                    'Votre demande de congé du ' . date('d/m/Y', strtotime($conge_details['date_debut'])) . ' au ' . date('d/m/Y', strtotime($conge_details['date_fin'])) . ' a été ' . $status_message . '.',
+                    'conge'
+                );
+            }
+            
             $_SESSION['success_message'] = 'Le congé a été validé avec succès.';
         } catch (Exception $e) {
             $_SESSION['error_message'] = 'Erreur lors de la validation du congé: ' . $e->getMessage();

@@ -213,3 +213,28 @@ document.addEventListener('DOMContentLoaded', function() {
 //     // TODO: Implémenter l'affichage des détails dans une modale
 //     console.log('Voir détails congé:', idConge);
 // }
+
+// Fonction pour basculer l'affichage du dropdown des notifications
+function toggleNotifications() {
+    const dropdown = document.getElementById('notifications-dropdown');
+    if (dropdown.style.display === 'none' || dropdown.style.display === '') {
+        dropdown.style.display = 'block';
+    } else {
+        dropdown.style.display = 'none';
+    }
+    
+    // Réinitialiser les icônes Feather après l'affichage
+    if (typeof feather !== 'undefined') {
+        feather.replace();
+    }
+}
+
+// Fermer le dropdown si on clique ailleurs
+document.addEventListener('click', function(event) {
+    const dropdown = document.getElementById('notifications-dropdown');
+    const notificationIcon = event.target.closest('.notification-icon');
+    
+    if (dropdown && !notificationIcon) {
+        dropdown.style.display = 'none';
+    }
+});

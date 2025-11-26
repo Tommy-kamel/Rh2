@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/css/styles.css">
     <link rel="stylesheet" href="/assets/css/rh-dashboard.css">
+    <script src="/assets/js/rh-dashboard.js"></script>
     <script src="https://unpkg.com/feather-icons"></script>
 </head>
 <body>
@@ -20,11 +21,54 @@
                     Tableau de bord RH - Vue Globale
                 </h1>
                 <div style="display: flex; align-items: center; gap: 2rem;">
-                    <div class="notification-icon" style="position: relative;">
+                    <div class="notification-icon" style="position: relative;" onclick="toggleNotifications()">
                         <i data-feather="bell" style="width: 28px; height: 28px; color: #495057; cursor: pointer; stroke-width: 2;"></i>
+                        <?php
+                        $total_notifications = ($conges_attente ?? 0) + count($contrats_expirant ?? []);
+                        if ($total_notifications > 0):
+                        ?>
                         <span class="notification-badge" style="position: absolute; top: -8px; right: -8px; background-color: #dc3545; color: white; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
-                            <?= $conges_attente ?? 0 ?>
+                            <?= $total_notifications ?>
                         </span>
+                        <?php endif; ?>
+                        
+                        <!-- Dropdown des notifications -->
+                        <div id="notifications-dropdown" class="notifications-dropdown" style="display: none;">
+                            <div class="notifications-header">
+                                <h6>Notifications</h6>
+                            </div>
+                            <div class="notifications-body">
+                                <?php if (($conges_attente ?? 0) > 0): ?>
+                                <div class="notification-item">
+                                    <i data-feather="calendar" class="notification-icon-small"></i>
+                                    <div class="notification-content">
+                                        <div class="notification-title">Congés en attente</div>
+                                        <div class="notification-text">Vous avez <?= $conges_attente ?> demande(s) de congé en attente de validation</div>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
+                                
+                                <?php if (!empty($contrats_expirant)): ?>
+                                <div class="notification-item">
+                                    <i data-feather="alert-triangle" class="notification-icon-small"></i>
+                                    <div class="notification-content">
+                                        <div class="notification-title">Contrats expirant bientôt</div>
+                                        <div class="notification-text">Vous avez <?= count($contrats_expirant) ?> contrat(s) qui se terminent dans moins d'un mois</div>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
+                                
+                                <?php if ($total_notifications == 0): ?>
+                                <div class="notification-item">
+                                    <i data-feather="check-circle" class="notification-icon-small"></i>
+                                    <div class="notification-content">
+                                        <div class="notification-title">Tout est à jour</div>
+                                        <div class="notification-text">Aucune notification en attente</div>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
                     </div>
                     <div class="user-info">
                         <span class="user-name"><?= $_SESSION['nom_utilisateur'] ?? '' ?></span>

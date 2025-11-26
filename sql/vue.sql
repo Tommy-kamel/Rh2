@@ -184,4 +184,37 @@ WHERE c.date_fin IS NOT NULL
 AND c.date_fin <= CURDATE()
 ORDER BY c.date_fin DESC, e.nom, e.prenom;
 
+DROP VIEW IF EXISTS vue_get_fin_contrat_moins_1_mois;
+CREATE VIEW vue_get_fin_contrat_moins_1_mois AS
+SELECT
+    e.id_employe,
+    e.nom,
+    e.prenom,
+    e.email,
+    e.sexe,
+    e.telephone,
+    e.adresse,
+    e.numero_cnaps,
+    e.cin,
+    e.photo,
+    e.lieu_naissance,
+    c.id_contrat,
+    c.salaire,
+    c.date_debut as date_debut_contrat,
+    c.date_fin as date_fin_contrat,
+    c.type as type_contrat,
+    c.periode_essai_jours,
+    c.renouvellement_count,
+    d.nom_departement,
+    d.id_departement,
+    p.nom as nom_poste
+FROM employe e
+JOIN contrat c ON e.id_employe = c.id_employe
+JOIN departement d ON c.id_departement = d.id_departement
+JOIN poste p ON c.id_poste = p.id_poste
+WHERE c.date_fin IS NOT NULL
+AND c.date_fin BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 1 MONTH)
+ORDER BY c.date_fin ASC, e.nom, e.prenom;
+
+
 

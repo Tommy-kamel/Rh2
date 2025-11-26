@@ -42,9 +42,9 @@ INSERT INTO employe (nom, prenom, date_naissance, email,mot_de_passe, sexe, tele
 -- Exemples de contrats
 INSERT INTO contrat (id_employe, salaire, date_debut, date_fin, type, id_poste, id_departement) VALUES
 (1, 3500.00, '2022-01-01', NULL, 'CDI', 2, 1),
-(2, 2800.00, '2023-03-15', '2024-03-14', 'CDD', 8, 2),
+(2, 2800.00, '2023-03-15', '2025-12-14', 'CDD', 8, 2),
 (3, 2200.00, '2024-06-01', NULL, 'CDI', 3, 3),
-(4, 1800.00, '2023-11-01', '2024-05-01', 'Essai', 6, 4),
+(4, 1800.00, '2023-11-01', '2025-12-20', 'Essai', 6, 4),
 (5, 2400.00, '2021-09-01', NULL, 'CDI', 4, 5),
 (6, 3200.00, '2023-01-15', NULL, 'CDI', 1, 1),
 (7, 2600.00, '2023-08-01', '2024-07-31', 'CDD', 3, 2),
@@ -140,7 +140,7 @@ INSERT INTO conge (id_employe, id_type_conge, date_demande, date_debut, date_fin
 (7, 4, '2025-11-24', '2026-02-01', '2026-02-05', 'Congé paternité approuvé', '2025-11-27', 21),
 (8, 2, '2025-11-25', '2026-02-10', '2026-02-15', 'Consultation médicale en cours', '2025-11-28', 11),
 (9, 1, '2025-11-26', '2026-02-20', '2026-03-10', 'Voyage professionnel validé', '2025-11-29', 21),
-(10, 6, '2025-11-27', '2026-03-01', '2026-03-05', 'Séminaire approuvé', '2025-11-30', 21);
+(10, 6, '2025-11-27', '2026-03-01', '2026-03-05', 'Séminaire approuvé', '2025-11-30', 21),
 (10, 1, '2025-08-15', '2025-09-01', '2025-09-15', 'Anniversaire mariage', '2025-08-20', 21);
 
 -- Réponses du chatbot RH
@@ -173,3 +173,20 @@ INSERT INTO chatbot_synonyms (keyword_id, synonym) VALUES
 ((SELECT id FROM chatbot_responses WHERE keyword = 'horaire'), 'temps de travail'),
 ((SELECT id FROM chatbot_responses WHERE keyword = 'attestation'), 'certificat'),
 ((SELECT id FROM chatbot_responses WHERE keyword = 'attestation'), 'document');
+
+INSERT INTO conge (id_employe, id_type_conge, date_demande, date_debut, date_fin, raison, date_validation, status) VALUES 
+(1, 1, '2025-01-10', '2025-02-01', '2025-02-05', 'Vacances familiales', '2025-01-15', 21),
+(1, 1, '2025-03-15', '2025-04-01', '2025-04-03', 'Repos', '2025-03-20', 21),
+(2, 1, '2025-02-01', '2025-02-15', '2025-02-20', 'Vacances', '2025-02-05', 21),
+(2, 2, '2025-03-10', '2025-03-11', '2025-03-13', 'Maladie', '2025-03-10', 21);
+
+INSERT INTO heure_pointage (id_poste, heure_debut, heure_fin) VALUES 
+(1, '08:00:00', '17:00:00'), -- Développeur : 8h-17h
+(2, '08:30:00', '17:30:00'), -- Commercial : 8h30-17h30
+(3, '07:30:00', '16:30:00'); -- Comptable : 7h30-16h30
+
+INSERT INTO heure_sup (type, pourcentage_majoration) VALUES 
+('week-end', 50),
+('nuit', 25),
+('jour_ferie', 100),
+('imprevu', 30);

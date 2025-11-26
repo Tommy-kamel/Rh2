@@ -6,6 +6,7 @@
     <title>Statistiques RH - <?= $is_rh ? 'Vue Globale' : 'Mon Département' ?></title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/feather-icons"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -27,7 +28,8 @@
 
         body {
             background: var(--surface-muted);
-            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            /* font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; */
+            font-family: 'Outfit', sans-serif;
             color: var(--color-secondary);
         }
 
@@ -258,6 +260,7 @@
             padding: 2rem;
             box-shadow: var(--shadow-soft);
             border: none;
+            margin-bottom: 2rem;
         }
 
         .chart-card h4,
@@ -359,9 +362,17 @@
             <div class="content-wrapper">
                 <?php
                     $turnoverRate = $taux_turnover['taux_turnover'] ?? 0;
-                    $turnoverStart = $taux_turnover['periode_debut'] ?? ($date_debut ?? date('Y-01-01'));
-                    $turnoverEnd = $taux_turnover['periode_fin'] ?? ($date_fin ?? date('Y-12-31'));
+                    $turnoverStart = $date_debut ?? date('Y-01-01');
+                    $turnoverEnd = $date_fin ?? date('Y-12-31');
                     $turnoverInterpretation = 'Données insuffisantes';
+                    
+                    $absenteismeRate = $taux_absenteisme['taux_absenteisme'] ?? 0;
+                    $absenteismeStart = $date_debut ?? date('Y-01-01');
+                    $absenteismeEnd = $date_fin ?? date('Y-12-31');
+                    $absenteismeInterpretation = 'Données insuffisantes';
+                    
+                    $ancienneteMoyenne = $anciennete_moyenne['anciennete_moyenne'] ?? 0;
+                    
                     $totalEmployes = $resume['total_employes'] ?? 0;
                     $totalHommes = $resume['total_hommes'] ?? 0;
                     $totalFemmes = $resume['total_femmes'] ?? 0;
@@ -381,6 +392,20 @@
                             $turnoverInterpretation = 'Élevé (attention)';
                         } else {
                             $turnoverInterpretation = 'Très élevé (critique)';
+                        }
+                    }
+                    
+                    if (($taux_absenteisme['jours_periode'] ?? 0) > 0) {
+                        if ($absenteismeRate < 2) {
+                            $absenteismeInterpretation = 'Très faible (excellent)';
+                        } elseif ($absenteismeRate < 5) {
+                            $absenteismeInterpretation = 'Faible (bon)';
+                        } elseif ($absenteismeRate < 8) {
+                            $absenteismeInterpretation = 'Moyen';
+                        } elseif ($absenteismeRate < 12) {
+                            $absenteismeInterpretation = 'Élevé (attention)';
+                        } else {
+                            $absenteismeInterpretation = 'Très élevé (critique)';
                         }
                     }
                 ?>
@@ -443,6 +468,30 @@
                         </div>
                     </div>
                     
+                    <div class="summary-card">
+                        <div class="card-icon icon-orange">
+                            <i data-feather="alert-circle" width="26" height="26"></i>
+                        </div>
+                        <div class="card-details">
+                            <span class="card-label">Absentéisme</span>
+                            <span class="card-value"><?= number_format($absenteismeRate, 2, ',', ' ') ?><small>%</small></span>
+                            <span class="card-subvalue">
+                                <?= date('d/m/Y', strtotime($absenteismeStart)) ?> – <?= date('d/m/Y', strtotime($absenteismeEnd)) ?>
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-card">
+                        <div class="card-icon icon-teal">
+                            <i data-feather="clock" width="26" height="26"></i>
+                        </div>
+                        <div class="card-details">
+                            <span class="card-label">Ancienneté moyenne</span>
+                            <span class="card-value"><?= number_format($ancienneteMoyenne, 1, ',', ' ') ?><small>ans</small></span>
+                            <span class="card-subvalue">Basé sur les contrats actifs</span>
+                        </div>
+                    </div>
+                    
                     <?php if ($is_rh): ?>
                     <div class="summary-card">
                         <div class="card-icon icon-teal">
@@ -463,7 +512,7 @@
                         <div class="turnover-filter">
                             <h4>
                                 <i data-feather="filter"></i>
-                                Filtrer le taux de turnover
+                                Filtrer le taux de turnover et absentéisme
                             </h4>
                             <form method="GET" action="/statistiques" class="row g-3 align-items-end">
                                 <div class="col-md-4">

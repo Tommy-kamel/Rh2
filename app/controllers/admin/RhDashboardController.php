@@ -3,16 +3,19 @@
 namespace app\controllers\admin;
 
 use app\models\admin\DashboardModel;
+use app\models\admin\ContratModel;
 use Flight;
 use Exception;
 
 class RhDashboardController
 {
     private $model;
+    private $contratModel;
 
     public function __construct()
     {
         $this->model = new DashboardModel();
+        $this->contratModel = new ContratModel();
     }
 
     /**
@@ -54,8 +57,9 @@ class RhDashboardController
         // RH voit tous les départements (id_departement = null)
         $statistiques = $this->model->getStatistiques(null);
         $conges_en_attente = $this->model->listeCongeEnAttente(null);
+        $contrats_expirant = $this->contratModel->getContratsExpirantProchainement();
         
-        $this->rendreDashboardRh($statistiques, $conges_en_attente);
+        $this->rendreDashboardRh($statistiques, $conges_en_attente, $contrats_expirant);
     }
 
     /**
@@ -183,7 +187,7 @@ class RhDashboardController
     /**
      * Rend la vue du dashboard RH avec les données
      */
-    private function rendreDashboardRh($statistiques, $conges_en_attente)
+    private function rendreDashboardRh($statistiques, $conges_en_attente, $contrats_expirant)
     {
         // Récupérer les messages de la session
         $success_message = $_SESSION['success_message'] ?? null;
@@ -199,6 +203,7 @@ class RhDashboardController
             'absences_aujourd_hui' => $statistiques['absences_aujourd_hui'],
             'presents_aujourd_hui' => $statistiques['presents_aujourd_hui'],
             'conges_en_attente' => $conges_en_attente,
+            'contrats_expirant' => $contrats_expirant,
             'success_message' => $success_message,
             'error_message' => $error_message
         ]);

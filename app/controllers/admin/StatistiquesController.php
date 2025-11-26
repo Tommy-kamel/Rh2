@@ -56,6 +56,8 @@ class StatistiquesController
             'effectifs_dept_genre' => $this->statistiquesModel->getEffectifsDepartementParGenre($id_departement),
             'evolution_effectifs' => $this->statistiquesModel->getEvolutionEffectifs($id_departement),
             'taux_turnover' => $this->statistiquesModel->getTauxTurnover($date_debut, $date_fin, null),
+            'taux_absenteisme' => $this->statistiquesModel->getTauxAbsenteisme($date_debut, $date_fin, $id_departement),
+            'anciennete_moyenne' => $this->statistiquesModel->getAncienneteMoyenne($id_departement),
             'is_rh' => $is_rh,
             'user_type' => $user_type,
             'date_debut' => $date_debut,
