@@ -193,17 +193,17 @@ return [
                 ['label' => 'Affectations', 'link' => '/production/equipe/affectations']
             ]
         ],
-        [
-            'icon' => 'clipboard',
-            'label' => 'Ordres de production',
-            'link' => '/production/ordres',
-            'active' => false,
-            'sub_items' => [
-                ['label' => 'Nouveaux ordres', 'link' => '/production/ordres/nouveaux'],
-                ['label' => 'En cours', 'link' => '/production/ordres/en-cours'],
-                ['label' => 'Terminés', 'link' => '/production/ordres/termines']
-            ]
-        ],
+        // [
+        //     'icon' => 'clipboard',
+        //     'label' => 'Ordres de production',
+        //     'link' => '/production/ordres',
+        //     'active' => false,
+        //     'sub_items' => [
+        //         ['label' => 'Nouveaux ordres', 'link' => '/production/ordres/nouveaux'],
+        //         ['label' => 'En cours', 'link' => '/production/ordres/en-cours'],
+        //         ['label' => 'Terminés', 'link' => '/production/ordres/termines']
+        //     ]
+        // ],
         [
             'icon' => 'clock',
             'label' => 'Pointage équipe',
@@ -226,26 +226,26 @@ return [
 
             ]
         ],
-        [
-            'icon' => 'alert-circle',
-            'label' => 'Incidents',
-            'link' => '/production/incidents',
-            'active' => false,
-            'sub_items' => [
-                ['label' => 'Signaler incident', 'link' => '/production/incidents/signaler'],
-                ['label' => 'Liste incidents', 'link' => '/production/incidents/liste']
-            ]
-        ],
-        [
-            'icon' => 'bar-chart-2',
-            'label' => 'Rapports production',
-            'link' => '/production/rapports',
-            'active' => false,
-            'sub_items' => [
-                ['label' => 'Performance', 'link' => '/production/rapports/performance'],
-                ['label' => 'Production journalière', 'link' => '/production/rapports/journaliere']
-            ]
-        ]
+        // [
+        //     'icon' => 'alert-circle',
+        //     'label' => 'Incidents',
+        //     'link' => '/production/incidents',
+        //     'active' => false,
+        //     'sub_items' => [
+        //         ['label' => 'Signaler incident', 'link' => '/production/incidents/signaler'],
+        //         ['label' => 'Liste incidents', 'link' => '/production/incidents/liste']
+        //     ]
+        // ],
+        // [
+        //     'icon' => 'bar-chart-2',
+        //     'label' => 'Rapports production',
+        //     'link' => '/production/rapports',
+        //     'active' => false,
+        //     'sub_items' => [
+        //         ['label' => 'Performance', 'link' => '/production/rapports/performance'],
+        //         ['label' => 'Production journalière', 'link' => '/production/rapports/journaliere']
+        //     ]
+        // ]
     ],
 
     'Achat et vente' => [
@@ -269,30 +269,30 @@ return [
             'link' => '/calendrier',
             'active' => false,
         ],
-        [
-            'icon' => 'shopping-cart',
-            'label' => 'Achats',
-            'link' => '/achats',
-            'active' => false,
-            'sub_items' => [
-                ['label' => 'Bons de commande', 'link' => '/achats/commandes'],
-                ['label' => 'Fournisseurs', 'link' => '/achats/fournisseurs'],
-                ['label' => 'Réceptions', 'link' => '/achats/receptions'],
-                ['label' => 'Historique', 'link' => '/achats/historique']
-            ]
-        ],
-        [
-            'icon' => 'trending-up',
-            'label' => 'Ventes',
-            'link' => '/ventes',
-            'active' => false,
-            'sub_items' => [
-                ['label' => 'Devis', 'link' => '/ventes/devis'],
-                ['label' => 'Commandes', 'link' => '/ventes/commandes'],
-                ['label' => 'Clients', 'link' => '/ventes/clients'],
-                ['label' => 'Factures', 'link' => '/ventes/factures']
-            ]
-        ],
+        // [
+        //     'icon' => 'shopping-cart',
+        //     'label' => 'Achats',
+        //     'link' => '/achats',
+        //     'active' => false,
+        //     'sub_items' => [
+        //         ['label' => 'Bons de commande', 'link' => '/achats/commandes'],
+        //         ['label' => 'Fournisseurs', 'link' => '/achats/fournisseurs'],
+        //         ['label' => 'Réceptions', 'link' => '/achats/receptions'],
+        //         ['label' => 'Historique', 'link' => '/achats/historique']
+        //     ]
+        // ],
+        // [
+        //     'icon' => 'trending-up',
+        //     'label' => 'Ventes',
+        //     'link' => '/ventes',
+        //     'active' => false,
+        //     'sub_items' => [
+        //         ['label' => 'Devis', 'link' => '/ventes/devis'],
+        //         ['label' => 'Commandes', 'link' => '/ventes/commandes'],
+        //         ['label' => 'Clients', 'link' => '/ventes/clients'],
+        //         ['label' => 'Factures', 'link' => '/ventes/factures']
+        //     ]
+        // ],
         [
             'icon' => 'users',
             'label' => 'Équipe commerciale',
@@ -300,20 +300,20 @@ return [
             'active' => false,
             'sub_items' => [
                 ['label' => 'Liste équipe', 'link' => '/commercial/equipe/liste'],
-                ['label' => 'Objectifs', 'link' => '/commercial/equipe/objectifs'],
-                ['label' => 'Performance', 'link' => '/commercial/equipe/performance']
+                // ['label' => 'Objectifs', 'link' => '/commercial/equipe/objectifs'],
+                // ['label' => 'Performance', 'link' => '/commercial/equipe/performance']
             ]
         ],
-        [
-            'icon' => 'bar-chart-2',
-            'label' => 'Statistiques',
-            'link' => '/commercial/statistiques',
-            'active' => false,
-            'sub_items' => [
-                ['label' => 'CA & Marges', 'link' => '/commercial/statistiques/ca'],
-                ['label' => 'Rapports mensuels', 'link' => '/commercial/statistiques/mensuels']
-            ]
-        ],
+        // [
+        //     'icon' => 'bar-chart-2',
+        //     'label' => 'Statistiques',
+        //     'link' => '/commercial/statistiques',
+        //     'active' => false,
+        //     'sub_items' => [
+        //         ['label' => 'CA & Marges', 'link' => '/commercial/statistiques/ca'],
+        //         ['label' => 'Rapports mensuels', 'link' => '/commercial/statistiques/mensuels']
+        //     ]
+        // ],
         [
             'icon' => 'calendar',
             'label' => 'Congés équipe',
