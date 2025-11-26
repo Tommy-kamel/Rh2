@@ -29,8 +29,9 @@ class StatistiquesController
 
         // Déterminer si c'est un RH ou un chef de département
         $user_type = $_SESSION['user_type'];
+        $nom_departement = $_SESSION['nom_departement'] ?? '';
         $id_departement = null;
-        $is_rh = ($user_type === 'Ressources Humaines');
+        $is_rh = ($nom_departement === 'Ressources Humaines');
         
         // Si ce n'est pas RH, on filtre par département
         if (!$is_rh) {
@@ -147,9 +148,9 @@ class StatistiquesController
      */
     private function getIdDepartementIfNotRH()
     {
-        $user_type = $_SESSION['user_type'] ?? null;
+        $nom_departement = $_SESSION['nom_departement'] ?? '';
         
-        if ($user_type === 'Ressources Humaines') {
+        if ($nom_departement === 'Ressources Humaines') {
             return null; // Pas de filtre pour RH
         }
         

@@ -1,5 +1,7 @@
 /* Styles spécifiques pour le dashboard RH */
-
+* {
+    font-family: 'Outfit', sans-serif;
+}
 /* Alertes */
 .alert {
     padding: 12px 16px;
