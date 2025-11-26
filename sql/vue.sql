@@ -150,3 +150,38 @@ JOIN poste p ON ct.id_poste = p.id_poste
 JOIN type_conge tc ON c.id_type_conge = tc.id_type_conge
 WHERE c.date_debut > CURDATE()
 ORDER BY d.nom_departement, e.nom, e.prenom;
+
+/* Employés dont les contrats ont pris fin */
+DROP VIEW IF EXISTS vue_employes_contrats_termine;
+CREATE VIEW vue_employes_contrats_termine AS
+SELECT
+    e.id_employe,
+    e.nom,
+    e.prenom,
+    e.email,
+    e.sexe,
+    e.telephone,
+    e.adresse,
+    e.numero_cnaps,
+    e.cin,
+    e.photo,
+    e.lieu_naissance,
+    c.id_contrat,
+    c.salaire,
+    c.date_debut as date_debut_contrat,
+    c.date_fin as date_fin_contrat,
+    c.type as type_contrat,
+    c.periode_essai_jours,
+    c.renouvellement_count,
+    d.nom_departement,
+    d.id_departement,
+    p.nom as nom_poste
+FROM employe e
+JOIN contrat c ON e.id_employe = c.id_employe
+JOIN departement d ON c.id_departement = d.id_departement
+JOIN poste p ON c.id_poste = p.id_poste
+WHERE c.date_fin IS NOT NULL
+AND c.date_fin <= CURDATE()
+ORDER BY c.date_fin DESC, e.nom, e.prenom;
+
+

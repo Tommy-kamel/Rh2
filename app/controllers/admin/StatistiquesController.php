@@ -43,6 +43,9 @@ class StatistiquesController
         }
 
         // Récupérer toutes les statistiques avec ou sans filtre département
+        $date_debut = $_GET['date_debut'] ?? date('Y-01-01');
+        $date_fin = $_GET['date_fin'] ?? date('Y-12-31');
+        
         $data = [
             'resume' => $this->statistiquesModel->getResumeEffectifs($id_departement),
             'effectifs_genre' => $this->statistiquesModel->getEffectifsParGenre($id_departement),
@@ -52,8 +55,11 @@ class StatistiquesController
             'effectifs_poste' => $this->statistiquesModel->getEffectifsParPoste($id_departement),
             'effectifs_dept_genre' => $this->statistiquesModel->getEffectifsDepartementParGenre($id_departement),
             'evolution_effectifs' => $this->statistiquesModel->getEvolutionEffectifs($id_departement),
+            'taux_turnover' => $this->statistiquesModel->getTauxTurnover($date_debut, $date_fin, null),
             'is_rh' => $is_rh,
-            'user_type' => $user_type
+            'user_type' => $user_type,
+            'date_debut' => $date_debut,
+            'date_fin' => $date_fin
         ];
 
         // Préparer les données pour les graphiques (format JSON)

@@ -229,6 +229,92 @@ class StatistiquesModel
         return $stmt->fetchAll();
     }
 
+    public function getTauxTurnover($id_departement = null, $date_debut = null, $date_fin = null){
+        // Utiliser les dates fournies ou l'année en cours par défaut
+        $date_debut = $date_debut ?: date('Y-01-01'); // 1er janvier de l'année en cours
+        $date_fin = $date_fin ?: date('Y-12-31');   // 31 décembre de l'année en cours
+        
+        // Calcul du nombre de départs dans la période
+        $sql = "SELECT 
+                    COUNT(DISTINCT v.id_employe) as departs_periode
+                FROM vue_employes_contrats_termine v
+                WHERE v.date_fin_contrat BETWEEN :date_debut AND :date_fin";
+        
+        if ($id_departement !== null) {
+            $sql .= " AND v.id_departement = :id_departement";
+        }
+        
+        $stmt = Flight::db()->prepare($sql);
+        $params = [
+            'date_debut' => $date_debut,
+            'date_fin' => $date_fin
+        ];
+        
+        if ($id_departement !== null) {
+            $params['id_departement'] = $id_departement;
+        }
+        
+        $stmt->execute($params);
+        $departs = $stmt->fetch();
+        
+        // Calcul des effectifs moyens sur la période
+        // On calcule la moyenne des effectifs à chaque mois de la période
+        $sql_effectifs = "SELECT COUNT(DISTINCT e.id_employe) as effectifs_mensuels
+                         FROM employe e
+                         INNER JOIN contrat c ON e.id_employe = c.id_employe
+                         WHERE (
+                             -- L'employé était actif pendant ce mois
+                             (c.date_debut <= LAST_DAY(:date_calcul) AND (c.date_fin IS NULL OR c.date_fin >= :date_calcul))
+                         )";
+        
+        if ($id_departement !== null) {
+            $sql_effectifs .= " AND c.id_departement = :id_departement";
+        }
+        
+        // Calcul de la moyenne sur tous les mois de la période
+        $date_debut_obj = new \DateTime($date_debut);
+        $date_fin_obj = new \DateTime($date_fin);
+        $interval = new \DateInterval('P1M');
+        $period = new \DatePeriod($date_debut_obj, $interval, $date_fin_obj);
+        
+        $total_effectifs = 0;
+        $nb_mois = 0;
+        
+        foreach ($period as $dt) {
+            $stmt_effectifs = Flight::db()->prepare($sql_effectifs);
+            $params_effectifs = [
+                'date_calcul' => $dt->format('Y-m-d')
+            ];
+            
+            if ($id_departement !== null) {
+                $params_effectifs['id_departement'] = $id_departement;
+            }
+            
+            $stmt_effectifs->execute($params_effectifs);
+            $result = $stmt_effectifs->fetch();
+            $total_effectifs += $result ? $result['effectifs_mensuels'] : 0;
+            $nb_mois++;
+        }
+        
+        $effectifs_moyens = $nb_mois > 0 ? round($total_effectifs / $nb_mois, 0) : 0;
+        
+        // Calcul du taux de turnover
+        $taux_turnover = 0;
+        if ($effectifs_moyens > 0) {
+            $taux_turnover = round(($departs['departs_periode'] / $effectifs_moyens) * 100, 2);
+        }
+        
+        return [
+            'periode_debut' => $date_debut,
+            'periode_fin' => $date_fin,
+            'departs' => $departs['departs_periode'],
+            'effectifs_moyens' => $effectifs_moyens,
+            'nb_mois_calcul' => $nb_mois,
+            'taux_turnover' => $taux_turnover,
+            'unite' => '%'
+        ];
+    }
+
     /**
      * Récupère l'évolution des effectifs par mois (12 derniers mois)
      * @param int|null $id_departement - Si null, retourne pour tous les départements (RH)
