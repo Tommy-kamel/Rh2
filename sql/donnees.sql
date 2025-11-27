@@ -190,3 +190,19 @@ INSERT INTO heure_sup (type, pourcentage_majoration) VALUES
 ('nuit', 25),
 ('jour_ferie', 100),
 ('imprevu', 30);
+
+-- Additional employees for turnover statistics
+INSERT INTO employe (nom, prenom, date_naissance, email, mot_de_passe, sexe, telephone, adresse, numero_cnaps) VALUES
+('Dupont', 'Jean', '1990-01-15', 'jean.dupont@email.com', '123', 'Homme', '0341234567', 'Antananarivo', 123456789),
+('Martin', 'Marie', '1985-05-20', 'marie.martin@email.com', '123', 'Femme', '0339876543', 'Toamasina', 987654321),
+('Bernard', 'Paul', '1992-03-10', 'paul.bernard@email.com', '123', 'Homme', '0324567890', 'Fianarantsoa', 456789123),
+('Dubois', 'Sophie', '1988-11-25', 'sophie.dubois@email.com', '123', 'Femme', '0345678901', 'Mahajanga', 789123456),
+('Thomas', 'Marc', '1995-07-08', 'marc.thomas@email.com', '123', 'Homme', '0330123456', 'Toliara', 321654987);
+
+-- Contracts for new employees, some ending in November 2025 for turnover
+INSERT INTO contrat (id_employe, salaire, date_debut, date_fin, type, id_poste, id_departement) VALUES
+((SELECT id_employe FROM employe WHERE nom = 'Dupont' AND prenom = 'Jean'), 3500.00, '2025-01-01', '2025-11-30', 'CDD', 3, 1),
+((SELECT id_employe FROM employe WHERE nom = 'Martin' AND prenom = 'Marie'), 2800.00, '2025-03-01', NULL, 'CDI', 4, 2),
+((SELECT id_employe FROM employe WHERE nom = 'Bernard' AND prenom = 'Paul'), 2200.00, '2025-06-01', '2025-11-15', 'CDD', 6, 3),
+((SELECT id_employe FROM employe WHERE nom = 'Dubois' AND prenom = 'Sophie'), 1800.00, '2025-09-01', NULL, 'CDI', 7, 4),
+((SELECT id_employe FROM employe WHERE nom = 'Thomas' AND prenom = 'Marc'), 2400.00, '2025-10-01', '2025-11-27', 'Essai', 5, 5);
