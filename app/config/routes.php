@@ -128,6 +128,19 @@ $router->post('/chatbot/send', [$Chatbot_Controller, 'sendMessage']);
  
 
 
+// Routes Chatbot Admin IA
+$Admin_Chatbot_Controller = new AdminChatbotController($app->get('db'));
+$router->get('/admin/chatbot', [$Admin_Chatbot_Controller, 'index']);
+$router->post('/admin/chatbot/message', [$Admin_Chatbot_Controller, 'sendMessage']);
+$router->post('/admin/chatbot/generate-document', [$Admin_Chatbot_Controller, 'generateDocument']);
+$router->post('/admin/chatbot/predict-turnover', [$Admin_Chatbot_Controller, 'predictTurnover']);
+$router->post('/admin/chatbot/detect-anomalies', [$Admin_Chatbot_Controller, 'detectAnomalies']);
+$router->post('/admin/chatbot/recommend-candidates', [$Admin_Chatbot_Controller, 'recommendCandidates']);
+$router->post('/admin/chatbot/analyze-cv', [$Admin_Chatbot_Controller, 'analyzeCV']);
+$router->get('/admin/chatbot/statistics', [$Admin_Chatbot_Controller, 'getStatistics']);
+$router->get('/admin/chatbot/get-postes', [$Admin_Chatbot_Controller, 'getPostes']);
+$router->get('/admin/chatbot/get-employes', [$Admin_Chatbot_Controller, 'getEmployes']);
+
 
 // $router->get('/hello-world/@name', function($name) {
 // 	echo '<h1>Hello world! Oh hey '.$name.'!</h1>';
