@@ -16,6 +16,7 @@ class AdminChatbotController
             $db = \Flight::get('db');
             if ($db === null) {
                 // Fallback: créer une connexion directe
+                $ds = DIRECTORY_SEPARATOR; // Définir $ds pour config.php
                 $config = require __DIR__ . '/../../app/config/config.php';
                 $dsn = 'mysql:host=' . $config['database']['host'] . ';dbname=' . $config['database']['dbname'] . ';charset=utf8mb4';
                 $db = new \PDO($dsn, $config['database']['user'], $config['database']['password']);
