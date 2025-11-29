@@ -239,11 +239,6 @@ ALTER TABLE contrat
 -- ...existing code...
 
 
-
-
-
-
-
 CREATE TABLE audit_log (
     id_audit INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT NULL,  -- ID de l'utilisateur (peut être NULL pour les actions anonymes)
