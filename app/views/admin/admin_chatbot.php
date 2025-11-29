@@ -244,6 +244,36 @@
             transform: translateY(0);
         }
         
+        .suggestions-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+            padding: 12px 0;
+        }
+        
+        .suggestion-btn {
+            padding: 8px 16px;
+            background: #f0f2f5;
+            border: 1px solid #e1e8ed;
+            border-radius: 20px;
+            color: #2c3e50;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        
+        .suggestion-btn:hover {
+            background: #e4e6eb;
+            border-color: #2c3e50;
+            transform: translateY(-1px);
+        }
+        
+        .suggestion-btn:active {
+            transform: translateY(0);
+        }
+        
         .feature-panel {
             display: none;
             height: 100%;
@@ -455,6 +485,16 @@
                             </div>
                             
                             <div class="chat-input-area">
+                                <div class="suggestions-container" id="suggestionsContainer">
+                                    <button class="suggestion-btn" onclick="useSuggestion(this)">Peux-tu me donner le numéro de Marie Rabe ?</button>
+                                    <button class="suggestion-btn" onclick="useSuggestion(this)">Et l'adresse de Emma Rabenandrasana ?</button>
+                                    <button class="suggestion-btn" onclick="useSuggestion(this)">Quel est le salaire de Jean Rakoto ?</button>
+                                    <button class="suggestion-btn" onclick="useSuggestion(this)">Qui sont actuellement en congé ?</button>
+                                    <button class="suggestion-btn" onclick="useSuggestion(this)">Combien de congés sont en attente ?</button>
+                                    <button class="suggestion-btn" onclick="useSuggestion(this)">Donne moi les informations personnelles de Lucie Ramanantsoa ?</button>
+                                    <button class="suggestion-btn" onclick="useSuggestion(this)">Quel est le poste de Randria Paul ?</button>
+                                    <button class="suggestion-btn" onclick="useSuggestion(this)">Peux-tu me donner le mail de Rasoa Marie ?</button>                                   
+                                </div>
                                 <div class="input-group">
                                     <input type="text" id="chatInput" placeholder="Posez votre question..." />
                                     <button onclick="sendChatMessage()">
@@ -708,6 +748,12 @@
         });
         
         // Chatbot
+        function useSuggestion(btn) {
+            const input = document.getElementById('chatInput');
+            input.value = btn.textContent;
+            input.focus();
+        }
+        
         function sendChatMessage() {
             const input = document.getElementById('chatInput');
             const message = input.value.trim();

@@ -300,45 +300,43 @@ class AdminChatbotModel
             return "Aucun employé trouvé avec le nom \"" . implode(' ', $names) . "\". Veuillez vérifier l'orthographe.";
         }
 
-        // Déterminer quelle information est demandée
+        // Déterminer quelle information est demandée - en priorité par rapport aux infos complètes
         $msg = strtolower($message);
-        $info = [];
-        
-        // Informations de base
-        $info[] = "**{$employe['prenom']} {$employe['nom']}** (ID: {$employe['id_employe']})";
         
         // Numéro de téléphone
-        if (preg_match('/(num[ée]ro|t[ée]l[ée]phone|contact|appeler|joindre)/i', $msg)) {
+        if (preg_match('/(num[ée]ro|t[ée]l[ée]phone|contact|appeler|joindre)/iu', $msg)) {
             $tel = $employe['telephone'] ?? 'Non renseigné';
-            return "📞 Le numéro de téléphone de {$employe['prenom']} {$employe['nom']} est : **{$tel}**";
+            return "Le numéro de {$employe['prenom']} {$employe['nom']} est :\n📞 Téléphone: {$tel}";
         }
         
         // Email
-        if (preg_match('/(email|mail|e-mail|courriel)/i', $msg)) {
+        if (preg_match('/(email|mail|e-mail|courriel)/iu', $msg)) {
             $email = $employe['email'] ?? 'Non renseigné';
-            return "📧 L'email de {$employe['prenom']} {$employe['nom']} est : **{$email}**";
+            return "L'email de {$employe['prenom']} {$employe['nom']} est :\n📧 Email: {$email}";
         }
         
         // Adresse
-        if (preg_match('/(adresse|habite|domicile)/i', $msg)) {
+        if (preg_match('/(adresse|habite|domicile|où)/iu', $msg)) {
             $adresse = $employe['adresse'] ?? 'Non renseignée';
-            return "🏠 L'adresse de {$employe['prenom']} {$employe['nom']} est : **{$adresse}**";
+            return "L'adresse de {$employe['prenom']} {$employe['nom']} est :\n🏠 Adresse: {$adresse}";
         }
         
         // Poste
-        if (preg_match('/(poste|fonction|travail|job)/i', $msg)) {
+        if (preg_match('/(poste|fonction|travail|job)/iu', $msg)) {
             $poste = $employe['nom_poste'] ?? 'Non renseigné';
             $dept = $employe['nom_departement'] ?? 'Non renseigné';
-            return "💼 {$employe['prenom']} {$employe['nom']} occupe le poste de **{$poste}** dans le département **{$dept}**";
+            return "Les informations professionnelles de {$employe['prenom']} {$employe['nom']} :\n💼 Poste: {$poste}\n🏢 Département: {$dept}";
         }
         
         // Salaire
-        if (preg_match('/(salaire|paie|r[ée]mun[ée]ration)/i', $msg)) {
+        if (preg_match('/(salaire|paie|r[ée]mun[ée]ration|combien gagne)/iu', $msg)) {
             $salaire = isset($employe['salaire']) ? number_format($employe['salaire'], 0, ',', ' ') . ' Ar' : 'Non renseigné';
-            return "💰 Le salaire de {$employe['prenom']} {$employe['nom']} est de **{$salaire}**";
+            return "Le salaire de {$employe['prenom']} {$employe['nom']} est :\n💰 Salaire: {$salaire}";
         }
         
         // Informations complètes par défaut
+        $info = [];
+        $info[] = "**{$employe['prenom']} {$employe['nom']}** (ID: {$employe['id_employe']})";
         $info[] = "📞 Téléphone: " . ($employe['telephone'] ?? 'Non renseigné');
         $info[] = "📧 Email: " . ($employe['email'] ?? 'Non renseigné');
         $info[] = "🏠 Adresse: " . ($employe['adresse'] ?? 'Non renseignée');
@@ -407,23 +405,54 @@ class AdminChatbotModel
         }
 
         foreach ($queries as $query) {
+            // D'abord trouver l'employé
             $stmt = $this->db->prepare("
-                SELECT e.*, 
-                       p.nom as nom_poste, 
-                       d.nom_departement,
-                       c.salaire
-                FROM employe e
-                LEFT JOIN contrat c ON e.id_employe = c.id_employe AND c.date_fin IS NULL OR c.date_fin >= CURDATE()
-                LEFT JOIN poste p ON c.id_poste = p.id_poste
-                LEFT JOIN departement d ON c.id_departement = d.id_departement
-                WHERE LOWER(e.nom) LIKE LOWER(?) 
-                  AND LOWER(e.prenom) LIKE LOWER(?)
-                ORDER BY c.date_debut DESC
+                SELECT * FROM employe 
+                WHERE LOWER(nom) LIKE LOWER(?) 
+                  AND LOWER(prenom) LIKE LOWER(?)
                 LIMIT 1
             ");
             
-            $stmt->execute(['%' . $query['nom'] . '%', '%' . $query['prenom'] . '%']);
-            $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+            $nom = '%' . $query['nom'] . '%';
+            $prenom = '%' . $query['prenom'] . '%';
+            $stmt->execute([$nom, $prenom]);
+            $employe = $stmt->fetch(\PDO::FETCH_ASSOC);
+            
+            if (!$employe) {
+                continue;
+            }
+            
+            // Ensuite récupérer son contrat le plus récent avec poste et département
+            $stmt2 = $this->db->prepare("
+                SELECT c.*, p.nom as nom_poste, d.nom_departement
+                FROM contrat c
+                LEFT JOIN poste p ON c.id_poste = p.id_poste
+                LEFT JOIN departement d ON c.id_departement = d.id_departement
+                WHERE c.id_employe = ?
+                ORDER BY 
+                    CASE 
+                        WHEN c.date_fin IS NULL THEN 0
+                        WHEN c.date_fin >= CURDATE() THEN 1
+                        ELSE 2
+                    END,
+                    c.date_debut DESC
+                LIMIT 1
+            ");
+            $stmt2->execute([$employe['id_employe']]);
+            $contrat = $stmt2->fetch(\PDO::FETCH_ASSOC);
+            
+            // Fusionner les données
+            if ($contrat) {
+                $result = array_merge($employe, [
+                    'nom_poste' => $contrat['nom_poste'],
+                    'nom_departement' => $contrat['nom_departement'],
+                    'salaire' => $contrat['salaire'],
+                    'date_debut' => $contrat['date_debut'],
+                    'date_fin' => $contrat['date_fin']
+                ]);
+            } else {
+                $result = $employe;
+            }
             
             if ($result) {
                 return $result;
