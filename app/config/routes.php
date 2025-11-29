@@ -16,6 +16,8 @@ use app\controllers\paiement\HistoriqueFicheController;
 use app\controllers\paiement\DetailPaiementPDFController;
 require_once __DIR__ . '/../../chatbot/ChatbotController.php';
 use chatbot\ChatbotController;
+require_once __DIR__ . '/../../chatbot/Admin/AdminChatbotController.php';
+use chatbot\Admin\AdminChatbotController;
 use app\controllers\admin\EmployeeController;
 use flight\Engine;
 use flight\net\Router;
