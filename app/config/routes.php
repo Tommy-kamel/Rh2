@@ -179,3 +179,17 @@ Flight::route('POST /primes-global/ajouter', [$primeglobal, 'ajouterPrime']);
 $Audit_Controller = new AuditController();
 Flight::route('GET /admin/audit-logs', [$Audit_Controller, 'index']);
 Flight::route('GET /admin/audit-logs/@id', [$Audit_Controller, 'getLogDetails']);
+
+// Routes pour la messagerie Admin/RH
+$Admin_Message_Controller = new \app\controllers\admin\MessageController();
+Flight::route('GET /admin/messages', [$Admin_Message_Controller, 'index']);
+Flight::route('GET /admin/messages/@id', [$Admin_Message_Controller, 'show']);
+Flight::route('POST /admin/messages/@id/send', [$Admin_Message_Controller, 'sendMessage']);
+Flight::route('POST /admin/messages/@id/status', [$Admin_Message_Controller, 'updateStatus']);
+
+// Routes pour la messagerie Employé
+$Employe_Message_Controller = new \app\controllers\employe\MessageController();
+Flight::route('GET /employe/messages', [$Employe_Message_Controller, 'index']);
+Flight::route('GET /employe/messages/@id', [$Employe_Message_Controller, 'show']);
+Flight::route('POST /employe/messages/create', [$Employe_Message_Controller, 'create']);
+Flight::route('POST /employe/messages/@id/send', [$Employe_Message_Controller, 'sendMessage']);

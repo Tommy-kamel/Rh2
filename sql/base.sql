@@ -253,3 +253,34 @@ CREATE TABLE audit_log (
     FOREIGN KEY (user_id) REFERENCES user(id_user) ON DELETE SET NULL
 );
 
+-- Table pour les conversations de messagerie
+CREATE TABLE messagerie_conversations (
+    id_conversation INT PRIMARY KEY AUTO_INCREMENT,
+    id_employe INT NOT NULL,
+    id_user_rh INT NULL,  -- ID de l'utilisateur RH assigné (NULL si pas encore assigné)
+    sujet VARCHAR(255) NOT NULL,
+    status ENUM('ouvert', 'en_cours', 'ferme') DEFAULT 'ouvert',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_employe) REFERENCES employe(id_employe) ON DELETE CASCADE,
+    FOREIGN KEY (id_user_rh) REFERENCES user(id_user) ON DELETE SET NULL
+);
+
+-- Table pour les messages de la messagerie
+CREATE TABLE messagerie_messages (
+    id_message INT PRIMARY KEY AUTO_INCREMENT,
+    id_conversation INT NOT NULL,
+    sender_type ENUM('employe', 'rh') NOT NULL,  -- Type d'expéditeur
+    sender_id INT NOT NULL,  -- ID de l'employé ou de l'utilisateur RH
+    message TEXT NOT NULL,
+    lu BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_conversation) REFERENCES messagerie_conversations(id_conversation) ON DELETE CASCADE
+);
+
+-- Index pour améliorer les performances
+CREATE INDEX idx_conversation_employe ON messagerie_conversations(id_employe);
+CREATE INDEX idx_conversation_rh ON messagerie_conversations(id_user_rh);
+CREATE INDEX idx_message_conversation ON messagerie_messages(id_conversation);
+CREATE INDEX idx_message_lu ON messagerie_messages(lu);
+

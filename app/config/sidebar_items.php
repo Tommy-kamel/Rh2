@@ -113,6 +113,13 @@ return [
             'sub_items' => []
         ],
         [
+            'icon' => 'message-circle',
+            'label' => 'Messagerie',
+            'link' => '/admin/messages',
+            'active' => false,
+            'sub_items' => []
+        ],
+        [
             'icon' => 'users',
             'label' => 'Gestion des employés',
             'link' => '/employes',
@@ -511,6 +518,13 @@ return [
             'icon' => 'dollar-sign',
             'label' => 'Mes bulletins de paie',
             'link' => '/employe/bulletins',
+            'active' => false,
+            'sub_items' => []
+        ],
+        [
+            'icon' => 'mail',
+            'label' => 'Mes messages',
+            'link' => '/employe/messages',
             'active' => false,
             'sub_items' => []
         ],

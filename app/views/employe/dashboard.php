@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/assets/css/styles.css">
     <script src="https://unpkg.com/feather-icons"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
     <style>
         .spinning {
             animation: spin 1s linear infinite;
