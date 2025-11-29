@@ -106,6 +106,13 @@ return [
             'sub_items' => []
         ],
         [
+            'icon' => 'shield',
+            'label' => 'Logs d\'Audit',
+            'link' => '/admin/audit-logs',
+            'active' => false,
+            'sub_items' => []
+        ],
+        [
             'icon' => 'users',
             'label' => 'Gestion des employés',
             'link' => '/employes',

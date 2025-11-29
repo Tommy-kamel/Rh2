@@ -14,6 +14,7 @@ use app\controllers\paiement\DetailPaiementController;
 use app\controllers\paiement\PrimesGlobalController;
 use app\controllers\paiement\HistoriqueFicheController;
 use app\controllers\paiement\DetailPaiementPDFController;
+use app\controllers\admin\AuditController;
 require_once __DIR__ . '/../../chatbot/ChatbotController.php';
 use chatbot\ChatbotController;
 use app\controllers\admin\EmployeeController;
@@ -173,3 +174,8 @@ Flight::route('/paiement/primePdf', [$primeglobal, 'fichePDF']);
 // Routes pour les primes globales
 Flight::route('GET /primes-global', [$primeglobal, 'index']);
 Flight::route('POST /primes-global/ajouter', [$primeglobal, 'ajouterPrime']);
+
+// Routes pour les logs d'audit (Admin seulement)
+$Audit_Controller = new AuditController();
+Flight::route('GET /admin/audit-logs', [$Audit_Controller, 'index']);
+Flight::route('GET /admin/audit-logs/@id', [$Audit_Controller, 'getLogDetails']);

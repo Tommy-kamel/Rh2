@@ -244,3 +244,17 @@ ALTER TABLE contrat
 
 
 
+CREATE TABLE audit_log (
+    id_audit INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NULL,  -- ID de l'utilisateur (peut être NULL pour les actions anonymes)
+    action VARCHAR(255) NOT NULL,  -- Description de l'action (ex: 'CREATE_EMPLOYE', 'UPDATE_CONTRAT', 'LOGIN', etc.)
+    table_name VARCHAR(100) NULL,  -- Nom de la table affectée (ex: 'employe', 'contrat')
+    record_id INT NULL,  -- ID de l'enregistrement affecté
+    old_values TEXT NULL,  -- Valeurs anciennes (JSON ou texte sérialisé)
+    new_values TEXT NULL,  -- Valeurs nouvelles (JSON ou texte sérialisé)
+    ip_address VARCHAR(45) NULL,  -- Adresse IP du client
+    user_agent TEXT NULL,  -- User-Agent du navigateur
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Date et heure de l'action
+    FOREIGN KEY (user_id) REFERENCES user(id_user) ON DELETE SET NULL
+);
+

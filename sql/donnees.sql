@@ -206,3 +206,14 @@ INSERT INTO contrat (id_employe, salaire, date_debut, date_fin, type, id_poste, 
 ((SELECT id_employe FROM employe WHERE nom = 'Bernard' AND prenom = 'Paul'), 2200.00, '2025-06-01', '2025-11-15', 'CDD', 6, 3),
 ((SELECT id_employe FROM employe WHERE nom = 'Dubois' AND prenom = 'Sophie'), 1800.00, '2025-09-01', NULL, 'CDI', 7, 4),
 ((SELECT id_employe FROM employe WHERE nom = 'Thomas' AND prenom = 'Marc'), 2400.00, '2025-10-01', '2025-11-27', 'Essai', 5, 5);
+
+-- Sample audit log entries
+INSERT INTO audit_log (user_id, action, table_name, record_id, old_values, new_values, ip_address, user_agent, timestamp) VALUES
+(1, 'LOGIN', NULL, NULL, NULL, NULL, '192.168.1.100', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', '2025-11-20 09:00:00'),
+(1, 'CREATE_EMPLOYE', 'employe', 106, NULL, '{"nom":"Dupont","prenom":"Jean","email":"jean.dupont@email.com"}', '192.168.1.100', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', '2025-11-20 10:15:00'),
+(1, 'UPDATE_CONTRAT', 'contrat', 106, '{"salaire":"3000.00"}', '{"salaire":"3500.00"}', '192.168.1.100', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', '2025-11-20 10:30:00'),
+(1, 'CREATE_CONGE', 'conge', 1, NULL, '{"id_employe":"1","date_debut":"2025-12-01","date_fin":"2025-12-05","motif":"Vacances"}', '192.168.1.100', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', '2025-11-20 14:20:00'),
+(2, 'LOGIN', NULL, NULL, NULL, NULL, '192.168.1.101', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36', '2025-11-21 08:45:00'),
+(2, 'UPDATE_POINTAGE', 'pointage', 1, '{"heure_arrivee":"08:00:00"}', '{"heure_arrivee":"08:15:00"}', '192.168.1.101', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36', '2025-11-21 08:20:00'),
+(1, 'DELETE_RETARD', 'retard', 1, '{"id_employe":"5","date_retard":"2025-11-15","motif":"Traffic"}', NULL, '192.168.1.100', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', '2025-11-21 11:00:00'),
+(NULL, 'VIEW_STATISTIQUES', NULL, NULL, NULL, NULL, '192.168.1.102', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36', '2025-11-22 16:30:00');

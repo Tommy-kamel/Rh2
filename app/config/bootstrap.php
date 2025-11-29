@@ -65,6 +65,47 @@ require('routes.php');
  */ 
 require('services.php');
 
+// Middleware pour la journalisation d'audit
+$app->before('start', function() use ($app) {
+    // Journaliser les actions importantes (POST, PUT, DELETE)
+    $method = $_SERVER['REQUEST_METHOD'];
+    if (in_array($method, ['POST', 'PUT', 'DELETE'])) {
+        // Déterminer l'action basée sur l'URL
+        $url = $_SERVER['REQUEST_URI'];
+        $action = $method . ' ' . $url;
+        
+        // Essayer de déterminer la table et l'action
+        $table_name = null;
+        $record_id = null;
+        
+        // Exemples d'actions à journaliser
+        if (strpos($url, '/employe') !== false) {
+            $table_name = 'employe';
+            if (preg_match('/\/employe\/(\d+)/', $url, $matches)) {
+                $record_id = $matches[1];
+            }
+        } elseif (strpos($url, '/contrat') !== false) {
+            $table_name = 'contrat';
+            if (preg_match('/\/contrat\/(\d+)/', $url, $matches)) {
+                $record_id = $matches[1];
+            }
+        } elseif (strpos($url, '/conge') !== false) {
+            $table_name = 'conge';
+            if (preg_match('/\/conge[s]?\/(\w+)\/(\d+)/', $url, $matches)) {
+                $record_id = $matches[2];
+            } elseif (preg_match('/\/admin\/conges\/(\w+)\/(\d+)/', $url, $matches)) {
+                $record_id = $matches[2];
+            }
+        }
+        
+        // Journaliser l'action
+        if ($table_name) {
+            $auditModel = new \app\models\admin\AuditLogModel();
+            $auditModel->logAction($action, $table_name, $record_id);
+        }
+    }
+});
+
 // At this point, your app should have all the instructions it needs and it'll
 // "start" processing everything. This is where the magic happens.
 $app->start();
