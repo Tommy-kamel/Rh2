@@ -287,3 +287,38 @@ INSERT INTO conge (id_employe, id_type_conge, date_demande, date_debut, date_fin
 (2, 2, '2025-03-10', '2025-03-11', '2025-03-13', 'Maladie', '2025-03-10', 21);
 
 
+-----------COMPETENCE ENTREPRISE ----------------
+
+CREATE TABLE competence (
+    id_competence INT AUTO_INCREMENT PRIMARY KEY,
+    nom_competence VARCHAR(100) NOT NULL,
+    description TEXT
+);
+
+CREATE TABLE employe_competence (
+    id_employe INT,
+    id_competence INT,
+    niveau INT,
+    PRIMARY KEY (id_employe, id_competence),
+    FOREIGN KEY (id_employe) REFERENCES employe(id_employe),
+    FOREIGN KEY (id_competence) REFERENCES competence(id_competence)
+);
+
+CREATE TABLE poste_libre (
+    id_poste_libre INT AUTO_INCREMENT PRIMARY KEY,
+    id_poste INT,
+    id_departement INT,
+    date_publication DATE,
+    date_expiration DATE,
+    description TEXT,
+    FOREIGN KEY (id_poste) REFERENCES poste(id_poste),
+    FOREIGN KEY (id_departement) REFERENCES departement(id_departement)
+);
+
+CREATE TABLE poste_competence (
+    id_poste INT NOT NULL,
+    id_competence INT NOT NULL,
+    niveau_requis INT NOT NULL DEFAULT 1,
+    FOREIGN KEY (id_poste) REFERENCES poste(id_poste),
+    FOREIGN KEY (id_competence) REFERENCES competence(id_competence)
+);

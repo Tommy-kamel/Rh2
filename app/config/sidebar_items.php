@@ -71,6 +71,16 @@ return [
             ]
         ],
         [
+            'icon' => 'dollar-sign',
+            'label' => 'Competences & Formations',
+            'link' => '/matching/postes',
+            'active' => false,
+            'sub_items' => [
+                ['label' => 'Cartographie', 'link' => '/competences/cartographie'],
+                ['label' => 'Matching profil', 'link' => '/matching/postes']
+            ]
+        ],
+        [
             'icon' => 'file-text',
             'label' => 'Documents',
             'link' => '/documents',
@@ -157,6 +167,16 @@ return [
                 ['label' => 'Primes', 'link' => '/paiement/prime'],
                 ['label' => 'IRSA', 'link' => '/paiement/irsa'],
                 ['label' => 'Historique', 'link' => '/paiement/historique']
+            ]
+        ],
+        [
+            'icon' => 'dollar-sign',
+            'label' => 'Competences & Formations',
+            'link' => '/matching/postes',
+            'active' => false,
+            'sub_items' => [
+                ['label' => 'Cartographie', 'link' => '/competences/cartographie'],
+                ['label' => 'Matching profil', 'link' => '/matching/postes']
             ]
         ]
     ],

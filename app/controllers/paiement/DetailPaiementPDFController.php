@@ -2,7 +2,7 @@
 
 namespace app\controllers\paiement;
 
-require 'C:\xampp\htdocs\S5\Mr Tovo\Rh2\public\assets\lib\dompdf\autoload.inc.php';
+require '/home/mandaniaina/Documents/Mr Tovo/Rh2/public/assets/lib/dompdf/autoload.inc.php';
 
 use Dompdf\Dompdf;
 use Flight;
