@@ -1,7 +1,7 @@
 <?php
 $dsn = 'mysql:host=localhost;dbname=rh2;charset=utf8';
 $username = 'root';
-$password = '';
+$password = 'root123';
 $options = [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,

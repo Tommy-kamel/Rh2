@@ -71,6 +71,16 @@ return [
             ]
         ],
         [
+            'icon' => 'dollar-sign',
+            'label' => 'Competences & Formations',
+            'link' => '/matching/postes',
+            'active' => false,
+            'sub_items' => [
+                ['label' => 'Cartographie', 'link' => '/competences/cartographie'],
+                ['label' => 'Matching profil', 'link' => '/matching/postes']
+            ]
+        ],
+        [
             'icon' => 'file-text',
             'label' => 'Documents',
             'link' => '/documents',
@@ -198,6 +208,16 @@ return [
             //     ['label' => 'Détection Anomalies', 'link' => '/admin/chatbot#anomalies'],
             //     ['label' => 'Recommandation CV', 'link' => '/admin/chatbot#candidates']
             // ]
+        ],
+        [
+            'icon' => 'dollar-sign',
+            'label' => 'Competences & Formations',
+            'link' => '/matching/postes',
+            'active' => false,
+            'sub_items' => [
+                ['label' => 'Cartographie', 'link' => '/competences/cartographie'],
+                ['label' => 'Matching profil', 'link' => '/matching/postes']
+            ]
         ]
     ],
 

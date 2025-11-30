@@ -15,6 +15,9 @@ use app\controllers\paiement\PrimesGlobalController;
 use app\controllers\paiement\HistoriqueFicheController;
 use app\controllers\paiement\DetailPaiementPDFController;
 use app\controllers\admin\AuditController;
+use app\controllers\admin\CompetenceController;
+use app\controllers\admin\MatchingController;
+
 require_once __DIR__ . '/../../chatbot/ChatbotController.php';
 use chatbot\ChatbotController;
 require_once __DIR__ . '/../../chatbot/Admin/AdminChatbotController.php';
@@ -189,22 +192,3 @@ Flight::route('/paiement/primePdf', [$primeglobal, 'fichePDF']);
 // Routes pour les primes globales
 Flight::route('GET /primes-global', [$primeglobal, 'index']);
 Flight::route('POST /primes-global/ajouter', [$primeglobal, 'ajouterPrime']);
-
-// Routes pour les logs d'audit (Admin seulement)
-$Audit_Controller = new AuditController();
-Flight::route('GET /admin/audit-logs', [$Audit_Controller, 'index']);
-Flight::route('GET /admin/audit-logs/@id', [$Audit_Controller, 'getLogDetails']);
-
-// Routes pour la messagerie Admin/RH
-$Admin_Message_Controller = new \app\controllers\admin\MessageController();
-Flight::route('GET /admin/messages', [$Admin_Message_Controller, 'index']);
-Flight::route('GET /admin/messages/@id', [$Admin_Message_Controller, 'show']);
-Flight::route('POST /admin/messages/@id/send', [$Admin_Message_Controller, 'sendMessage']);
-Flight::route('POST /admin/messages/@id/status', [$Admin_Message_Controller, 'updateStatus']);
-
-// Routes pour la messagerie Employé
-$Employe_Message_Controller = new \app\controllers\employe\MessageController();
-Flight::route('GET /employe/messages', [$Employe_Message_Controller, 'index']);
-Flight::route('GET /employe/messages/@id', [$Employe_Message_Controller, 'show']);
-Flight::route('POST /employe/messages/create', [$Employe_Message_Controller, 'create']);
-Flight::route('POST /employe/messages/@id/send', [$Employe_Message_Controller, 'sendMessage']);
