@@ -1,0 +1,46 @@
+<h2>Compétences de <?= $employee['prenom'].' '.$employee['nom'] ?></h2>
+
+<table border="1" cellpadding="8" style="width:100%;">
+    <thead>
+        <tr>
+            <th>Compétence</th>
+            <th>Niveau actuel</th>
+            <th>Niveau requis</th>
+            <th>Besoin formation ?</th>
+            <th>Suggestion de formation</th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($competences as $c): ?>
+        <tr>
+            <td><?= $c['nom_competence'] ?></td>
+            <td><?= $c['niveau_actuel'] ?></td>
+            <td><?= $c['niveau_requis'] ?? 'N/A' ?></td>
+            <td><?= $c['besoin_formation'] ?></td>
+            <td><?= $c['suggestion_formation'] ?></td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
+
+<!-- Diagramme cercle des compétences -->
+<canvas id="competencePie" height="200" style="margin-top:40px;"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const labels = <?= json_encode(array_column($competences,'nom_competence')) ?>;
+const data = <?= json_encode(array_column($competences,'niveau_actuel')) ?>;
+
+new Chart(document.getElementById('competencePie'), {
+    type: 'pie',
+    data: {
+        labels: labels,
+        datasets: [{
+            data: data,
+            backgroundColor: [
+                '#FF6384','#36A2EB','#FFCE56','#4BC0C0','#9966FF','#FF9F40','#C9CBCF','#FF6384'
+            ]
+        }]
+    }
+});
+</script>

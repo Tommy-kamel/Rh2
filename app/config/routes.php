@@ -15,6 +15,9 @@ use app\controllers\paiement\PrimesGlobalController;
 use app\controllers\paiement\HistoriqueFicheController;
 use app\controllers\paiement\DetailPaiementPDFController;
 use app\controllers\admin\AuditController;
+use app\controllers\admin\CompetenceController;
+use app\controllers\admin\MatchingController;
+
 require_once __DIR__ . '/../../chatbot/ChatbotController.php';
 use chatbot\ChatbotController;
 require_once __DIR__ . '/../../chatbot/Admin/AdminChatbotController.php';
@@ -208,3 +211,22 @@ Flight::route('GET /employe/messages', [$Employe_Message_Controller, 'index']);
 Flight::route('GET /employe/messages/@id', [$Employe_Message_Controller, 'show']);
 Flight::route('POST /employe/messages/create', [$Employe_Message_Controller, 'create']);
 Flight::route('POST /employe/messages/@id/send', [$Employe_Message_Controller, 'sendMessage']);
+
+// Gestion des competences des employés
+$CompetenceController = new CompetenceController();
+$router->get('/competences/cartographie', [$CompetenceController, 'cartographie']);
+$router->get('/competences/cartographie/@id', [$CompetenceController, 'details']);
+$router->get('/competences/exportPDF', [$CompetenceController, 'exportPDF']);
+
+// Matching automatique profil / poste à pourvoir
+$MatchingController = new MatchingController();
+$router->get('/matching/poste/@id', [$MatchingController, 'poste']);
+$router->get('/matching/postes', [$MatchingController, 'listePostes']);
+$router->post('/matching/postes/add', [$MatchingController, 'ajouterPoste']);
+$router->get('/matching/postes/update/@id', [$MatchingController, 'modifierPoste']);
+$router->post('/matching/postes/delete/@id', [$MatchingController, 'supprimerPoste']);
+
+//Suggestions de formation pour un employé
+// $router->get('/formations/dashboard', [$CompetenceController, 'dashboard']);
+$router->get('/formations/employee/@id', [$CompetenceController, 'employeeDetails']);
+

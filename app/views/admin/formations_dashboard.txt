@@ -1,0 +1,24 @@
+<h2>Dashboard des compétences</h2>
+<p>Total compétences : <?= $totalCompetences ?></p>
+<p>Total écarts : <?= $totalGaps ?></p>
+
+<table border="1" cellpadding="8" style="width:100%;">
+    <thead>
+        <tr>
+            <th>Employé</th>
+            <th>Nombre de compétences</th>
+            <th>Nombre d’écarts</th>
+            <th>Détails</th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($employees as $e): ?>
+        <tr>
+            <td><?= $e['prenom'].' '.$e['nom'] ?></td>
+            <td><?= $e['nb_competences'] ?></td>
+            <td><?= $e['nb_gaps'] ?></td>
+            <td><a href="/formations/employee/<?= $e['id_employe'] ?>">Voir détails</a></td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
