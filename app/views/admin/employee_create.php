@@ -35,7 +35,7 @@
     }
 
     body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
         margin: 0;
         padding: 0;
     }

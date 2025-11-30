@@ -8,8 +8,13 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/css/styles.css">
     <link rel="stylesheet" href="/assets/css/rh-dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/feather-icons"></script>
     <style>
+        * {
+            font-family: 'Outfit', sans-serif;
+        }
+        
         .table-responsive {
             background: white;
             border-radius: 8px;

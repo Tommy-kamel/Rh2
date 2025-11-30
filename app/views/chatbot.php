@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <title>Chatbot RH</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
     <style>
         /* Base */
-        body { font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; }
+        * {
+            font-family: 'Outfit', sans-serif;
+        }
 
         /* Modal shell */
         .chatbot-modal .modal-dialog {

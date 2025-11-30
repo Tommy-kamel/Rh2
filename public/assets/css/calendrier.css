@@ -1,5 +1,9 @@
 /* Styles pour le calendrier */
 
+* {
+    font-family: 'Outfit', sans-serif;
+}
+
 .calendar-navigation {
     display: flex;
     justify-content: space-between;
