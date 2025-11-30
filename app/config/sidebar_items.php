@@ -78,6 +78,19 @@ return [
             'sub_items' => []
         ],
         [
+            'icon' => 'cpu',
+            'label' => 'Assistant IA RH',
+            'link' => '/admin/chatbot',
+            'active' => false,
+            // 'sub_items' => [
+            //     ['label' => 'Chatbot FAQ', 'link' => '/admin/chatbot'],
+            //     ['label' => 'Génération Documents', 'link' => '/admin/chatbot#documents'],
+            //     ['label' => 'Prédiction Turnover', 'link' => '/admin/chatbot#turnover'],
+            //     ['label' => 'Détection Anomalies', 'link' => '/admin/chatbot#anomalies'],
+            //     ['label' => 'Recommandation CV', 'link' => '/admin/chatbot#candidates']
+            // ]
+        ],
+        [
             'icon' => 'settings',
             'label' => 'Paramètres',
             'link' => '/parametres',
@@ -172,6 +185,19 @@ return [
                 ['label' => 'IRSA', 'link' => '/paiement/irsa'],
                 ['label' => 'Historique', 'link' => '/paiement/historique']
             ]
+        ],
+        [
+            'icon' => 'cpu',
+            'label' => 'Assistant IA RH',
+            'link' => '/admin/chatbot',
+            'active' => false,
+            // 'sub_items' => [
+            //     ['label' => 'Chatbot FAQ', 'link' => '/admin/chatbot'],
+            //     ['label' => 'Génération Documents', 'link' => '/admin/chatbot#documents'],
+            //     ['label' => 'Prédiction Turnover', 'link' => '/admin/chatbot#turnover'],
+            //     ['label' => 'Détection Anomalies', 'link' => '/admin/chatbot#anomalies'],
+            //     ['label' => 'Recommandation CV', 'link' => '/admin/chatbot#candidates']
+            // ]
         ]
     ],
 

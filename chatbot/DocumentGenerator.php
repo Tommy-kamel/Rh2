@@ -61,7 +61,7 @@ class DocumentGenerator
     /**
      * Génère une attestation de travail
      */
-    private function genererAttestation($employe)
+    public function genererAttestation($employe, $params = [])
     {
         $pdf = $this->createPDF('Attestation de Travail');
         
@@ -118,7 +118,7 @@ class DocumentGenerator
     /**
      * Génère un contrat de travail
      */
-    private function genererContrat($employe)
+    public function genererContrat($employe, $params = [])
     {
         $pdf = $this->createPDF('Contrat de Travail');
         
@@ -231,7 +231,7 @@ class DocumentGenerator
     /**
      * Génère un certificat de travail
      */
-    private function genererCertificat($employe)
+    public function genererCertificat($employe, $params = [])
     {
         $pdf = $this->createPDF('Certificat de Travail');
         
@@ -289,7 +289,7 @@ class DocumentGenerator
     /**
      * Génère une fiche de paie
      */
-    private function genererFichePaie($employe)
+    public function genererFichePaie($employe, $mois = null, $annee = null)
     {
         $pdf = $this->createPDF('Fiche de Paie');
         
@@ -513,7 +513,7 @@ class DocumentGenerator
                 c.date_debut as contrat_debut,
                 c.date_fin as contrat_fin
             FROM employe e
-            LEFT JOIN contrat c ON e.id_employe = c.id_employe AND c.date_fin IS NULL
+            LEFT JOIN contrat c ON e.id_employe = c.id_employe AND (c.date_fin IS NULL OR c.date_fin >= CURDATE())
             LEFT JOIN poste p ON c.id_poste = p.id_poste
             LEFT JOIN departement d ON c.id_departement = d.id_departement
             WHERE e.id_employe = ?

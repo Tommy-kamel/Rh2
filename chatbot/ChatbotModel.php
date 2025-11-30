@@ -108,6 +108,8 @@ class ChatbotModel
             ['contrat', 'engagement', 'embauche', 'emploi'],
             ['departement', 'service', 'equipe', 'division'],
             ['demander', 'faire', 'soumettre', 'deposer', 'envoyer'],
+            ['combien', 'nombre', 'quantite'],
+            ['reste', 'restent', 'restant', 'disponible', 'solde'],
         ];
     }
     
@@ -117,6 +119,7 @@ class ChatbotModel
         // Catégories de mots-clés avec leurs réponses
         $categories = [
             'conges' => ['conge', 'vacances', 'repos', 'absence', 'permission', 'jour', 'off'],
+            'conges_solde' => ['combien', 'reste', 'restent', 'restant', 'disponible', 'solde', 'nombre'],
             'salaire' => ['salaire', 'paie', 'remuneration', 'paye', 'argent', 'bulletin'],
             'horaires' => ['horaire', 'temps', 'pointage', 'heure', 'planning', 'pointer'],
             'profil' => ['profil', 'info', 'information', 'donnees', 'compte', 'coordonnees'],
@@ -138,13 +141,22 @@ class ChatbotModel
             }
         }
         
+        // Détecter spécifiquement "combien de congés me restent"
+        $hasConge = isset($indices['conges']) || isset($indices['conges_solde']);
+        $hasSolde = isset($indices['conges_solde']);
+        
+        if ($hasConge && $hasSolde && $userId) {
+            // Question sur le solde de congés
+            return $this->generateDynamicResponse('combien conge reste', $userId);
+        }
+        
         // Si on a trouvé des indices, donner une réponse contextuelle
         if (!empty($indices)) {
             arsort($indices);
             $meilleureCat = array_key_first($indices);
             
             // Générer une réponse selon la catégorie
-            if ($meilleureCat === 'conges') {
+            if ($meilleureCat === 'conges' || $meilleureCat === 'conges_solde') {
                 if ($userId) {
                     return $this->generateDynamicResponse('conge', $userId);
                 }
