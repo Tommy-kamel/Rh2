@@ -319,3 +319,18 @@ CREATE TABLE poste_competence (
     FOREIGN KEY (id_poste) REFERENCES poste(id_poste),
     FOREIGN KEY (id_competence) REFERENCES competence(id_competence)
 );
+
+
+CREATE TABLE evaluation_performance (
+    id_evaluation INT AUTO_INCREMENT PRIMARY KEY,
+    id_employe INT,
+    periode ENUM('mensuelle', 'trimestrielle', 'annuelle'),
+    score_global DECIMAL(5,2),
+    scores_detail JSON,
+    date_evaluation DATETIME,
+    FOREIGN KEY (id_employe) REFERENCES employe(id_employe)
+);
+
+CREATE INDEX idx_evaluation_periode ON evaluation_performance(periode, date_evaluation);
+CREATE INDEX idx_evaluation_employe ON evaluation_performance(id_employe, date_evaluation);
+
