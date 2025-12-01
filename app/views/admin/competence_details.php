@@ -721,7 +721,7 @@
                         <h3>Département le plus compétent</h3>
                         <div class="value"><?= $topDepartement ?></div>
                         <div class="trend">
-                            <span><?= max($parDepartement) ?> employés</span>
+                            <span><?php if(count($parDepartement) > 0)  { echo (max($parDepartement)); } else {echo 0; } ?> employés</span>
                         </div>
                     </div>
                 </div>
