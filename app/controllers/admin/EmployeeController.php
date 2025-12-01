@@ -165,13 +165,7 @@ class EmployeeController
         Flight::redirect("/employes/{$id}");
     }
 
-        public function liste()
-    {
-        $employees = $this->model->getAll();
-        Flight::render('admin/employees_list', [
-            'employees' => $employees
-        ]);
-    }
+    
 
     public function contrat($id)
     {
@@ -255,4 +249,22 @@ class EmployeeController
             Flight::redirect('/employes/ajouter');
         }
     }
+
+    public function liste()
+    {
+        // Récupérer l'id du département de l'utilisateur connecté
+        $id_departement = $_SESSION['id_departement'] ?? null;
+
+        // Si l'utilisateur n'est pas RH, filtrer par département
+        if ($_SESSION['user_type'] !== 'Ressources Humaines' && $id_departement !== null) {
+            $employes = $this->model->getEmployesParDepartement($id_departement);
+        } else {
+            $employes = $this->model->getAllEmployes();
+        }
+
+        Flight::render('admin/employees_list', [
+            'employes' => $employes
+        ]);
+    }
+
 }

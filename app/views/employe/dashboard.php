@@ -96,20 +96,20 @@
                         Actions rapides
                     </h2>
                     <div class="quick-actions">
-                        <a href="/employe/pointage/pointer" class="action-card">
-                            <i data-feather="log-in"></i>
-                            <h3>Pointer</h3>
-                            <p>Enregistrer mon arrivée/départ</p>
+                        <a href="/employe/messages" class="action-card">
+                            <i data-feather="mail"></i>
+                            <h3>Mes messages</h3>
+                            <p>Contacter les RH</p>
                         </a>
                         <a href="#" class="action-card" data-bs-toggle="modal" data-bs-target="#demandeCongeModal">
                             <i data-feather="calendar"></i>
                             <h3>Demander un congé</h3>
                             <p>Faire une nouvelle demande</p>
                         </a>
-                        <a href="/employe/bulletins" class="action-card">
-                            <i data-feather="dollar-sign"></i>
-                            <h3>Bulletins de paie</h3>
-                            <p>Consulter mes bulletins</p>
+                        <a href="#chatbotModal" class="action-card" data-bs-toggle="modal" data-bs-target="#chatbotModal">
+                            <i data-feather="message-circle"></i>
+                            <h3>Chatbot RH</h3>
+                            <p>Assistant virtuel RH</p>
                         </a>
                         <a href="/employe/profil" class="action-card">
                             <i data-feather="user"></i>
@@ -119,11 +119,127 @@
                     </div>
                 </section>
                 
-                <!-- Mes derniers pointages -->
+                <!-- Informations utiles -->
+                <section class="section">
+                    <h2 class="section-title">
+                        <i data-feather="info"></i>
+                        Informations utiles
+                    </h2>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="info-card">
+                                <div class="info-header">
+                                    <i data-feather="calendar"></i>
+                                    <h4>Mes congés</h4>
+                                </div>
+                                <div class="info-body">
+                                    <div class="info-item">
+                                        <span class="info-label">Solde disponible:</span>
+                                        <span class="info-value text-success"><?= $solde_conges ?? 25 ?> jours</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Demandes en attente:</span>
+                                        <span class="info-value text-warning"><?= $demandes_attente ?? 0 ?></span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Congés pris cette année:</span>
+                                        <span class="info-value"><?= $conges_pris ?? 0 ?> jours</span>
+                                    </div>
+                                    <a href="/employe/conges/liste" class="btn btn-sm btn-outline-primary mt-3">
+                                        <i data-feather="eye" style="width: 16px; height: 16px;"></i>
+                                        Voir l'historique
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-card">
+                                <div class="info-header">
+                                    <i data-feather="briefcase"></i>
+                                    <h4>Mes informations</h4>
+                                </div>
+                                <div class="info-body">
+                                    <div class="info-item">
+                                        <span class="info-label">Département:</span>
+                                        <span class="info-value"><?= $_SESSION['nom_departement'] ?? 'N/A' ?></span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Poste:</span>
+                                        <span class="info-value"><?= $_SESSION['nom_poste'] ?? 'N/A' ?></span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Email:</span>
+                                        <span class="info-value"><?= $_SESSION['email'] ?? 'N/A' ?></span>
+                                    </div>
+                                    <a href="/employe/profil" class="btn btn-sm btn-outline-primary mt-3">
+                                        <i data-feather="user" style="width: 16px; height: 16px;"></i>
+                                        Voir mon profil
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
                 
             </div>
         </main>
     </div>
+    
+    <style>
+        .info-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            height: 100%;
+        }
+        
+        .info-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .info-header i {
+            color: #4c6ef5;
+            width: 24px;
+            height: 24px;
+        }
+        
+        .info-header h4 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .info-body {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+        }
+        
+        .info-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        .info-value {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+    </style>
     
     <script>
         feather.replace();

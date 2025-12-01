@@ -126,4 +126,22 @@ class DashboardModel
             'type_conges' => $this->getTypeConge()
         ];
     }
+
+    
+    public function getInfosProfil($id_employe){
+        $sql = "SELECT 
+                    e.nom, e.prenom, e.email, e.date_naissance, e.telephone, e.adresse, e.sexe, e.numero_cnaps,
+                    d.nom_departement
+                FROM employe e
+                LEFT JOIN contrat c ON c.id_contrat = (
+                    SELECT id_contrat FROM contrat WHERE id_employe = e.id_employe 
+                    AND (c.date_fin IS NULL OR c.date_fin >= CURDATE())
+                    ORDER BY date_debut DESC LIMIT 1
+                )
+                LEFT JOIN departement d ON c.id_departement = d.id_departement
+                WHERE e.id_employe = :id";
+        $stmt = \Flight::db()->prepare($sql);
+        $stmt->execute(['id' => $id_employe]);
+        return $stmt->fetch();
+    }
 }

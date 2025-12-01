@@ -64,4 +64,14 @@ class DashboardController
             'type_conges' => $donnees['type_conges']
         ]);
     }
+
+    public function profil(){
+        if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== 'employe') {
+            Flight::redirect('/login');
+            return;
+        }
+        $id_employe = $_SESSION['user_id'];
+        $infos = $this->model->getInfosProfil($id_employe);
+        Flight::render('employe/profil', ['infos' => $infos]);
+    }
 }
