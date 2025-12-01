@@ -4,7 +4,7 @@ namespace app\controllers\paiement;
 
 use app\models\paiement\PrimeGlobalModel;
 use Flight;
-require 'C:\Users\Rojo\Documents\GitHub\Framework-Sprint\Rh2\public\assets\lib\dompdf\autoload.inc.php';
+require 'C:\Users\HP\Documents\Rh2\public\assets\lib\dompdf\autoload.inc.php';
 use Dompdf\Dompdf;
 
 class PrimesGlobalController
