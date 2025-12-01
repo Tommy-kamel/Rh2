@@ -267,25 +267,25 @@ h1 {
     <table class="table table-hover" id="employeesTable">
         <thead><tr><th>Photo</th><th>Nom</th><th>Prénom</th><th>Email</th><th>Téléphone</th><th>Poste</th><th>Action</th></tr></thead>
         <tbody>
-        <?php foreach ($employees as $emp): ?>
+        <?php foreach ($employes as $employe): ?>
             <tr>
                 <td>
-                    <?php if (!empty($emp['photo'])): ?>
-                        <img src="<?= htmlspecialchars($emp['photo']) ?>" style="width:40px;height:40px;object-fit:cover;border-radius:4px">
+                    <?php if (!empty($employe['photo'])): ?>
+                        <img src="<?= htmlspecialchars($employe['photo']) ?>" style="width:40px;height:40px;object-fit:cover;border-radius:4px">
                     <?php else: ?>
                         <div style="width:40px;height:40px;background:#f0f0f0;border-radius:4px"></div>
                     <?php endif; ?>
                 </td>
-                <td class="cell-name"><?= htmlspecialchars($emp['nom']) ?></td>
-                <td class="cell-prenom"><?= htmlspecialchars($emp['prenom']) ?></td>
-                <td class="cell-email"><?= htmlspecialchars($emp['email']) ?></td>
-                <td><?= htmlspecialchars($emp['telephone'] ?? '-') ?></td>
-                <td><?= htmlspecialchars($emp['nom_poste'] ?? '-') ?></td>
+                <td class="cell-name"><?= htmlspecialchars($employe['nom']) ?></td>
+                <td class="cell-prenom"><?= htmlspecialchars($employe['prenom']) ?></td>
+                <td class="cell-email"><?= htmlspecialchars($employe['email']) ?></td>
+                <td><?= htmlspecialchars($employe['telephone'] ?? '-') ?></td>
+                <td><?= htmlspecialchars($employe['nom_poste'] ?? '-') ?></td>
                 <td>
-                    <a href="/employes/<?= $emp['id_employe'] ?>" class="btn btn-sm btn-outline-primary">Profil</a>
-                    <a href="/employes/<?= $emp['id_employe'] ?>/contrat" class="btn btn-sm btn-outline-secondary">Contrat</a>
-                    <a href="/employes/<?= $emp['id_employe'] ?>/postes" class="btn btn-sm btn-outline-secondary">Postes</a>
-                    <a href="/employes/<?= $emp['id_employe'] ?>/documents" class="btn btn-sm btn-outline-secondary">Documents</a>
+                    <a href="/employes/<?= $employe['id_employe'] ?>" class="btn btn-sm btn-outline-primary">Profil</a>
+                    <a href="/employes/<?= $employe['id_employe'] ?>/contrat" class="btn btn-sm btn-outline-secondary">Contrat</a>
+                    <a href="/employes/<?= $employe['id_employe'] ?>/postes" class="btn btn-sm btn-outline-secondary">Postes</a>
+                    <a href="/employes/<?= $employe['id_employe'] ?>/documents" class="btn btn-sm btn-outline-secondary">Documents</a>
                 </td>
             </tr>
         <?php endforeach; ?>

@@ -553,30 +553,30 @@ return [
                 ['label' => 'Mes demandes', 'link' => '/employe/conges/liste']
             ]
         ],
-        [
-            'icon' => 'clock',
-            'label' => 'Mon pointage',
-            'link' => '/employe/pointage',
-            'active' => false,
-            'sub_items' => [
-                ['label' => 'Pointer', 'link' => '/employe/pointage/pointer'],
-                ['label' => 'Historique', 'link' => '/employe/pointage/historique']
-            ]
-        ],
-        [
-            'icon' => 'file-text',
-            'label' => 'Mes documents',
-            'link' => '/employe/documents',
-            'active' => false,
-            'sub_items' => []
-        ],
-        [
-            'icon' => 'dollar-sign',
-            'label' => 'Mes bulletins de paie',
-            'link' => '/employe/bulletins',
-            'active' => false,
-            'sub_items' => []
-        ],
+        // [
+        //     'icon' => 'clock',
+        //     'label' => 'Mon pointage',
+        //     'link' => '/employe/pointage',
+        //     'active' => false,
+        //     'sub_items' => [
+        //         ['label' => 'Pointer', 'link' => '/employe/pointage/pointer'],
+        //         ['label' => 'Historique', 'link' => '/employe/pointage/historique']
+        //     ]
+        // ],
+        // [
+        //     'icon' => 'file-text',
+        //     'label' => 'Mes documents',
+        //     'link' => '/employe/documents',
+        //     'active' => false,
+        //     'sub_items' => []
+        // ],
+        // [
+        //     'icon' => 'dollar-sign',
+        //     'label' => 'Mes bulletins de paie',
+        //     'link' => '/employe/bulletins',
+        //     'active' => false,
+        //     'sub_items' => []
+        // ],
         [
             'icon' => 'mail',
             'label' => 'Mes messages',

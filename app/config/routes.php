@@ -91,6 +91,7 @@ $router->get('/api/statistiques/resume', [$Statistiques_Controller, 'getResumeEf
 // Routes Employé
 $Employe_Dashboard_Controller = new EmployeDashboardController();
 $router->get('/employe/dashboard', [$Employe_Dashboard_Controller, 'afficher']);
+$router->get('/employe/profil', [$Employe_Dashboard_Controller, 'profil']);
 
 $EmployeCongeController = new EmployeCongeController();
 $router->post('/employe/conges/demander', [$EmployeCongeController, 'addConge']);
