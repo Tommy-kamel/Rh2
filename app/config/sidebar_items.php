@@ -185,6 +185,16 @@ return [
             ]
         ],
         [
+            'icon' => 'users',
+            'label' => 'Performances',
+            'link' => '/performance',
+            'active' => false,
+            'sub_items' => [
+                ['label' => 'Scoring', 'link' => '/scoring/evaluations'],
+                ['label' => 'Evaluations de Performances', 'link' => '/scoring/rapports']
+            ]
+        ],
+        [
             'icon' => 'dollar-sign',
             'label' => 'Paie & Primes',
             'link' => '/paie',
