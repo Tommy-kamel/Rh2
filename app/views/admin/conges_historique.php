@@ -128,7 +128,7 @@
                                     <th>Date fin</th>
                                     <th>Durée</th>
                                     <th>Date demande</th>
-                                    <th>Statut</th>
+                                    <!-- <th>Statut</th> -->
                                 </tr>
                             </thead>
                             <tbody>
