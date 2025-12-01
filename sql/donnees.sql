@@ -42,7 +42,7 @@ INSERT INTO employe (nom, prenom, date_naissance, email,mot_de_passe, sexe, tele
 -- Exemples de contrats
 INSERT INTO contrat (id_employe, salaire, date_debut, date_fin, type, id_poste, id_departement) VALUES
 (1, 3500.00, '2022-01-01', NULL, 'CDI', 2, 1),
-(2, 2800.00, '2023-03-15', '2025-12-14', 'CDD', 8, 2),
+(2, 2800.00, '2023-03-15', '2025-12-14', 'CDD', 8, 1),
 (3, 2200.00, '2024-06-01', NULL, 'CDI', 3, 3),
 (4, 1800.00, '2023-11-01', '2025-12-20', 'Essai', 6, 4),
 (5, 2400.00, '2021-09-01', NULL, 'CDI', 4, 5),
@@ -68,7 +68,10 @@ INSERT INTO type_conge (type, pourcentage_salaire) VALUES
 
 -- Exemples de conges (date_demande minimum 14 jours avant date_debut)
 INSERT INTO conge (id_employe, id_type_conge, date_demande, date_debut, date_fin, raison, date_validation, status) VALUES
-(1, 1, '2024-10-15', '2024-11-01', '2024-11-15', 'Vacances annuelles', '2024-10-20', 21),
+(1, 1, '2025-11-15', '2025-12-01', '2025-12-15', 'Vacances de Noël 2025', '2025-11-20', 1),
+(1, 6, '2025-10-20', '2025-11-05', '2025-11-07', 'Formation professionnelle', '2025-10-25', 1),
+(1, 2, '2025-09-10', '2025-09-25', '2025-09-30', 'Maladie - consultation médicale', '2025-09-15', 1),
+(1, 1, '2024-10-15', '2024-11-01', '2024-11-15', 'Vacances annuelles', '2024-10-20', 1),
 (2, 1, '2024-09-20', '2024-10-10', '2024-10-25', 'Conge annuel', '2024-09-25', 21),
 (3, 2, '2024-11-01', '2024-11-15', '2024-11-20', 'Maladie - grippe', '2024-11-05', 11),
 (4, 1, '2024-08-15', '2024-09-01', '2024-09-10', 'Vacances ete', '2024-08-20', 21),

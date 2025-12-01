@@ -35,7 +35,7 @@
             padding: 15px; 
             margin-bottom: 15px; 
             border-radius: 6px;
-            border-left: 4px solid #17a2b8;
+            /* border-left: 4px solid #17a2b8; */
         }
         
         .heure-actuelle { 

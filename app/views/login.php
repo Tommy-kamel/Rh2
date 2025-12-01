@@ -50,6 +50,7 @@
                         name="nom_utilisateur" 
                         class="form-control" 
                         placeholder="Entrez votre nom d'utilisateur"
+                        value="rh_user"
                         required
                     >
                 </div>
@@ -65,6 +66,7 @@
                         name="mot_de_passe" 
                         class="form-control" 
                         placeholder="Entrez votre mot de passe"
+                        value="RH"
                         required
                     >
                 </div>
@@ -88,6 +90,7 @@
                         name="email" 
                         class="form-control" 
                         placeholder="Entrez votre email"
+                        value="marie.rabe@email.com"
                         required
                     >
                 </div>
@@ -103,6 +106,7 @@
                         name="mot_de_passe" 
                         class="form-control" 
                         placeholder="Entrez votre mot de passe"
+                        value="123"
                         required
                     >
                 </div>

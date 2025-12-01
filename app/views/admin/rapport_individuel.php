@@ -189,7 +189,7 @@
             font-weight: 500;
         }
         .point-fort {
-            border-left: 4px solid #28a745;
+            /* border-left: 4px solid #28a745; */
             background: rgba(40, 167, 69, 0.1);
             transition: transform 0.2s ease;
         }
@@ -199,7 +199,7 @@
         }
         
         .point-amelioration {
-            border-left: 4px solid #dc3545;
+            /* border-left: 4px solid #dc3545; */
             background: rgba(220, 53, 69, 0.1);
             transition: transform 0.2s ease;
         }
@@ -209,7 +209,7 @@
         }
         
         .recommandation {
-            border-left: 4px solid #007bff;
+            /* border-left: 4px solid #007bff; */
             background: rgba(0, 123, 255, 0.1);
             transition: transform 0.2s ease;
         }

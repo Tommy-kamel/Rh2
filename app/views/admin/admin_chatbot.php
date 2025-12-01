@@ -360,16 +360,16 @@
             margin-bottom: 10px;
             background: white;
             border-radius: 6px;
-            border-left: 4px solid #4CAF50;
+            /* border-left: 4px solid #4CAF50; */
         }
         
-        .anomaly-item.high {
+        /* .anomaly-item.high {
             border-left-color: #f44336;
         }
         
         .anomaly-item.medium {
             border-left-color: #ff9800;
-        }
+        } */
         
         .badge {
             display: inline-block;

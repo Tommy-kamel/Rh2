@@ -93,7 +93,7 @@
             padding: 8px 12px;
             background-color: #f8f9fa;
             border-radius: 5px;
-            border-left: 3px solid #007bff;
+            /* border-left: 3px solid #007bff; */
         }
         
         .action-buttons {

@@ -107,7 +107,7 @@
             background: white;
             border-radius: 16px;
             box-shadow: var(--card-shadow);
-            border-left: 6px solid var(--primary-color);
+            /* border-left: 6px solid var(--primary-color); */
         }
 
         /* Section informations du poste */
@@ -153,7 +153,7 @@
             background: var(--light-color);
             border-radius: 12px;
             padding: 20px;
-            border-left: 4px solid var(--primary-color);
+            /* border-left: 4px solid var(--primary-color); */
             transition: all 0.3s ease;
         }
 
@@ -335,7 +335,7 @@
             border-radius: 8px;
             font-size: 0.85rem;
             font-weight: 500;
-            border-left: 3px solid var(--danger-color);
+            /* border-left: 3px solid var(--danger-color); */
         }
 
         .no-gaps {
@@ -345,7 +345,7 @@
             border-radius: 8px;
             font-weight: 500;
             text-align: center;
-            border-left: 3px solid var(--success-color);
+            /* border-left: 3px solid var(--success-color); */
         }
 
         /* Badges pour département et poste */
@@ -422,7 +422,7 @@
         /* Effet de surbrillance pour la ligne sélectionnée */
         .selected-row {
             background: linear-gradient(135deg, #e0f2fe, #f0f9ff) !important;
-            border-left: 6px solid var(--primary-color);
+            /* border-left: 6px solid var(--primary-color); */
             box-shadow: 0 4px 15px rgba(67, 97, 238, 0.2);
         }
     </style>

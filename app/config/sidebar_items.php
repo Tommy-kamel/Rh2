@@ -71,7 +71,7 @@ return [
             ]
         ],
         [
-            'icon' => 'dollar-sign',
+            'icon' => 'book-open',
             'label' => 'Competences & Formations',
             'link' => '/matching/postes',
             'active' => false,
@@ -207,7 +207,7 @@ return [
             ]
         ],
         [
-            'icon' => 'dollar-sign',
+            'icon' => 'book-open',
             'label' => 'Competences & Formations',
             'link' => '/matching/postes',
             'active' => false,

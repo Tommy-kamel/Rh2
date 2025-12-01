@@ -50,7 +50,7 @@
             padding: 25px;
             border-radius: 8px;
             margin-bottom: 25px;
-            border-left: 4px solid #007bff;
+            /* border-left: 4px solid #007bff; */
         }
         .employee-selector {
             background: white;

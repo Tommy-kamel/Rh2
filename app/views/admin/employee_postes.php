@@ -103,7 +103,7 @@ h2 {
 .list-group-item:hover {
     background: #f0f7ff;
     transform: translateX(5px);
-    border-left: 4px solid #2874f0;
+    /* border-left: 4px solid #2874f0; */
     padding-left: 16px;
 }
 

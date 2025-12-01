@@ -6,6 +6,7 @@
     <title>Pointage d'Arrivée - Admin</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/feather-icons"></script>
     <style>
         .employes-grid {
@@ -30,7 +31,7 @@
             border-color: #007bff;
         }
 
-        .employe-card.pointe {
+        /* .employe-card.pointe {
             border-left: 4px solid #28a745;
         }
 
@@ -40,7 +41,7 @@
 
         .employe-card.a-pointer {
             border-left: 4px solid #ffc107;
-        }
+        } */
         
         .statut-badge { 
             font-weight: 600;
@@ -252,13 +253,13 @@
         .alert-success {
             background: #f8fff9;
             color: #155724;
-            border-left: 3px solid #28a745;
+            /* border-left: 3px solid #28a745; */
         }
 
         .alert-danger {
             background: #fff8f8;
             color: #721c24;
-            border-left: 3px solid #dc3545;
+            /* border-left: 3px solid #dc3545; */
         }
 
         .statut-indicator {

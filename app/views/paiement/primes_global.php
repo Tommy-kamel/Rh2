@@ -93,7 +93,7 @@
             padding: 15px;
             border-radius: 6px;
             margin-top: 15px;
-            border-left: 4px solid #007bff;
+            /* border-left: 4px solid #007bff; */
         }
         .table-hover tbody tr:hover {
             background-color: rgba(0,123,255,0.05);

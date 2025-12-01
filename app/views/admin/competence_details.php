@@ -117,7 +117,7 @@
             padding: 25px;
             margin-bottom: 30px;
             box-shadow: var(--shadow-sm);
-            border-left: 5px solid var(--primary-color);
+            /* border-left: 5px solid var(--primary-color); */
             position: relative;
             overflow: hidden;
         }

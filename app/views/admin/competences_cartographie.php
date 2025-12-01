@@ -157,7 +157,7 @@
             border-radius: 12px;
             padding: 20px;
             box-shadow: var(--shadow-sm);
-            border-left: 4px solid var(--primary-color);
+            /* border-left: 4px solid var(--primary-color); */
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
