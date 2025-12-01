@@ -2,7 +2,11 @@
 
 use app\controllers\admin\RojoPointageController;
 use app\controllers\admin\RojoPaieController;
+use app\controllers\admin\RojoScoringController;
+use app\controllers\admin\RojoRapportController;
 
+$rapportController = new RojoRapportController();
+$scoringController = new RojoScoringController();
 $paieController = new RojoPaieController();
 $pointageController = new RojoPointageController();
 
