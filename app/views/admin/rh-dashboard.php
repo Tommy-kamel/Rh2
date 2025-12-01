@@ -203,25 +203,6 @@
                             <h3>Calcul de paie</h3>
                             <p>Gérer les paies</p>
                         </a>
-
-
-                         <a href="/scoring/evaluations" class="access-card" style="text-decoration: none; color: inherit;">
-                            <div class="card-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                                <i data-feather="bar-chart-2"></i>
-                            </div>
-                            <h3>Évaluations Performance</h3>
-                            <p>Scoring automatique des employés</p>
-                        </a>
-
-
-                        <!-- Rapports de performance -->
-                        <a href="/scoring/rapports" class="access-card" style="text-decoration: none; color: inherit;">
-                            <div class="card-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                                <i data-feather="file-text"></i>
-                            </div>
-                            <h3>Rapports Performance</h3>
-                            <p>Rapports détaillés et analyses</p>
-                        </a>
                     </div>
                 </section>
                 
