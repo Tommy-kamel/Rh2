@@ -326,10 +326,10 @@ class EmployeeModel
         }
     }
 
-    public function getEmployesParDepartement($id_departement)
-    {
-        $sql = "
-            SELECT 
+
+public function getAllEmployes()
+{
+    $sql = "SELECT 
                 e.id_employe,
                 e.nom,
                 e.prenom,
@@ -337,19 +337,43 @@ class EmployeeModel
                 e.telephone,
                 e.photo,
                 p.nom AS nom_poste,
-                d.nom_departement
+                d.nom_departement,
+                c.salaire
             FROM employe e
-            LEFT JOIN contrat c ON c.id_contrat = (
-                SELECT id_contrat FROM contrat WHERE id_employe = e.id_employe AND (c.date_fin IS NULL OR c.date_fin >= CURDATE()) ORDER BY date_debut DESC LIMIT 1
-            )
+            JOIN contrat c ON e.id_employe = c.id_employe
             LEFT JOIN poste p ON c.id_poste = p.id_poste
             LEFT JOIN departement d ON c.id_departement = d.id_departement
-            WHERE c.id_departement = :id_departement
-            ORDER BY e.nom, e.prenom
-        ";
-        $stmt = Flight::db()->prepare($sql);
-        $stmt->execute(['id_departement' => $id_departement]);
-        return $stmt->fetchAll();
-    }
+            WHERE (c.date_fin IS NULL OR c.date_fin >= CURDATE())
+            ORDER BY e.nom, e.prenom";
+    $stmt = Flight::db()->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+}
+
+
+
+public function getEmployesParDepartement($id_departement)
+{
+    $sql = "SELECT 
+                e.id_employe,
+                e.nom,
+                e.prenom,
+                e.email,
+                e.telephone,
+                e.photo,
+                p.nom AS nom_poste,
+                d.nom_departement,
+                c.salaire
+            FROM employe e
+            JOIN contrat c ON e.id_employe = c.id_employe
+            LEFT JOIN poste p ON c.id_poste = p.id_poste
+            LEFT JOIN departement d ON c.id_departement = d.id_departement
+            WHERE (c.date_fin IS NULL OR c.date_fin >= CURDATE())
+              AND c.id_departement = :id_departement
+            ORDER BY e.nom, e.prenom";
+    $stmt = Flight::db()->prepare($sql);
+    $stmt->execute(['id_departement' => $id_departement]);
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+}
 
 }

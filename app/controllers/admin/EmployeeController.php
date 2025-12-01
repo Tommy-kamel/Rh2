@@ -250,21 +250,29 @@ class EmployeeController
         }
     }
 
-    public function liste()
-    {
-        // Récupérer l'id du département de l'utilisateur connecté
-        $id_departement = $_SESSION['id_departement'] ?? null;
+public function liste()
+{
+    // Récupération des informations de session
+    $user_type = $_SESSION['user_type'] ?? null;
+    $nom_departement = $_SESSION['nom_departement'] ?? null;
+    $id_departement = $_SESSION['id_departement'] ?? null;
 
-        // Si l'utilisateur n'est pas RH, filtrer par département
-        if ($_SESSION['user_type'] !== 'Ressources Humaines' && $id_departement !== null) {
+    // Si l'utilisateur appartient au département "Ressources Humaines" (nom ou type), il voit tous les employés
+    if ($user_type === 'Ressources Humaines' || $nom_departement === 'Ressources Humaines' || $id_departement === 1) {
+        $employes = $this->model->getAllEmployes();
+    } else {
+        // Sinon filtrer par département via le contrat actif
+        if ($id_departement !== null) {
             $employes = $this->model->getEmployesParDepartement($id_departement);
         } else {
-            $employes = $this->model->getAllEmployes();
+            // Par sécurité, si pas de département en session, renvoyer une liste vide
+            $employes = [];
         }
-
-        Flight::render('admin/employees_list', [
-            'employes' => $employes
-        ]);
     }
+
+    Flight::render('admin/employees_list', [
+        'employes' => $employes
+    ]);
+}
 
 }

@@ -242,17 +242,17 @@ return [
             'link' => '/calendrier',
             'active' => false,
         ],
-        [
-            'icon' => 'users',
-            'label' => 'Équipe de production',
-            'link' => '/production/equipe',
-            'active' => false,
-            'sub_items' => [
-                ['label' => 'Liste des employés', 'link' => '/production/equipe/liste'],
-                ['label' => 'Planning', 'link' => '/production/equipe/planning'],
-                ['label' => 'Affectations', 'link' => '/production/equipe/affectations']
-            ]
-        ],
+        // [
+        //     'icon' => 'users',
+        //     'label' => 'Équipe de production',
+        //     'link' => '/production/equipe',
+        //     'active' => false,
+        //     'sub_items' => [
+        //         ['label' => 'Liste des employés', 'link' => '/production/equipe/liste'],
+        //         ['label' => 'Planning', 'link' => '/production/equipe/planning'],
+        //         ['label' => 'Affectations', 'link' => '/production/equipe/affectations']
+        //     ]
+        // ],
         // [
         //     'icon' => 'clipboard',
         //     'label' => 'Ordres de production',
@@ -264,16 +264,16 @@ return [
         //         ['label' => 'Terminés', 'link' => '/production/ordres/termines']
         //     ]
         // ],
-        [
-            'icon' => 'clock',
-            'label' => 'Pointage équipe',
-            'link' => '/production/pointage',
-            'active' => false,
-            'sub_items' => [
-                ['label' => 'Pointages du jour', 'link' => '/production/pointage/aujourd-hui'],
-                ['label' => 'Historique', 'link' => '/production/pointage/historique']
-            ]
-        ],
+        // [
+        //     'icon' => 'clock',
+        //     'label' => 'Pointage équipe',
+        //     'link' => '/production/pointage',
+        //     'active' => false,
+        //     'sub_items' => [
+        //         ['label' => 'Pointages du jour', 'link' => '/production/pointage/aujourd-hui'],
+        //         ['label' => 'Historique', 'link' => '/production/pointage/historique']
+        //     ]
+        // ],
         [
             'icon' => 'calendar',
             'label' => 'Congés équipe',
@@ -353,17 +353,17 @@ return [
         //         ['label' => 'Factures', 'link' => '/ventes/factures']
         //     ]
         // ],
-        [
-            'icon' => 'users',
-            'label' => 'Équipe commerciale',
-            'link' => '/commercial/equipe',
-            'active' => false,
-            'sub_items' => [
-                ['label' => 'Liste équipe', 'link' => '/commercial/equipe/liste'],
-                // ['label' => 'Objectifs', 'link' => '/commercial/equipe/objectifs'],
-                // ['label' => 'Performance', 'link' => '/commercial/equipe/performance']
-            ]
-        ],
+        // [
+        //     'icon' => 'users',
+        //     'label' => 'Équipe commerciale',
+        //     'link' => '/commercial/equipe',
+        //     'active' => false,
+        //     'sub_items' => [
+        //         ['label' => 'Liste équipe', 'link' => '/commercial/equipe/liste'],
+        //         // ['label' => 'Objectifs', 'link' => '/commercial/equipe/objectifs'],
+        //         // ['label' => 'Performance', 'link' => '/commercial/equipe/performance']
+        //     ]
+        // ],
         // [
         //     'icon' => 'bar-chart-2',
         //     'label' => 'Statistiques',
