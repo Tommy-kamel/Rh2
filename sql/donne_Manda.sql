@@ -39,7 +39,7 @@ INSERT INTO prime_divers (id_prime, id_employe, motif, montant_prime, date_prime
 INSERT INTO competence (nom_competence, description) VALUES
 ('Programmation Java', 'Maîtrise du langage Java, POO, et frameworks Java.'),
 ('Programmation Python', 'Connaissance de Python, automatisation et data analysis.'),
-('Gestion de projet', 'Planification, gestion d’équipe, suivi des tâches.'),
+('Gestion de projet', 'Planification, gestion équipe, suivi des tâches.'),
 ('Analyse de données', 'Statistiques, dashboards, Excel, SQL.'),
 ('Communication', 'Communication orale et écrite efficace.'),
 ('Leadership', 'Capacité à diriger une équipe.'),
@@ -221,7 +221,7 @@ INSERT INTO employe_competence (id_employe, id_competence, niveau) VALUES
 
 INSERT INTO poste_libre (id_poste, id_departement, date_publication, date_expiration, description) VALUES
 (1, 1, '2025-01-10', '2025-02-10', 'Recherche développeur Java sénior.'),
-(2, 1, '2025-01-15', '2025-02-20', 'Besoin d’un analyste data pour missions BI.'),
+(2, 1, '2025-01-15', '2025-02-20', 'Besoin un analyste data pour missions BI.'),
 (3, 2, '2025-01-20', '2025-02-25', 'Poste de comptable confirmé.'),
 (4, 1, '2025-01-25', '2025-12-28', 'Technicien support pour assistance interne.'),
 (1, 1, '2025-01-10', '2025-12-01', 'Chef de projet Java junior.');

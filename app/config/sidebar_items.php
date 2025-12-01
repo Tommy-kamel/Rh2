@@ -185,6 +185,16 @@ return [
             ]
         ],
         [
+            'icon' => 'users',
+            'label' => 'Performances',
+            'link' => '/performance',
+            'active' => false,
+            'sub_items' => [
+                ['label' => 'Scoring', 'link' => '/scoring/evaluations'],
+                ['label' => 'Evaluations de Performances', 'link' => '/scoring/rapports']
+            ]
+        ],
+        [
             'icon' => 'dollar-sign',
             'label' => 'Paie & Primes',
             'link' => '/paie',
@@ -242,17 +252,17 @@ return [
             'link' => '/calendrier',
             'active' => false,
         ],
-        [
-            'icon' => 'users',
-            'label' => 'Équipe de production',
-            'link' => '/production/equipe',
-            'active' => false,
-            'sub_items' => [
-                ['label' => 'Liste des employés', 'link' => '/production/equipe/liste'],
-                ['label' => 'Planning', 'link' => '/production/equipe/planning'],
-                ['label' => 'Affectations', 'link' => '/production/equipe/affectations']
-            ]
-        ],
+        // [
+        //     'icon' => 'users',
+        //     'label' => 'Équipe de production',
+        //     'link' => '/production/equipe',
+        //     'active' => false,
+        //     'sub_items' => [
+        //         ['label' => 'Liste des employés', 'link' => '/production/equipe/liste'],
+        //         ['label' => 'Planning', 'link' => '/production/equipe/planning'],
+        //         ['label' => 'Affectations', 'link' => '/production/equipe/affectations']
+        //     ]
+        // ],
         // [
         //     'icon' => 'clipboard',
         //     'label' => 'Ordres de production',
@@ -264,16 +274,16 @@ return [
         //         ['label' => 'Terminés', 'link' => '/production/ordres/termines']
         //     ]
         // ],
-        [
-            'icon' => 'clock',
-            'label' => 'Pointage équipe',
-            'link' => '/production/pointage',
-            'active' => false,
-            'sub_items' => [
-                ['label' => 'Pointages du jour', 'link' => '/production/pointage/aujourd-hui'],
-                ['label' => 'Historique', 'link' => '/production/pointage/historique']
-            ]
-        ],
+        // [
+        //     'icon' => 'clock',
+        //     'label' => 'Pointage équipe',
+        //     'link' => '/production/pointage',
+        //     'active' => false,
+        //     'sub_items' => [
+        //         ['label' => 'Pointages du jour', 'link' => '/production/pointage/aujourd-hui'],
+        //         ['label' => 'Historique', 'link' => '/production/pointage/historique']
+        //     ]
+        // ],
         [
             'icon' => 'calendar',
             'label' => 'Congés équipe',
@@ -353,17 +363,17 @@ return [
         //         ['label' => 'Factures', 'link' => '/ventes/factures']
         //     ]
         // ],
-        [
-            'icon' => 'users',
-            'label' => 'Équipe commerciale',
-            'link' => '/commercial/equipe',
-            'active' => false,
-            'sub_items' => [
-                ['label' => 'Liste équipe', 'link' => '/commercial/equipe/liste'],
-                // ['label' => 'Objectifs', 'link' => '/commercial/equipe/objectifs'],
-                // ['label' => 'Performance', 'link' => '/commercial/equipe/performance']
-            ]
-        ],
+        // [
+        //     'icon' => 'users',
+        //     'label' => 'Équipe commerciale',
+        //     'link' => '/commercial/equipe',
+        //     'active' => false,
+        //     'sub_items' => [
+        //         ['label' => 'Liste équipe', 'link' => '/commercial/equipe/liste'],
+        //         // ['label' => 'Objectifs', 'link' => '/commercial/equipe/objectifs'],
+        //         // ['label' => 'Performance', 'link' => '/commercial/equipe/performance']
+        //     ]
+        // ],
         // [
         //     'icon' => 'bar-chart-2',
         //     'label' => 'Statistiques',
@@ -543,30 +553,30 @@ return [
                 ['label' => 'Mes demandes', 'link' => '/employe/conges/liste']
             ]
         ],
-        [
-            'icon' => 'clock',
-            'label' => 'Mon pointage',
-            'link' => '/employe/pointage',
-            'active' => false,
-            'sub_items' => [
-                ['label' => 'Pointer', 'link' => '/employe/pointage/pointer'],
-                ['label' => 'Historique', 'link' => '/employe/pointage/historique']
-            ]
-        ],
-        [
-            'icon' => 'file-text',
-            'label' => 'Mes documents',
-            'link' => '/employe/documents',
-            'active' => false,
-            'sub_items' => []
-        ],
-        [
-            'icon' => 'dollar-sign',
-            'label' => 'Mes bulletins de paie',
-            'link' => '/employe/bulletins',
-            'active' => false,
-            'sub_items' => []
-        ],
+        // [
+        //     'icon' => 'clock',
+        //     'label' => 'Mon pointage',
+        //     'link' => '/employe/pointage',
+        //     'active' => false,
+        //     'sub_items' => [
+        //         ['label' => 'Pointer', 'link' => '/employe/pointage/pointer'],
+        //         ['label' => 'Historique', 'link' => '/employe/pointage/historique']
+        //     ]
+        // ],
+        // [
+        //     'icon' => 'file-text',
+        //     'label' => 'Mes documents',
+        //     'link' => '/employe/documents',
+        //     'active' => false,
+        //     'sub_items' => []
+        // ],
+        // [
+        //     'icon' => 'dollar-sign',
+        //     'label' => 'Mes bulletins de paie',
+        //     'link' => '/employe/bulletins',
+        //     'active' => false,
+        //     'sub_items' => []
+        // ],
         [
             'icon' => 'mail',
             'label' => 'Mes messages',

@@ -21,7 +21,25 @@ class AuditLogModel
     {
         // Récupérer l'ID utilisateur depuis la session si non fourni
         if ($user_id === null && isset($_SESSION['user_id'])) {
-            $user_id = $_SESSION['user_id'];
+            // Vérifier si c'est un utilisateur admin (dans la table user) ou un employé
+            if (isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'employe') {
+                // Pour les employés, ne pas utiliser user_id car ils ne sont pas dans la table user
+                $user_id = null;
+            } else {
+                // Pour les admins, utiliser l'ID de session
+                $user_id = $_SESSION['user_id'];
+            }
+        }
+
+        // Si user_id est fourni, vérifier qu'il existe dans la table user
+        if ($user_id !== null) {
+            $check_sql = "SELECT id_user FROM user WHERE id_user = ?";
+            $check_stmt = Flight::db()->prepare($check_sql);
+            $check_stmt->execute([$user_id]);
+            if (!$check_stmt->fetch()) {
+                // L'utilisateur n'existe pas dans la table user, mettre à null
+                $user_id = null;
+            }
         }
 
         // Récupérer l'adresse IP et le User-Agent
