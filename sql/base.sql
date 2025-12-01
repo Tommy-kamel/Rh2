@@ -287,3 +287,17 @@ INSERT INTO conge (id_employe, id_type_conge, date_demande, date_debut, date_fin
 (2, 2, '2025-03-10', '2025-03-11', '2025-03-13', 'Maladie', '2025-03-10', 21);
 
 
+
+CREATE TABLE evaluation_performance (
+    id_evaluation INT AUTO_INCREMENT PRIMARY KEY,
+    id_employe INT,
+    periode ENUM('mensuelle', 'trimestrielle', 'annuelle'),
+    score_global DECIMAL(5,2),
+    scores_detail JSON,
+    date_evaluation DATETIME,
+    FOREIGN KEY (id_employe) REFERENCES employe(id_employe)
+);
+
+CREATE INDEX idx_evaluation_periode ON evaluation_performance(periode, date_evaluation);
+CREATE INDEX idx_evaluation_employe ON evaluation_performance(id_employe, date_evaluation);
+

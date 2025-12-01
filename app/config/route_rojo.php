@@ -2,7 +2,11 @@
 
 use app\controllers\admin\RojoPointageController;
 use app\controllers\admin\RojoPaieController;
+use app\controllers\admin\RojoScoringController;
+use app\controllers\admin\RojoRapportController;
 
+$rapportController = new RojoRapportController();
+$scoringController = new RojoScoringController();
 $paieController = new RojoPaieController();
 $pointageController = new RojoPointageController();
 
@@ -27,3 +31,27 @@ $router->get('/paie/export', [$paieController, 'exporterDonneesPaie']);
 
 $router->get('/paie/fiche', [$paieController, 'pageFicheEmploye']);
 $router->get('/paie/fiche/export', [$paieController, 'exporterFicheEmploye']);
+
+
+
+
+$router->get('/scoring/evaluations', [$scoringController, 'pageEvaluations']);
+$router->post('/scoring/calculer', [$scoringController, 'calculerEvaluations']);
+$router->get('/scoring/rapport', [$scoringController, 'genererRapport']);
+
+
+// Routes pour les rapports
+$router->get('/scoring/rapports', [$rapportController, 'pageRapports']);
+$router->get('/scoring/rapport/individuel', [$rapportController, 'voirRapportIndividuel']);
+$router->get('/scoring/rapport/export-pdf', [$rapportController, 'exporterRapportPDF']);
+
+// API pour la liste des employés
+$router->get('/scoring/api/employes', function() {
+    $model = new app\models\admin\RojoScoringModel();
+    $employes = $model->getEmployesActifs();
+    
+    Flight::json([
+        'status' => 'success',
+        'employes' => $employes
+    ]);
+});

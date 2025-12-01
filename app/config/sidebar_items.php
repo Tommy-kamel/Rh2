@@ -49,6 +49,7 @@ return [
                 ['label' => 'Heures supplémentaires', 'link' => '/pointage/heures-sup']
             ]
         ],
+        
         [
             'icon' => 'alert-circle',
             'label' => 'Absences & Retards',
@@ -134,6 +135,16 @@ return [
             'sub_items' => [
                 ['label' => 'Pointages Arrivee', 'link' => '/pointage/arrivee'],
                 ['label' => 'Pointage Depart', 'link' => '/pointage/depart']
+            ]
+        ],
+                [
+            'icon' => 'users',
+            'label' => 'Performances',
+            'link' => '/performance',
+            'active' => false,
+            'sub_items' => [
+                ['label' => 'Scoring', 'link' => '/scoring/evaluations'],
+                ['label' => 'Evaluations de Performances', 'link' => '/scoring/rapports']
             ]
         ],
         [
