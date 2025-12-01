@@ -42,7 +42,7 @@ INSERT INTO employe (nom, prenom, date_naissance, email,mot_de_passe, sexe, tele
 -- Exemples de contrats
 INSERT INTO contrat (id_employe, salaire, date_debut, date_fin, type, id_poste, id_departement) VALUES
 (1, 3500.00, '2022-01-01', NULL, 'CDI', 2, 1),
-(2, 2800.00, '2023-03-15', '2025-12-14', 'CDD', 8, 1),
+(2, 2800.00, '2023-03-15', '2025-12-14', 'CDD', 8, 2),
 (3, 2200.00, '2024-06-01', NULL, 'CDI', 3, 3),
 (4, 1800.00, '2023-11-01', '2025-12-20', 'Essai', 6, 4),
 (5, 2400.00, '2021-09-01', NULL, 'CDI', 4, 5),
